@@ -99,8 +99,8 @@ const Navigation = () => {
               isOpen ? "translate-x-0" : "-translate-x-full"
             )}
           >
-            <div className="flex h-full w-full flex-col pt-20 md:w-1/2">
-              <nav className="flex flex-col space-y-6 px-6">
+            <div className="flex h-full w-full flex-col pt-20 md:w-1/2 ">
+              <nav className="flex flex-col space-y-6 px-6 bg-white dark:bg-[#020817]">
                 {navItems.map((item) => (
                   <Link
                     key={item.path}
