@@ -74,7 +74,6 @@ const Navigation = () => {
                   appearance={{
                     elements: {
                       userButtonAvatarBox: "w-10 h-10", // Sets the container size
-                      avatarImage: "w-14 h-14", // Sets the avatar image size
                     },
                   }}
                 />
@@ -142,7 +141,6 @@ const Navigation = () => {
                   appearance={{
                     elements: {
                       userButtonAvatarBox: "w-9 h-9", // Sets the container size
-                      avatarImage: "w-14 h-14", // Sets the avatar image size
                     },
                   }}
                 />
