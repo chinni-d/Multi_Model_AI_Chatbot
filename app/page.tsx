@@ -1,10 +1,10 @@
-import Link from "next/link"
-import { ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center md:ml-64">
       {/* Hero section */}
       <section className="w-full py-12 md:py-24 lg:py-32">
         <div className="container px-4 md:px-6">
@@ -14,8 +14,8 @@ export default function Home() {
                 Welcome to AI Chatbot
               </h1>
               <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-                Experience intelligent conversations with our advanced AI assistant. Get answers, ideas, and help with
-                just a message.
+                Experience intelligent conversations with our advanced AI
+                assistant. Get answers, ideas, and help with just a message.
               </p>
             </div>
             <div className="space-x-4">
@@ -41,21 +41,25 @@ export default function Home() {
               <div className="space-y-2">
                 <h3 className="text-xl font-bold">Instant Responses</h3>
                 <p className="text-muted-foreground">
-                  Get immediate answers to your questions with our AI-powered chatbot.
+                  Get immediate answers to your questions with our AI-powered
+                  chatbot.
                 </p>
               </div>
             </div>
             <div className="flex flex-col justify-center space-y-4 rounded-lg border bg-background p-6 shadow-sm">
               <div className="space-y-2">
                 <h3 className="text-xl font-bold">24/7 Availability</h3>
-                <p className="text-muted-foreground">Our chatbot is always available to assist you, day or night.</p>
+                <p className="text-muted-foreground">
+                  Our chatbot is always available to assist you, day or night.
+                </p>
               </div>
             </div>
             <div className="flex flex-col justify-center space-y-4 rounded-lg border bg-background p-6 shadow-sm">
               <div className="space-y-2">
                 <h3 className="text-xl font-bold">Smart Learning</h3>
                 <p className="text-muted-foreground">
-                  Our AI continuously improves to provide better responses over time.
+                  Our AI continuously improves to provide better responses over
+                  time.
                 </p>
               </div>
             </div>
@@ -63,5 +67,5 @@ export default function Home() {
         </div>
       </section>
     </div>
-  )
+  );
 }

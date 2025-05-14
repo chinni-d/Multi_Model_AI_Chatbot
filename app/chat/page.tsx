@@ -135,13 +135,13 @@ export default function ChatPage() {
             </div>
           ))}
           {isLoading && (
-            <div className="mr-auto flex max-w-[80%] items-start space-x-2 rounded-lg bg-muted p-3">
+            <div className="mr-auto flex max-w-[80%] items-center space-x-2 rounded-lg bg-muted p-3">
               <Avatar className="h-8 w-8">
-                <div className="flex h-full w-full items-center justify-center bg-primary text-xs font-medium text-primary-foreground">
+                <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-xs font-medium text-primary">
                   AI
                 </div>
               </Avatar>
-              <div className="flex space-x-1">
+              <div className="flex items-center space-x-1">
                 <div className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground"></div>
                 <div
                   className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground"
