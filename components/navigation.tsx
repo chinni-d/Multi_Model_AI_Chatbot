@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 const navItems = [
   { name: "Home", path: "/", icon: Home },
@@ -47,7 +48,7 @@ const Navigation = () => {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed top-0 left-0 z-40 h-full w-64 flex flex-col bg-background border-r transition-transform duration-300 ease-in-out",
+          "fixed top-0 left-0 z-40 h-full w-84 flex flex-col bg-background border-r transition-transform duration-300 ease-in-out",
           isMobile ? (isOpen ? "translate-x-0" : "-translate-x-full") : ""
         )}
       >
@@ -58,9 +59,26 @@ const Navigation = () => {
               <MessageSquare className="h-6 w-6 text-primary" />
               <span className="font-bold">AI Chatbot</span>
             </Link>
-            {/* Show ThemeToggle only on desktop */}
-            <div className="hidden md:block ml-4">
+            {/* ThemeToggle and Sign In button for desktop */}
+            <div className="hidden md:flex items-center gap-2 ml-4">
               <ThemeToggle />
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <Button variant="outline" size="sm" asChild>
+                    <button>Sign In</button>
+                  </Button>
+                </SignInButton>
+              </SignedOut>
+              <SignedIn>
+                <UserButton
+                  appearance={{
+                    elements: {
+                      userButtonAvatarBox: "w-10 h-10", // Sets the container size
+                      avatarImage: "w-14 h-14", // Sets the avatar image size
+                    },
+                  }}
+                />
+              </SignedIn>
             </div>
           </div>
 
@@ -110,7 +128,26 @@ const Navigation = () => {
               <Menu className="h-6 w-6" />
             </Button>
             <span className="text-lg font-bold">AI Chatbot</span>
-            <ThemeToggle />
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <Button variant="outline" size="sm" asChild>
+                    <button>Sign In</button>
+                  </Button>
+                </SignInButton>
+              </SignedOut>
+              <SignedIn>
+                <UserButton
+                  appearance={{
+                    elements: {
+                      userButtonAvatarBox: "w-9 h-9", // Sets the container size
+                      avatarImage: "w-14 h-14", // Sets the avatar image size
+                    },
+                  }}
+                />
+              </SignedIn>
+            </div>
           </header>
         )}
 
