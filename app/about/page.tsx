@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
+import { SparklesText } from "@/components/sparkles-text";
 
 export default function AboutPage() {
   return (
@@ -17,7 +18,7 @@ export default function AboutPage() {
       <div className="mx-auto max-w-4xl space-y-8">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            About AI Chatbot
+            <SparklesText text=" About AI Chatbot" />
           </h1>
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
             Learn more about our AI assistant and how it can help you.

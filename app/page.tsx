@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SparklesText } from "@/components/sparkles-text";
 
 export default function Home() {
   return (
@@ -10,9 +11,9 @@ export default function Home() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center space-y-4 text-center">
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-                Welcome to AI Chatbot
-              </h1>
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
+                <SparklesText text="Welcome to AI Chatbot" />
+              </h2>
               <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
                 Experience intelligent conversations with our advanced AI
                 assistant. Get answers, ideas, and help with just a message.
