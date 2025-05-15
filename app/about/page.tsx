@@ -12,6 +12,11 @@ import { ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
 import { SparklesText } from "@/components/sparkles-text";
 
+const revealVariant = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+};
+
 export default function AboutPage() {
   return (
     <div className="container py-12">
@@ -26,7 +31,14 @@ export default function AboutPage() {
         </div>
 
         {/* What is AI Chatbot */}
-        <motion.div whileHover={{ scale: 1.01 }} transition={{ duration: 0.3 }}>
+        <motion.div
+          variants={revealVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          whileHover={{ scale: 1.01 }}
+          transition={{ duration: 0.3 }}
+        >
           <Card>
             <CardHeader>
               <CardTitle>What is AI Chatbot?</CardTitle>
@@ -53,7 +65,14 @@ export default function AboutPage() {
         </motion.div>
 
         {/* Features */}
-        <motion.div whileHover={{ scale: 1.01 }} transition={{ duration: 0.3 }}>
+        <motion.div
+          variants={revealVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          whileHover={{ scale: 1.01 }}
+          transition={{ duration: 0.3 }}
+        >
           <Card>
             <CardHeader>
               <CardTitle>Features & Capabilities</CardTitle>
@@ -75,7 +94,14 @@ export default function AboutPage() {
         </motion.div>
 
         {/* Our Technology */}
-        <motion.div whileHover={{ scale: 1.01 }} transition={{ duration: 0.3 }}>
+        <motion.div
+          variants={revealVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          whileHover={{ scale: 1.01 }}
+          transition={{ duration: 0.3 }}
+        >
           <Card>
             <CardHeader>
               <CardTitle>Our Technology</CardTitle>
@@ -83,19 +109,35 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <p>
-              Our AI Chatbot is built using advanced large language models accessed via the OpenRouter API. This allows our system to interact with state-of-the-art AI models to understand user input, analyze context, and generate human-like responses in real time.
+                Our AI Chatbot is built using advanced large language models
+                accessed via the OpenRouter API. This allows our system to
+                interact with state-of-the-art AI models to understand user
+                input, analyze context, and generate human-like responses in
+                real time.
               </p>
               <p>
-                By leveraging the OpenRouter API, we ensure flexible integration and access to multiple top-tier AI models, enabling more accurate, relevant, and natural conversations. Our implementation is optimized for performance, reliability, and responsiveness, tailored specifically to the needs of our application.
-
-We are committed to regularly updating our system to improve its effectiveness and maintain a safe, user-friendly experience.
+                By leveraging the OpenRouter API, we ensure flexible integration
+                and access to multiple top-tier AI models, enabling more
+                accurate, relevant, and natural conversations. Our
+                implementation is optimized for performance, reliability, and
+                responsiveness, tailored specifically to the needs of our
+                application. We are committed to regularly updating our system
+                to improve its effectiveness and maintain a safe, user-friendly
+                experience.
               </p>
             </CardContent>
           </Card>
         </motion.div>
 
         {/* Tech Stack */}
-        <motion.div whileHover={{ scale: 1.01 }} transition={{ duration: 0.3 }}>
+        <motion.div
+          variants={revealVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          whileHover={{ scale: 1.01 }}
+          transition={{ duration: 0.3 }}
+        >
           <Card>
             <CardHeader>
               <CardTitle>Tech Stack</CardTitle>
@@ -116,7 +158,14 @@ We are committed to regularly updating our system to improve its effectiveness a
         </motion.div>
 
         {/* Developer Profile */}
-        <motion.div whileHover={{ scale: 1.01 }} transition={{ duration: 0.3 }}>
+        <motion.div
+          variants={revealVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          whileHover={{ scale: 1.01 }}
+          transition={{ duration: 0.3 }}
+        >
           <Card>
             <CardHeader>
               <CardTitle>Meet the Developer</CardTitle>
@@ -178,7 +227,14 @@ We are committed to regularly updating our system to improve its effectiveness a
         </motion.div>
 
         {/* Chat Prompt Section */}
-        <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.3 }}>
+        <motion.div
+          variants={revealVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.3 }}
+        >
           <Card className="text-center shadow-md">
             <CardHeader>
               <CardTitle>Have any questions?</CardTitle>
