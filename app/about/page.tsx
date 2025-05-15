@@ -141,8 +141,8 @@ export default function AboutPage() {
                     applications that are useful, user-friendly, and impactful.
                   </p>
                   <p className="text-muted-foreground">
-                    With experience in web development and machine learning, I
-                    enjoy building smart systems that make life easier. This
+                    With experience in web development, AI and machine learning,
+                    I enjoy building smart systems that make life easier. This
                     chatbot project reflects my commitment to combining
                     cutting-edge tech with seamless design.
                   </p>
