@@ -83,17 +83,12 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <p>
-                AI Chatbot is powered by advanced large language models that
-                have been trained on diverse datasets to understand and generate
-                human-like text. Our system uses sophisticated algorithms to
-                process your input, understand the context, and generate
-                relevant responses.
+              Our AI Chatbot is built using advanced large language models accessed via the OpenRouter API. This allows our system to interact with state-of-the-art AI models to understand user input, analyze context, and generate human-like responses in real time.
               </p>
               <p>
-                We continuously update and improve our models to enhance
-                accuracy, relevance, and safety. Our commitment to responsible
-                AI means we prioritize providing helpful information while
-                avoiding harmful or misleading content.
+                By leveraging the OpenRouter API, we ensure flexible integration and access to multiple top-tier AI models, enabling more accurate, relevant, and natural conversations. Our implementation is optimized for performance, reliability, and responsiveness, tailored specifically to the needs of our application.
+
+We are committed to regularly updating our system to improve its effectiveness and maintain a safe, user-friendly experience.
               </p>
             </CardContent>
           </Card>
