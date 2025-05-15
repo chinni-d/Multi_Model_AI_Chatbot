@@ -1,7 +1,11 @@
+"use client";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SparklesText } from "@/components/sparkles-text";
+import { MorphingText } from "@/components/morphing-text";
+import { motion } from "framer-motion";
+
+const texts = ["Welcome", "to", "AI", "Chatbot"];
 
 export default function Home() {
   return (
@@ -12,7 +16,7 @@ export default function Home() {
           <div className="flex flex-col items-center space-y-4 text-center">
             <div className="space-y-2">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-                <SparklesText text="Welcome to AI Chatbot" />
+                <MorphingText texts={texts} />
               </h2>
               <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
                 Experience intelligent conversations with our advanced AI
@@ -35,27 +39,43 @@ export default function Home() {
       </section>
 
       {/* Features section */}
-      <section className="w-full bg-muted py-12 md:py-24 lg:py-32">
+      <section className="w-full py-12 md:py-24 lg:py-32">
         <div className="container px-4 md:px-6">
-          <div className="mx-auto grid max-w-5xl items-center gap-6 lg:grid-cols-3">
-            <div className="flex flex-col justify-center space-y-4 rounded-lg border bg-background p-6 shadow-sm">
+          <div className="mx-auto grid max-w-5xl items-start gap-6 lg:grid-cols-3">
+            {/* Card 1 */}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              className="flex flex-col items-start justify-start space-y-4 rounded-lg border bg-background p-6 shadow-sm"
+            >
               <div className="space-y-2">
                 <h3 className="text-xl font-bold">Instant Responses</h3>
                 <p className="text-muted-foreground">
-                  Get immediate answers to your questions with our AI-powered
-                  chatbot.
+                  Get immediate answers to your questions with our chatbot.
                 </p>
               </div>
-            </div>
-            <div className="flex flex-col justify-center space-y-4 rounded-lg border bg-background p-6 shadow-sm">
+            </motion.div>
+
+            {/* Card 2 */}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              className="flex flex-col items-start justify-start space-y-4 rounded-lg border bg-background p-6 shadow-sm"
+            >
               <div className="space-y-2">
                 <h3 className="text-xl font-bold">24/7 Availability</h3>
                 <p className="text-muted-foreground">
                   Our chatbot is always available to assist you, day or night.
                 </p>
               </div>
-            </div>
-            <div className="flex flex-col justify-center space-y-4 rounded-lg border bg-background p-6 shadow-sm">
+            </motion.div>
+
+            {/* Card 3 */}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              className="flex flex-col items-start justify-start space-y-4 rounded-lg border bg-background p-6 shadow-sm"
+            >
               <div className="space-y-2">
                 <h3 className="text-xl font-bold">Smart Learning</h3>
                 <p className="text-muted-foreground">
@@ -63,7 +83,7 @@ export default function Home() {
                   time.
                 </p>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>

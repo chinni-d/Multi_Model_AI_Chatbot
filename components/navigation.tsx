@@ -73,7 +73,7 @@ const Navigation = () => {
                 <UserButton
                   appearance={{
                     elements: {
-                      userButtonAvatarBox: "w-10 h-10", // Sets the container size
+                      userButtonAvatarBox: "w-8 h-8", // Sets the container size
                     },
                   }}
                 />
@@ -140,7 +140,7 @@ const Navigation = () => {
                 <UserButton
                   appearance={{
                     elements: {
-                      userButtonAvatarBox: "w-9 h-9", // Sets the container size
+                      userButtonAvatarBox: "w-8 h-8", // Sets the container size
                     },
                   }}
                 />

@@ -192,17 +192,12 @@ export default function AboutPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.2 }}
+              <a
+                href="/chat"
+                className="inline-block rounded-md bg-primary px-6 py-2 text-base font-medium text-white shadow-md transition-transform duration-300 ease-in-out hover:scale-105"
               >
-                <a
-                  href="/chat"
-                  className="inline-block rounded-md bg-primary px-6 py-2 text-base font-medium text-white shadow-md transition-transform duration-300 ease-in-out hover:scale-105"
-                >
-                  Chat Now
-                </a>
-              </motion.div>
+                Chat Now
+              </a>
             </CardContent>
           </Card>
         </motion.div>
