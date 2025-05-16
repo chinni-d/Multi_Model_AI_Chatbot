@@ -4,11 +4,24 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MorphingText } from "@/components/morphing-text";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
+
+// Mobile detection hook (SSR safe)
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.matchMedia('(max-width: 767px)').matches);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+  return isMobile;
+}
 
 const texts = ["Welcome", "to", "AI", "Chatbot"];
 
 export default function Home() {
+  const isMobile = useIsMobile();
   // Hero section ref and inView detection
   const heroRef = useRef(null);
   const heroInView = useInView(heroRef, { once: true, margin: "-100px" });
@@ -19,11 +32,11 @@ export default function Home() {
 
   // Animation variants
   const fadeInUp = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: isMobile ? 8 : 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: { duration: isMobile ? 0.25 : 0.6, ease: "easeOut" },
     },
   };
 
@@ -32,17 +45,21 @@ export default function Home() {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.25,
+        staggerChildren: isMobile ? 0.05 : 0.25,
       },
     },
   };
 
   const cardVariant = {
-    hidden: { opacity: 0, y: 40 },
+    hidden: { opacity: 0, y: isMobile ? 8 : 40 },
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
-      transition: { delay: i * 0.2, duration: 0.5, ease: "easeOut" },
+      transition: {
+        delay: i * (isMobile ? 0.05 : 0.2),
+        duration: isMobile ? 0.18 : 0.5,
+        ease: "easeOut"
+      },
     }),
   };
 
@@ -64,24 +81,24 @@ export default function Home() {
         <div className="container px-4 md:px-6">
           <motion.div
             className="flex flex-col items-center space-y-4 text-center"
-            initial={{ opacity: 0, y: 40 }}
-            animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
+            initial={{ opacity: 0, y: isMobile ? 8 : 40 }}
+            animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: isMobile ? 8 : 40 }}
+            transition={{ duration: isMobile ? 0.18 : 0.7, ease: "easeOut" }}
           >
             <div className="space-y-2">
               <motion.h2
                 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl"
-                initial={{ opacity: 0, y: 30 }}
-                animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ duration: 0.7, delay: 0.2 }}
+                initial={{ opacity: 0, y: isMobile ? 6 : 30 }}
+                animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: isMobile ? 6 : 30 }}
+                transition={{ duration: isMobile ? 0.16 : 0.7, delay: 0.2 }}
               >
                 <MorphingText texts={texts} />
               </motion.h2>
               <motion.p
                 className="mx-auto max-w-[700px] text-muted-foreground md:text-xl"
-                initial={{ opacity: 0, y: 30 }}
-                animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ duration: 0.7, delay: 0.4 }}
+                initial={{ opacity: 0, y: isMobile ? 6 : 30 }}
+                animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: isMobile ? 6 : 30 }}
+                transition={{ duration: isMobile ? 0.16 : 0.7, delay: 0.4 }}
               >
                 Experience intelligent conversations with our advanced AI
                 assistant. Get answers, ideas, and help with just a message.
@@ -89,9 +106,9 @@ export default function Home() {
             </div>
             <motion.div
               className="space-x-4"
-              initial={{ opacity: 0, y: 30 }}
-              animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ duration: 0.7, delay: 0.6 }}
+              initial={{ opacity: 0, y: isMobile ? 6 : 30 }}
+              animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: isMobile ? 6 : 30 }}
+              transition={{ duration: isMobile ? 0.16 : 0.7, delay: 0.6 }}
             >
               <Link href="/chat">
                 <Button className="group">
