@@ -27,6 +27,16 @@ export default function Home() {
     },
   };
 
+  // Staggered container for cards
+  const cardsContainer = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.25,
+      },
+    },
+  };
+
   const cardVariant = {
     hidden: { opacity: 0, y: 40 },
     visible: (i: number) => ({
@@ -37,7 +47,12 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center md:ml-64">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      className="flex flex-col items-center md:ml-64"
+    >
       {/* Hero section with scroll reveal */}
       <motion.section
         ref={heroRef}
@@ -47,17 +62,37 @@ export default function Home() {
         className="w-full py-12 md:py-24 lg:py-32"
       >
         <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center space-y-4 text-center">
+          <motion.div
+            className="flex flex-col items-center space-y-4 text-center"
+            initial={{ opacity: 0, y: 40 }}
+            animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+          >
             <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
+              <motion.h2
+                className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl"
+                initial={{ opacity: 0, y: 30 }}
+                animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+              >
                 <MorphingText texts={texts} />
-              </h2>
-              <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+              </motion.h2>
+              <motion.p
+                className="mx-auto max-w-[700px] text-muted-foreground md:text-xl"
+                initial={{ opacity: 0, y: 30 }}
+                animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.7, delay: 0.4 }}
+              >
                 Experience intelligent conversations with our advanced AI
                 assistant. Get answers, ideas, and help with just a message.
-              </p>
+              </motion.p>
             </div>
-            <div className="space-x-4">
+            <motion.div
+              className="space-x-4"
+              initial={{ opacity: 0, y: 30 }}
+              animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              transition={{ duration: 0.7, delay: 0.6 }}
+            >
               <Link href="/chat">
                 <Button className="group">
                   Start Chat
@@ -67,16 +102,21 @@ export default function Home() {
               <Link href="/about">
                 <Button variant="outline">Learn More</Button>
               </Link>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </motion.section>
 
       {/* Features section with scroll reveal */}
-      <section className="w-full py-6 md:py-12 lg:py-16">
+      <motion.section
+        className="w-full py-6 md:py-12 lg:py-16"
+        ref={cardsRef}
+        initial="hidden"
+        animate={cardsInView ? "visible" : "hidden"}
+        variants={cardsContainer}
+      >
         <div className="container px-4 md:px-6">
           <div
-            ref={cardsRef}
             className="mx-auto grid max-w-5xl items-start gap-6 lg:grid-cols-3"
           >
             {[
@@ -111,7 +151,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
-    </div>
+      </motion.section>
+    </motion.div>
   );
 }
