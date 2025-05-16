@@ -115,7 +115,8 @@ export default function ChatPage() {
                 <div
                   className={cn(message.role === "user" ? "order-first" : "")}
                 >
-                  <p className="text-sm sm:text-base">{message.content}</p>
+               <p className="text-sm sm:text-base whitespace-pre-line">{message.content}</p>
+
                   <p className="mt-1 text-xs opacity-70">
                     {message.timestamp.toLocaleTimeString([], {
                       hour: "2-digit",
