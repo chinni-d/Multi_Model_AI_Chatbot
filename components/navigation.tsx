@@ -25,8 +25,13 @@ const navItems = [
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const isMobile = useMobile();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     setIsOpen(false);
@@ -42,6 +47,8 @@ const Navigation = () => {
       document.body.style.overflow = "auto";
     };
   }, [isOpen, isMobile]);
+
+  if (!mounted) return null;
 
   return (
     <>

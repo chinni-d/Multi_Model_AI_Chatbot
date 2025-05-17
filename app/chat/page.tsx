@@ -35,38 +35,56 @@ export default function ChatPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
- const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  if (!input.trim()) return;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim()) return;
 
-  const userMessage: Message = {
-    id: Date.now().toString(),
-    content: input,
-    role: "user",
-    timestamp: new Date(),
-  };
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      content: input,
+      role: "user",
+      timestamp: new Date(),
+    };
 
-  setMessages((prev) => [...prev, userMessage]);
-  setInput("");
-  setIsLoading(true);
+    setMessages((prev) => [...prev, userMessage]);
+    setInput("");
+    setIsLoading(true);
 
-  const lowerInput = input.toLowerCase();
+    const lowerInput = input.toLowerCase();
 
-  const identityKeywords = [
-    "who", "person", "name", "developer", "creator",
-    "made", "built", "created", "developed", "founder", "engineer"
-  ];
-  const subjectKeywords = [
-    "you", "this", "chatbot", "ai", "assistant", "bot"
-  ];
+    const identityKeywords = [
+      "who",
+      "person",
+      "name",
+      "developer",
+      "creator",
+      "made",
+      "built",
+      "created",
+      "developed",
+      "founder",
+      "engineer",
+    ];
+    const subjectKeywords = [
+      "you",
+      "this",
+      "chatbot",
+      "ai",
+      "assistant",
+      "bot",
+    ];
 
-  const matchesIdentity = identityKeywords.some((word) => lowerInput.includes(word));
-  const matchesSubject = subjectKeywords.some((word) => lowerInput.includes(word));
+    const matchesIdentity = identityKeywords.some((word) =>
+      lowerInput.includes(word)
+    );
+    const matchesSubject = subjectKeywords.some((word) =>
+      lowerInput.includes(word)
+    );
 
-  if (matchesIdentity && matchesSubject) {
-    const assistantMessage: Message = {
-      id: (Date.now() + 1).toString(),
-    content: `
+    if (matchesIdentity && matchesSubject) {
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: `
 I was developed by Manikanta Darapureddy. 
 
 👋 Let me tell you a bit more about him:
@@ -78,47 +96,46 @@ I was developed by Manikanta Darapureddy.
 🤖 This chatbot project is a reflection of his commitment to combining cutting-edge technology with seamless design.
 
 ✨ You can explore his work and portfolio here: https://dmanikanta.site
-`
-.trim(),
-      role: "assistant",
-      timestamp: new Date(),
-    };
-    setMessages((prev) => [...prev, assistantMessage]);
-    setIsLoading(false);
-    return;
-  }
-
-  try {
-    const response = await fetch("https://chatapi.dmanikanta.site/get", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: input }),
-    });
-
-    const data = await response.json();
-    const assistantMessage: Message = {
-      id: (Date.now() + 1).toString(),
-      content: data.response,
-      role: "assistant",
-      timestamp: new Date(),
-    };
-
-    setMessages((prev) => [...prev, assistantMessage]);
-  } catch (error) {
-    console.error("API error:", error);
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: (Date.now() + 2).toString(),
-        content: "Something went wrong. Please try again.",
+`.trim(),
         role: "assistant",
         timestamp: new Date(),
-      },
-    ]);
-  } finally {
-    setIsLoading(false);
-  }
-};
+      };
+      setMessages((prev) => [...prev, assistantMessage]);
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch("https://chatapi.dmanikanta.site/get", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: input }),
+      });
+
+      const data = await response.json();
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: data.response,
+        role: "assistant",
+        timestamp: new Date(),
+      };
+
+      setMessages((prev) => [...prev, assistantMessage]);
+    } catch (error) {
+      console.error("API error:", error);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: (Date.now() + 2).toString(),
+          content: "Something went wrong. Please try again.",
+          role: "assistant",
+          timestamp: new Date(),
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="container mx-auto flex h-[calc(100vh-8rem)] max-w-full flex-col px-4 py-6 sm:max-w-4xl">
@@ -153,7 +170,9 @@ I was developed by Manikanta Darapureddy.
                 <div
                   className={cn(message.role === "user" ? "order-first" : "")}
                 >
-               <p className="text-sm sm:text-base whitespace-pre-line">{message.content}</p>
+                  <p className="text-sm sm:text-base whitespace-pre-line">
+                    {message.content}
+                  </p>
 
                   <p className="mt-1 text-xs opacity-70">
                     {message.timestamp.toLocaleTimeString([], {
