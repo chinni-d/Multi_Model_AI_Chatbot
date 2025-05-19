@@ -172,9 +172,10 @@ I was developed by Manikanta Darapureddy.
                   <div
                     className={cn(message.role === "user" ? "order-first" : "")}
                   >
-                    <p className="text-sm sm:text-base whitespace-pre-line">
-                      {message.content}
-                    </p>
+                  <p className="text-sm sm:text-base whitespace-pre-line text-left sm:text-justify">
+  {message.content}
+</p>
+
 
                     <p className="mt-1 text-xs opacity-70">
                       {message.timestamp.toLocaleTimeString([], {
