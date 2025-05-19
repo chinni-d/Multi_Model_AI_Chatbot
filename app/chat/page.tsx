@@ -138,101 +138,103 @@ I was developed by Manikanta Darapureddy.
   };
 
   return (
-    <div className="container mx-auto flex h-[calc(100vh-8rem)] max-w-full flex-col px-4 py-6 sm:max-w-4xl">
+    <div className="container mx-auto flex min-h-[calc(100vh-8rem)] max-w-full flex-col px-4 py-6 sm:max-w-4xl">
       <h1 className="mb-4 text-2xl font-bold text-center sm:text-left">
         Chat with AI
       </h1>
 
       {/* Show only when logged in */}
       <SignedIn>
-        <div
-          ref={chatContainerRef}
-          className="flex-1 overflow-y-auto rounded-lg border bg-background p-4 shadow-sm"
-        >
-          <div className="space-y-4">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={cn(
-                  "flex animate-fade-in items-start space-x-2 rounded-lg p-3",
-                  message.role === "user"
-                    ? "ml-auto max-w-[80%] justify-end bg-primary text-primary-foreground"
-                    : "mr-auto max-w-[80%] bg-muted"
-                )}
-              >
-                {message.role === "assistant" && (
-                  <Avatar className="h-8 w-8 shrink-0">
-                    <div className="flex h-full w-full items-center justify-center bg-primary text-xs font-medium text-primary-foreground">
+        <div className="flex flex-1 flex-col">
+          <div
+            ref={chatContainerRef}
+            className="rounded-lg p-4 custom-scrollbar-hide flex-1"
+            style={{ backgroundColor: "transparent" }}
+          >
+            <div className="space-y-4">
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={cn(
+                    "flex animate-fade-in items-start space-x-2 rounded-lg p-3",
+                    message.role === "user"
+                      ? "ml-auto max-w-[80%] justify-end bg-primary text-primary-foreground"
+                      : "mr-auto max-w-[80%] bg-muted"
+                  )}
+                >
+                  {message.role === "assistant" && (
+                    <Avatar className="h-8 w-8 shrink-0">
+                      <div className="flex h-full w-full items-center justify-center bg-primary text-xs font-medium text-primary-foreground">
+                        AI
+                      </div>
+                    </Avatar>
+                  )}
+                  <div
+                    className={cn(message.role === "user" ? "order-first" : "")}
+                  >
+                    <p className="text-sm sm:text-base whitespace-pre-line">
+                      {message.content}
+                    </p>
+
+                    <p className="mt-1 text-xs opacity-70">
+                      {message.timestamp.toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
+                  </div>
+                  {message.role === "user" && (
+                    <Avatar className="h-8 w-8 shrink-0">
+                      <div className="flex h-full w-full items-center justify-center bg-secondary text-xs font-medium text-secondary-foreground">
+                        You
+                      </div>
+                    </Avatar>
+                  )}
+                </div>
+              ))}
+              {isLoading && (
+                <div className="mr-auto flex max-w-[80%] items-center space-x-2 rounded-lg bg-muted p-3">
+                  <Avatar className="h-8 w-8">
+                    <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-xs font-medium text-primary">
                       AI
                     </div>
                   </Avatar>
-                )}
-                <div
-                  className={cn(message.role === "user" ? "order-first" : "")}
-                >
-                  <p className="text-sm sm:text-base whitespace-pre-line">
-                    {message.content}
-                  </p>
-
-                  <p className="mt-1 text-xs opacity-70">
-                    {message.timestamp.toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </p>
-                </div>
-                {message.role === "user" && (
-                  <Avatar className="h-8 w-8 shrink-0">
-                    <div className="flex h-full w-full items-center justify-center bg-secondary text-xs font-medium text-secondary-foreground">
-                      You
-                    </div>
-                  </Avatar>
-                )}
-              </div>
-            ))}
-            {isLoading && (
-              <div className="mr-auto flex max-w-[80%] items-center space-x-2 rounded-lg bg-muted p-3">
-                <Avatar className="h-8 w-8">
-                  <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-xs font-medium text-primary">
-                    AI
+                  <div className="flex items-center space-x-1">
+                    <div className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground"></div>
+                    <div
+                      className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground"
+                      style={{ animationDelay: "0.2s" }}
+                    ></div>
+                    <div
+                      className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground"
+                      style={{ animationDelay: "0.4s" }}
+                    ></div>
                   </div>
-                </Avatar>
-                <div className="flex items-center space-x-1">
-                  <div className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground"></div>
-                  <div
-                    className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground"
-                    style={{ animationDelay: "0.2s" }}
-                  ></div>
-                  <div
-                    className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground"
-                    style={{ animationDelay: "0.4s" }}
-                  ></div>
                 </div>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
+              )}
+              <div ref={messagesEndRef} />
+            </div>
           </div>
+          <Card className="mt-4 w-full">
+            <form onSubmit={handleSubmit} className="flex items-center p-2">
+              <Input
+                placeholder="Type your message..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                className="flex-1"
+                disabled={isLoading}
+              />
+              <Button
+                type="submit"
+                size="icon"
+                className="ml-2"
+                disabled={isLoading || !input.trim()}
+              >
+                <Send className="h-4 w-4" />
+              </Button>
+            </form>
+          </Card>
         </div>
-
-        <Card className="mt-4">
-          <form onSubmit={handleSubmit} className="flex items-center p-2">
-            <Input
-              placeholder="Type your message..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              className="flex-1"
-              disabled={isLoading}
-            />
-            <Button
-              type="submit"
-              size="icon"
-              className="ml-2"
-              disabled={isLoading || !input.trim()}
-            >
-              <Send className="h-4 w-4" />
-            </Button>
-          </form>
-        </Card>
       </SignedIn>
 
       {/* Show only when logged out */}

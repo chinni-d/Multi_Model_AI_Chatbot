@@ -1,3 +1,13 @@
+/* Hide scrollbar for chat container on desktop */
+@media (min-width: 640px) {
+  .custom-scrollbar-hide {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  .custom-scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
