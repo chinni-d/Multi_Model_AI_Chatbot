@@ -1,6 +1,12 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+
+// Feature options (keep at top level)
+const FEATURE_OPTIONS = [
+  { label: "Basic", value: "basic" },
+  { label: "Pro", value: "pro" },
+];
 import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +24,8 @@ type Message = {
 };
 
 export default function ChatPage() {
+  // Feature selection state (must be inside the component)
+  const [feature, setFeature] = useState("basic");
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -106,7 +114,10 @@ I was developed by Manikanta Darapureddy.
     }
 
     try {
-      const response = await fetch("https://chatapi.dmanikanta.site/get", {
+      const apiUrl = feature === "pro"
+        ? "https://chatapi2.dmanikanta.site/get"
+        : "https://chatapi.dmanikanta.site/get";
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: input }),
@@ -139,9 +150,29 @@ I was developed by Manikanta Darapureddy.
 
   return (
     <div className="container mx-auto flex min-h-[calc(100vh-8rem)] max-w-full flex-col px-4 py-6 sm:max-w-4xl">
-      <h1 className="mb-4 text-2xl font-bold text-center sm:text-left">
-        Chat with AI
-      </h1>
+
+      <div className="mb-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <h1 className="text-2xl font-bold text-center sm:text-left flex-1">Chat with AI</h1>
+        <SignedIn>
+          <div className="flex gap-2">
+            {FEATURE_OPTIONS.map(opt => (
+              <button
+                key={opt.value}
+                className={
+                  `px-3 py-1 rounded-full border text-sm font-medium transition-colors ` +
+                  (feature === opt.value
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "bg-background text-foreground border-gray-300 hover:bg-muted")
+                }
+                onClick={() => setFeature(opt.value)}
+                type="button"
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </SignedIn>
+      </div>
 
       {/* Show only when logged in */}
       <SignedIn>
