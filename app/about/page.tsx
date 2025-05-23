@@ -39,7 +39,7 @@ export default function AboutPage() {
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.3 }}
         >
-          <Card>
+          <Card className="bg-transparent border border-border shadow-none">
             <CardHeader>
               <CardTitle>What is AI Chatbot?</CardTitle>
               <CardDescription>
@@ -73,7 +73,7 @@ export default function AboutPage() {
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.3 }}
         >
-          <Card>
+          <Card className="bg-transparent border border-border shadow-none">
             <CardHeader>
               <CardTitle>Features & Capabilities</CardTitle>
               <CardDescription>
@@ -102,7 +102,7 @@ export default function AboutPage() {
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.3 }}
         >
-          <Card>
+          <Card className="bg-transparent border border-border shadow-none">
             <CardHeader>
               <CardTitle>Our Technology</CardTitle>
               <CardDescription>The science behind AI Chatbot</CardDescription>
@@ -138,7 +138,7 @@ export default function AboutPage() {
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.3 }}
         >
-          <Card>
+          <Card className="bg-transparent border border-border shadow-none">
             <CardHeader>
               <CardTitle>Tech Stack</CardTitle>
               <CardDescription>
@@ -166,7 +166,7 @@ export default function AboutPage() {
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.3 }}
         >
-          <Card>
+          <Card className="bg-transparent border border-border shadow-none">
             <CardHeader>
               <CardTitle>Meet the Developer</CardTitle>
               <CardDescription>The creator behind the chatbot</CardDescription>
@@ -235,7 +235,7 @@ export default function AboutPage() {
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.3 }}
         >
-          <Card className="text-center shadow-md">
+          <Card className="text-center bg-transparent border border-border shadow-none">
             <CardHeader>
               <CardTitle>Have any questions?</CardTitle>
               <CardDescription>
