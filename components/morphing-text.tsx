@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
-const morphTime = 1.5;
+const morphTime = 1.0;
 const cooldownTime = 0.5;
 
 const useMorphingText = (texts: string[]) => {
