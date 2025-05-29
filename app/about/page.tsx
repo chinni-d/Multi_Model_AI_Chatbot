@@ -19,7 +19,7 @@ const revealVariant = {
 
 export default function AboutPage() {
   return (
-    <div className="container py-12">
+    <div className="container py-4">
       <div className="mx-auto max-w-4xl space-y-8">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
@@ -109,21 +109,10 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <p>
-                Our AI Chatbot is built using advanced large language models
-                accessed via the OpenRouter API. This allows our system to
-                interact with state-of-the-art AI models to understand user
-                input, analyze context, and generate human-like responses in
-                real time.
+               Our AI Chatbot is a multi-modal system powered by advanced models like GPT-3.5 and DeepSeek, integrated through the OpenRouter API. It understands context and generates human-like responses in real time, delivering natural and engaging conversations.
               </p>
               <p>
-                By leveraging the OpenRouter API, we ensure flexible integration
-                and access to multiple top-tier AI models, enabling more
-                accurate, relevant, and natural conversations. Our
-                implementation is optimized for performance, reliability, and
-                responsiveness, tailored specifically to the needs of our
-                application. We are committed to regularly updating our system
-                to improve its effectiveness and maintain a safe, user-friendly
-                experience.
+              The chatbot supports flexible interactions across various input types and is optimized for speed, accuracy, and reliability. Designed with user needs in mind, it ensures a seamless and responsive experience. Continuous updates are made to enhance performance and maintain a safe, user-friendly environment.
               </p>
             </CardContent>
           </Card>

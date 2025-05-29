@@ -28,18 +28,18 @@ export default function RootLayout({
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <div className="relative min-h-screen flex flex-col">
               {/* Background Pattern */}
-              <div className="absolute inset-0 z-0 overflow-hidden">
-                <AnimatedGridPattern
-                  numSquares={30}
-                  maxOpacity={0.1}
-                  duration={3}
-                  repeatDelay={1}
-                  className={cn(
-                    "[mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
-                    "w-full h-full skew-y-6"
-                  )}
-                />
-              </div>
+             <div className="fixed inset-0 z-0">
+  <AnimatedGridPattern
+    numSquares={30}
+    maxOpacity={0.1}
+    duration={3}
+    repeatDelay={1}
+    className={cn(
+      "[mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
+      "w-full h-full skew-y-6"
+    )}
+  />
+</div>
 
               {/* Foreground content */}
               <div className="relative z-10 flex flex-col min-h-screen">

@@ -132,7 +132,7 @@ export default function Home() {
         animate={cardsInView ? "visible" : "hidden"}
         variants={cardsContainer}
       >
-        <div className="container px-4 md:px-6">
+        <div className="container px-4 md:px-6 ">
           <div
             className="mx-auto grid max-w-5xl items-start gap-6 lg:grid-cols-3"
           >
@@ -158,7 +158,7 @@ export default function Home() {
                 variants={cardVariant}
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 300 }}
-                className="flex flex-col items-start justify-start space-y-4 rounded-lg border bg-background p-6 shadow-sm"
+                className="flex flex-col items-start justify-start space-y-4 rounded-lg border bg-background/50 p-6 shadow-sm"
               >
                 <div className="space-y-2">
                   <h3 className="text-xl font-bold">{title}</h3>

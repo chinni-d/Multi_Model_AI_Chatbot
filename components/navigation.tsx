@@ -48,6 +48,33 @@ const Navigation = () => {
     };
   }, [isOpen, isMobile]);
 
+  // Swipe-to-close effect
+  useEffect(() => {
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX = e.changedTouches[0].screenX;
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) {
+        setIsOpen(false); // Swiped left
+      }
+    };
+
+    if (isMobile) {
+      window.addEventListener("touchstart", handleTouchStart);
+      window.addEventListener("touchend", handleTouchEnd);
+    }
+
+    return () => {
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [isMobile]);
+
   if (!mounted) return null;
 
   return (
@@ -58,6 +85,7 @@ const Navigation = () => {
           "fixed top-0 left-0 z-40 h-full w-84 flex flex-col bg-background border-r transition-transform duration-300 ease-in-out",
           isMobile ? (isOpen ? "translate-x-0" : "-translate-x-full") : ""
         )}
+         style={isMobile ? { width: "50vw" } : undefined} 
       >
         {/* Header / Logo */}
         <div className="flex items-center justify-between p-4 border-b">
@@ -80,7 +108,7 @@ const Navigation = () => {
                 <UserButton
                   appearance={{
                     elements: {
-                      userButtonAvatarBox: "w-8 h-8", // Sets the container size
+                      userButtonAvatarBox: "w-8 h-8",
                     },
                   }}
                 />
@@ -122,7 +150,7 @@ const Navigation = () => {
 
       {/* Main content wrapper */}
       <div className="ml-0 transition-all md:ml-64">
-        {/* Top bar (for mobile) - Fixed position */}
+        {/* Top bar (for mobile) */}
         {isMobile && (
           <header className="fixed top-0 left-0 right-0 z-30 flex h-16 items-center justify-between border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4">
             <Button
@@ -147,7 +175,7 @@ const Navigation = () => {
                 <UserButton
                   appearance={{
                     elements: {
-                      userButtonAvatarBox: "w-8 h-8", // Sets the container size
+                      userButtonAvatarBox: "w-8 h-8",
                     },
                   }}
                 />
@@ -156,7 +184,7 @@ const Navigation = () => {
           </header>
         )}
 
-        {/* Page content - Add padding top to account for fixed header */}
+        {/* Page content */}
         <main className={cn("p-4", isMobile ? "pt-20" : "")}>
           {/* Your content */}
         </main>
