@@ -79,6 +79,13 @@ const Navigation = () => {
 
   return (
     <>
+      {/* Overlay for mobile nav */}
+      {isMobile && isOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/40 md:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
       {/* Sidebar */}
       <aside
         className={cn(
@@ -123,7 +130,7 @@ const Navigation = () => {
               onClick={() => setIsOpen(false)}
               className="ml-auto"
             >
-              <X className="h-5 w-5" />
+              <X className="h-8 w-8 bg-black/10 hover:bg-black/20 dark:bg-white/10 dark:hover:bg-white/20 rounded-md" />
             </Button>
           )}
         </div>
@@ -154,6 +161,7 @@ const Navigation = () => {
         {isMobile && (
           <header className="fixed top-0 left-0 right-0 z-30 flex h-16 items-center justify-between border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4">
             <Button
+              className="bg-black/10 hover:bg-black/20 w-8 h-8 dark:bg-white/10 dark:hover:bg-white/20"
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(true)}
