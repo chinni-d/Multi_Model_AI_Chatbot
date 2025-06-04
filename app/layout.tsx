@@ -13,7 +13,6 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "AI Chatbot",
   description: "A responsive AI chatbot interface",
-  generator: "v0.dev",
 };
 
 export default function RootLayout({
