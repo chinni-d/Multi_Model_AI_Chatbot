@@ -113,11 +113,7 @@ const Navigation = () => {
               </SignedOut>
               <SignedIn>
                 <UserButton
-                  appearance={{
-                    elements: {
-                      userButtonAvatarBox: "w-8 h-8",
-                    },
-                  }}
+                 
                 />
               </SignedIn>
             </div>
@@ -181,11 +177,7 @@ const Navigation = () => {
               </SignedOut>
               <SignedIn>
                 <UserButton
-                  appearance={{
-                    elements: {
-                      userButtonAvatarBox: "w-8 h-8",
-                    },
-                  }}
+                 
                 />
               </SignedIn>
             </div>
