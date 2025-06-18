@@ -8,7 +8,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import {
+  ExternalLink,
+  Component,
+  Move,
+  Server,
+  Router,
+  Bot,
+  Lock,
+  Code,
+  Orbit,
+  Palette,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import { SparklesText } from "@/components/sparkles-text";
 
@@ -81,14 +93,18 @@ export default function AboutPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <ul className="list-inside list-disc space-y-2">
-                <li>Answer questions on a wide range of topics</li>
-                <li>Provide explanations and clarifications</li>
-                <li>Offer suggestions and recommendations</li>
-                <li>Engage in natural, flowing conversations</li>
-                <li>Available anytime, with instant responses</li>
-                <li>Maintains context throughout conversations</li>
-              </ul>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-x-8">
+                <ul className="list-inside list-disc space-y-2">
+                  <li>Answer questions on a wide range of topics</li>
+                  <li>Provide explanations and clarifications</li>
+                  <li>Offer suggestions and recommendations</li>
+                </ul>
+                <ul className="list-inside list-disc space-y-2">
+                  <li>Engage in natural, flowing conversations</li>
+                  <li>Available anytime, with instant responses</li>
+                  <li>Maintains context throughout conversations</li>
+                </ul>
+              </div>
             </CardContent>
           </Card>
         </motion.div>
@@ -134,12 +150,52 @@ export default function AboutPage() {
                 Technologies used in this project
               </CardDescription>
             </CardHeader>
-            <CardContent className="grid gap-2 text-muted-foreground">
-              <div>
-                <strong>Frontend:</strong> React, Tailwind CSS, ShadCN UI
-              </div>
-              <div>
-                <strong>Backend:</strong> Deepseek R1, GPT-3.5 Turbo models, Python via Uvicorn
+            <CardContent>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                <div className="space-y-3">
+                  <h3 className="text-lg font-semibold">Frontend</h3>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="secondary" className="gap-1">
+                      <Code size={16} /> Next.js
+                    </Badge>
+                    <Badge variant="secondary" className="gap-1">
+                      <Orbit size={16} /> React
+                    </Badge>
+                    <Badge variant="secondary" className="gap-1">
+                      <Code size={16} /> TypeScript
+                    </Badge>
+                    <Badge variant="secondary" className="gap-1">
+                      <Palette size={16} /> Tailwind CSS
+                    </Badge>
+                    <Badge variant="secondary" className="gap-1">
+                      <Component size={16} /> Shadcn UI
+                    </Badge>
+    
+                  </div>
+                </div>
+                <div className="space-y-3 md:border-l md:pl-6">
+                  <h3 className="text-lg font-semibold">Backend & AI</h3>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="secondary" className="gap-1">
+                      <Code size={16} /> Python via Uvicorn
+                    </Badge>
+                
+                    <Badge variant="secondary" className="gap-1">
+                      <Bot size={16} /> GPT-3.5 Turbo
+                    </Badge>
+                    <Badge variant="secondary" className="gap-1">
+                      <Bot size={16} /> DeepSeek R1
+                    </Badge>
+                  </div>
+                </div>
+                <div className="space-y-3 md:border-l md:pl-6">
+                  <h3 className="text-lg font-semibold">Authentication</h3>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="secondary" className="gap-1">
+                      <Lock size={16} /> Clerk
+                    </Badge>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
