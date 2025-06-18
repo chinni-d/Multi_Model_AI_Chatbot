@@ -139,8 +139,7 @@ export default function AboutPage() {
                 <strong>Frontend:</strong> React, Tailwind CSS, ShadCN UI
               </div>
               <div>
-                <strong>Backend:</strong> OpenAI API (via SDK), Next.js API
-                Routes
+                <strong>Backend:</strong> Deepseek R1, GPT-3.5 Turbo models, Python via Uvicorn
               </div>
             </CardContent>
           </Card>
