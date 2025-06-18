@@ -7,13 +7,13 @@ const FEATURE_OPTIONS = [
   { label: "Basic", value: "basic" },
   { label: "Pro", value: "pro" },
 ];
-import { Send } from "lucide-react";
+import { Send, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Avatar } from "@/components/ui/avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { SignedIn, SignedOut, SignIn } from "@clerk/nextjs";
+import { useUser, SignedIn, SignedOut, SignIn } from "@clerk/nextjs";
 
 // Message type definition
 type Message = {
@@ -24,6 +24,7 @@ type Message = {
 };
 
 export default function ChatPage() {
+  const { user } = useUser();
   // Feature selection state (must be inside the component)
   const [feature, setFeature] = useState("basic");
   const [input, setInput] = useState("");
@@ -189,59 +190,74 @@ I was developed by Manikanta Darapureddy.
                 <div
                   key={message.id}
                   className={cn(
-                    "flex animate-fade-in items-start space-x-2 rounded-lg p-3",
+                    "flex animate-fade-in items-start space-x-3 max-w-[80%]",
                     message.role === "user"
-                      ? "ml-auto max-w-[80%] justify-end bg-primary text-primary-foreground"
-                      : "mr-auto max-w-[80%] bg-muted"
+                      ? "ml-auto justify-end"
+                      : "mr-auto justify-start",
                   )}
                 >
                   {message.role === "assistant" && (
-                    <Avatar className="h-8 w-8 shrink-0">
-                      <div className="flex h-full w-full items-center justify-center bg-primary text-xs font-medium text-primary-foreground">
-                        AI
-                      </div>
+                    <Avatar className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                      <Bot className="h-5 w-5" />
                     </Avatar>
                   )}
-                  <div
-                    className={cn(message.role === "user" ? "order-first" : "")}
-                  >
-                    <p className="text-sm sm:text-base whitespace-pre-line text-left sm:text-justify">
-                      {message.content}
-                    </p>
 
-                    <p className="mt-1 text-xs opacity-70">
+                  <div
+                    className={cn(
+                      "flex flex-col gap-1",
+                      message.role === "user" ? "items-end" : "items-start",
+                    )}
+                  >
+                    <div
+                      className={cn(
+                        "rounded-lg p-3",
+                        message.role === "user"
+                          ? "bg-foreground text-background min-w-16"
+                          : "bg-muted",
+                      )}
+                    >
+                      <p className="text-sm sm:text-[15px] whitespace-pre-line text-left sm:text-justify">
+                        {message.content}
+                      </p>
+                    </div>
+                    <p className="text-xs opacity-70">
                       {message.timestamp.toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",
                       })}
                     </p>
                   </div>
-                  {message.role === "user" && (
-                    <Avatar className="h-8 w-8 shrink-0">
-                      <div className="flex h-full w-full items-center justify-center bg-secondary text-xs font-medium text-secondary-foreground">
-                        You
-                      </div>
+
+                  {message.role === "user" && user && (
+                    <Avatar className="h-8 w-8 shrink-0 border">
+                      <AvatarImage src={user.imageUrl} alt="User avatar" />
+                      <AvatarFallback>
+                        <div className="flex h-full w-full items-center justify-center bg-muted text-xs font-medium text-muted-foreground">
+                          {user.firstName?.charAt(0)}
+                          {user.lastName?.charAt(0)}
+                        </div>
+                      </AvatarFallback>
                     </Avatar>
                   )}
                 </div>
               ))}
               {isLoading && (
-                <div className="mr-auto flex max-w-[80%] items-center space-x-2 rounded-lg bg-muted p-3">
-                  <Avatar className="h-8 w-8">
-                    <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-xs font-medium text-primary">
-                      AI
-                    </div>
+                <div className="mr-auto flex max-w-[80%] animate-fade-in items-start space-x-3">
+                  <Avatar className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                    <Bot className="h-5 w-5" />
                   </Avatar>
-                  <div className="flex items-center space-x-1">
-                    <div className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground"></div>
-                    <div
-                      className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground"
-                      style={{ animationDelay: "0.2s" }}
-                    ></div>
-                    <div
-                      className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground"
-                      style={{ animationDelay: "0.4s" }}
-                    ></div>
+                  <div className="rounded-lg bg-muted p-3">
+                    <div className="flex items-center space-x-1">
+                      <div className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground"></div>
+                      <div
+                        className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground"
+                        style={{ animationDelay: "0.2s" }}
+                      ></div>
+                      <div
+                        className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground"
+                        style={{ animationDelay: "0.4s" }}
+                      ></div>
+                    </div>
                   </div>
                 </div>
               )}
