@@ -114,9 +114,10 @@ I was developed by Manikanta Darapureddy.
     }
 
     try {
-      const apiUrl = feature === "pro"
-        ? "https://chatapi2.dmanikanta.site/get"
-        : "https://chatapi.dmanikanta.site/get";
+      const apiUrl =
+        feature === "pro"
+          ? "https://chatbot-ss-api-1.vercel.app/api/chat"
+          : "https://chatapi.dmanikanta.site/get";
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -150,12 +151,13 @@ I was developed by Manikanta Darapureddy.
 
   return (
     <div className="container mx-auto flex min-h-[calc(100vh-8rem)] max-w-full flex-col px-4 py-6 sm:max-w-4xl">
-
       <div className="mb-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-        <h1 className="text-2xl font-bold text-center sm:text-left flex-1">Chat with AI</h1>
+        <h1 className="text-2xl font-bold text-center sm:text-left flex-1">
+          Chat with AI
+        </h1>
         <SignedIn>
           <div className="flex gap-2">
-            {FEATURE_OPTIONS.map(opt => (
+            {FEATURE_OPTIONS.map((opt) => (
               <button
                 key={opt.value}
                 className={
@@ -203,10 +205,9 @@ I was developed by Manikanta Darapureddy.
                   <div
                     className={cn(message.role === "user" ? "order-first" : "")}
                   >
-                  <p className="text-sm sm:text-base whitespace-pre-line text-left sm:text-justify">
-  {message.content}
-</p>
-
+                    <p className="text-sm sm:text-base whitespace-pre-line text-left sm:text-justify">
+                      {message.content}
+                    </p>
 
                     <p className="mt-1 text-xs opacity-70">
                       {message.timestamp.toLocaleTimeString([], {
