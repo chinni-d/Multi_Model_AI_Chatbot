@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   Menu,
   X,
-  MessageSquare,
   Home,
   Info,
   MessageCircle,
@@ -85,7 +85,7 @@ const Navigation = () => {
         <div className="container mx-auto grid h-full max-w-7xl grid-cols-3 items-center px-6">
           <div className="flex items-center justify-start">
             <Link href="/" className="flex items-center space-x-2">
-              <MessageSquare className="h-6 w-6 text-primary" />
+              <Image src="/logo.png" alt="AI Chatbot logo" width={42} height={42} className="dark:brightness-0 dark:invert" />
               <span className="font-bold">AI Chatbot</span>
             </Link>
           </div>
@@ -142,7 +142,7 @@ const Navigation = () => {
         >
           <div className="flex items-center justify-between p-4 border-b">
             <Link href="/" className="flex items-center space-x-2">
-              <MessageSquare className="h-6 w-6 text-primary" />
+              <Image src="/logo.png" alt="AI Chatbot logo" width={34} height={34} className="dark:brightness-0 dark:invert" />
               <span className="font-bold">AI Chatbot</span>
             </Link>
             <Button
@@ -180,7 +180,10 @@ const Navigation = () => {
           >
             <Menu className="h-6 w-6" />
           </Button>
-          <span className="text-lg font-bold">AI Chatbot</span>
+          <Link href="/" className="flex items-center space-x-2">
+            <Image src="/logo.png" alt="AI Chatbot logo" width={34} height={34} className="dark:brightness-0 dark:invert" />
+            <span className="text-lg font-bold">AI Chatbot</span>
+          </Link>
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <SignedOut>
