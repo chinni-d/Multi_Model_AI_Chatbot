@@ -68,7 +68,7 @@ export default function Home() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="flex flex-col items-center md:ml-64"
+      className="flex flex-col items-center"
     >
       {/* Hero section with scroll reveal */}
       <motion.section
@@ -80,7 +80,7 @@ export default function Home() {
       >
         <div className="container px-4 md:px-6">
           <motion.div
-            className="flex flex-col items-center space-y-4 text-center"
+            className="flex flex-col items-center space-y-4 text-center pt-12 md:pt-0"
             initial={{ opacity: 0, y: isMobile ? 8 : 40 }}
             animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: isMobile ? 8 : 40 }}
             transition={{ duration: isMobile ? 0.18 : 0.7, ease: "easeOut" }}

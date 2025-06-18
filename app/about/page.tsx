@@ -20,7 +20,7 @@ const revealVariant = {
 export default function AboutPage() {
   return (
     <div className="container py-4">
-      <div className="mx-auto max-w-4xl space-y-8">
+      <div className="mx-auto max-w-5xl space-y-8">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
             <SparklesText text=" About AI Chatbot" />

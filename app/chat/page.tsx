@@ -12,6 +12,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { useUser, SignedIn, SignedOut, SignIn } from "@clerk/nextjs";
 
@@ -151,28 +158,36 @@ I was developed by Manikanta Darapureddy.
   };
 
   return (
-    <div className="container mx-auto flex min-h-[calc(100vh-8rem)] max-w-full flex-col px-4 py-6 sm:max-w-4xl">
-      <div className="mb-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-        <h1 className="text-2xl font-bold text-center sm:text-left flex-1">
-          Chat with AI
-        </h1>
+    <div className="container mx-auto flex min-h-[calc(100vh-8rem)] max-w-5xl flex-col px-4 py-6">
+      <div className="mb-4 flex flex-col items-center justify-between gap-4 sm:flex-row">
+        <div className="flex-1 text-center sm:text-left">
+          <h1 className="text-2xl font-bold">Chat with AI</h1>
+          <SignedIn>
+            <p className="text-sm text-muted-foreground">
+              Select a model to start chatting.
+            </p>
+          </SignedIn>
+        </div>
         <SignedIn>
-          <div className="flex gap-2">
-            {FEATURE_OPTIONS.map((opt) => (
-              <button
-                key={opt.value}
-                className={
-                  `px-3 py-1 rounded-full border text-sm font-medium transition-colors ` +
-                  (feature === opt.value
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "bg-background text-foreground border-gray-300 hover:bg-muted")
-                }
-                onClick={() => setFeature(opt.value)}
-                type="button"
-              >
-                {opt.label}
-              </button>
-            ))}
+          <div className="flex items-center gap-2">
+            <p className="text-sm font-medium text-muted-foreground">Model:</p>
+            <Select
+              value={feature}
+              onValueChange={(value) => {
+                if (value) setFeature(value);
+              }}
+            >
+              <SelectTrigger className="w-[120px]">
+                <SelectValue placeholder="Select model" />
+              </SelectTrigger>
+              <SelectContent>
+                {FEATURE_OPTIONS.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </SignedIn>
       </div>

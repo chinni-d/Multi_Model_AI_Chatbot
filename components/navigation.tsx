@@ -16,6 +16,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { useMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { motion } from "framer-motion";
 
 const navItems = [
   { name: "Home", path: "/", icon: Home },
@@ -79,115 +80,119 @@ const Navigation = () => {
 
   return (
     <>
-      {/* Overlay for mobile nav */}
-      {isMobile && isOpen && (
-        <div
-          className="fixed inset-0 z-30 bg-black/40 md:hidden"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-      {/* Sidebar */}
-      <aside
-        className={cn(
-          "fixed top-0 left-0 z-40 h-full w-84 flex flex-col bg-background border-r transition-transform duration-300 ease-in-out",
-          isMobile ? (isOpen ? "translate-x-0" : "-translate-x-full") : ""
-        )}
-         style={isMobile ? { width: "50vw" } : undefined} 
-      >
-        {/* Header / Logo */}
-        <div className="flex items-center justify-between p-4 border-b">
-          <div className="flex items-center space-x-2">
+      {/* Desktop Header */}
+      <header className="hidden md:block fixed top-0 left-0 right-0 z-30 h-16 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container mx-auto grid h-full max-w-7xl grid-cols-3 items-center px-6">
+          <div className="flex items-center justify-start">
             <Link href="/" className="flex items-center space-x-2">
               <MessageSquare className="h-6 w-6 text-primary" />
               <span className="font-bold">AI Chatbot</span>
             </Link>
-            {/* ThemeToggle and Sign In button for desktop */}
-            <div className="hidden md:flex items-center gap-2 ml-4">
-              <ThemeToggle />
-              <SignedOut>
-                <SignInButton mode="modal">
-                  <Button variant="outline" size="sm" asChild>
-                    <button>Sign In</button>
-                  </Button>
-                </SignInButton>
-              </SignedOut>
-              <SignedIn>
-                <UserButton
-                 
-                />
-              </SignedIn>
-            </div>
           </div>
+          <nav className="flex items-center justify-center gap-6">
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                href={item.path}
+                className={cn(
+                  "relative text-sm font-medium transition-colors hover:text-primary",
+                  pathname === item.path
+                    ? "text-primary"
+                    : "text-muted-foreground",
+                )}
+              >
+                {item.name}
+                {pathname === item.path && (
+                  <motion.span
+                    className="absolute -bottom-1.5 left-0 w-full h-0.5 bg-primary"
+                    layoutId="underline"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </Link>
+            ))}
+          </nav>
+          <div className="flex items-center justify-end gap-4">
+            <ThemeToggle />
+            <SignedOut>
+              <SignInButton mode="modal">
+                <Button variant="outline" size="sm">Sign In</Button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </div>
+        </div>
+      </header>
 
-          {isMobile && (
+      {/* Mobile Navigation */}
+      <div className="md:hidden">
+        {isOpen && (
+          <div
+            className="fixed inset-0 z-30 bg-black/40"
+            onClick={() => setIsOpen(false)}
+          />
+        )}
+        <aside
+          className={cn(
+            "fixed top-0 left-0 z-40 h-full w-1/2 max-w-xs flex flex-col bg-background border-r transition-transform duration-300 ease-in-out",
+            isOpen ? "translate-x-0" : "-translate-x-full"
+          )}
+        >
+          <div className="flex items-center justify-between p-4 border-b">
+            <Link href="/" className="flex items-center space-x-2">
+              <MessageSquare className="h-6 w-6 text-primary" />
+              <span className="font-bold">AI Chatbot</span>
+            </Link>
             <Button
               size="icon"
               variant="ghost"
               onClick={() => setIsOpen(false)}
-              className="ml-auto"
             >
-              <X className="h-8 w-8 bg-black/10 hover:bg-black/20 dark:bg-white/10 dark:hover:bg-white/20 rounded-md" />
+              <X className="h-6 w-6" />
             </Button>
-          )}
-        </div>
-
-        {/* Navigation */}
-        <nav className="flex flex-col gap-2 p-4">
-          {navItems.map((item) => (
-            <Link
-              key={item.path}
-              href={item.path}
-              className={cn(
-                "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-primary",
-                pathname === item.path
-                  ? "bg-muted text-primary"
-                  : "text-muted-foreground"
-              )}
-            >
-              <item.icon className="h-5 w-5" />
-              {item.name}
-            </Link>
-          ))}
-        </nav>
-      </aside>
-
-      {/* Main content wrapper */}
-      <div className="ml-0 transition-all md:ml-64">
-        {/* Top bar (for mobile) */}
-        {isMobile && (
-          <header className="fixed top-0 left-0 right-0 z-30 flex h-16 items-center justify-between border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4">
-            <Button
-              className="bg-black/10 hover:bg-black/20 w-8 h-8 dark:bg-white/10 dark:hover:bg-white/20"
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsOpen(true)}
-              aria-label="Open menu"
-            >
-              <Menu className="h-6 w-6" />
-            </Button>
-            <span className="text-lg font-bold">AI Chatbot</span>
-            <div className="flex items-center gap-2">
-              <ThemeToggle />
-              <SignedOut>
-                <SignInButton mode="modal">
-                  <Button variant="outline" size="sm" asChild>
-                    <button>Sign In</button>
-                  </Button>
-                </SignInButton>
-              </SignedOut>
-              <SignedIn>
-                <UserButton
-                 
-                />
-              </SignedIn>
-            </div>
-          </header>
-        )}
-
-        {/* Page content */}
-        <main className={cn("p-4", isMobile ? "pt-20" : "")}>
-          {/* Your content */}
-        </main>
+          </div>
+          <nav className="flex flex-col gap-2 p-4">
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                href={item.path}
+                className={cn(
+                  "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-primary",
+                  pathname === item.path
+                    ? "bg-muted text-primary"
+                    : "text-muted-foreground"
+                )}
+              >
+                <item.icon className="h-5 w-5" />
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+        </aside>
+        <header className="fixed top-0 left-0 right-0 z-20 flex h-16 items-center justify-between border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsOpen(true)}
+            aria-label="Open menu"
+          >
+            <Menu className="h-6 w-6" />
+          </Button>
+          <span className="text-lg font-bold">AI Chatbot</span>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <SignedOut>
+              <SignInButton mode="modal">
+                <Button variant="outline" size="sm">Sign In</Button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </div>
+        </header>
       </div>
     </>
   );
