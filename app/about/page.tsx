@@ -58,7 +58,7 @@ export default function AboutPage() {
                 An overview of our intelligent assistant
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 ">
               <p>
                 AI Chatbot is an advanced artificial intelligence assistant
                 designed to provide helpful, accurate, and friendly responses to
@@ -125,7 +125,7 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <p>
-               Our AI Chatbot is a multi-modal system powered by advanced models like GPT-3.5 and DeepSeek, integrated through the OpenRouter API. It understands context and generates human-like responses in real time, delivering natural and engaging conversations.
+               Our AI Chatbot is a multi-modal system powered by advanced models like GPT-4.1 and DeepSeek R1, integrated through the OpenRouter API. It understands context and generates human-like responses in real time, delivering natural and engaging conversations.
               </p>
               <p>
               The chatbot supports flexible interactions across various input types and is optimized for speed, accuracy, and reliability. Designed with user needs in mind, it ensures a seamless and responsive experience. Continuous updates are made to enhance performance and maintain a safe, user-friendly environment.
@@ -181,7 +181,7 @@ export default function AboutPage() {
                     </Badge>
                 
                     <Badge variant="secondary" className="gap-1">
-                      <Bot size={16} /> GPT-3.5 Turbo
+                      <Bot size={16} /> GPT-4.1
                     </Badge>
                     <Badge variant="secondary" className="gap-1">
                       <Bot size={16} /> DeepSeek R1
