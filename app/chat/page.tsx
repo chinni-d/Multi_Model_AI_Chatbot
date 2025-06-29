@@ -124,8 +124,8 @@ I was developed by Manikanta Darapureddy.
     try {
       const apiUrl =
         feature === "pro"
-          ? "https://chatbot-ss-api-1.vercel.app/api/chat"
-          : "https://chatapi.dmanikanta.site/get";
+          ? "https://chatbot-ss-api-2.vercel.app/api/chat"
+          : "https://chatbot-ss-api-1.vercel.app/api/chat";
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -208,7 +208,7 @@ I was developed by Manikanta Darapureddy.
                     "flex animate-fade-in items-start space-x-3 max-w-[80%]",
                     message.role === "user"
                       ? "ml-auto justify-end"
-                      : "mr-auto justify-start",
+                      : "mr-auto justify-start"
                   )}
                 >
                   {message.role === "assistant" && (
@@ -220,7 +220,7 @@ I was developed by Manikanta Darapureddy.
                   <div
                     className={cn(
                       "flex flex-col gap-1",
-                      message.role === "user" ? "items-end" : "items-start",
+                      message.role === "user" ? "items-end" : "items-start"
                     )}
                   >
                     <div
@@ -228,7 +228,7 @@ I was developed by Manikanta Darapureddy.
                         "rounded-lg p-3",
                         message.role === "user"
                           ? "bg-foreground text-background min-w-16"
-                          : "bg-muted",
+                          : "bg-muted"
                       )}
                     >
                       <p className="text-sm sm:text-[15px] whitespace-pre-line text-left sm:text-justify">
