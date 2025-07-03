@@ -4,8 +4,9 @@ import React, { useState, useRef, useEffect } from "react";
 
 // Feature options (keep at top level)
 const FEATURE_OPTIONS = [
-  { label: "Basic", value: "basic" },
-  { label: "Pro", value: "pro" },
+  { label: "GPT-4.1", value: "gpt-4.1" },
+  { label: "GPT-4o-mini", value: "gpt-4o-mini" },
+  { label: "Gemini-2.0-Pro", value: "gemini-2.0-pro" },
 ];
 import { Send, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -30,10 +31,128 @@ type Message = {
   timestamp: Date;
 };
 
+// Function to format message content with proper styling
+const formatMessageContent = (content: string) => {
+  // First, handle code blocks to prevent them from being processed
+  const codeBlockPlaceholders: string[] = [];
+  let processedContent = content.replace(/```([\s\S]*?)```/g, (match, code) => {
+    const placeholder = `__CODEBLOCK_${codeBlockPlaceholders.length}__`;
+    codeBlockPlaceholders.push(`<pre style="background-color: #f3f4f6; color: #1f2937; padding: 12px; border-radius: 8px; overflow-x: auto; margin: 8px 0 4px 0; border: 1px solid #d1d5db; width: 100%; max-width: 100%; font-size: 13px; line-height: 1.4;" class="bg-gray-100 dark:bg-gray-800 p-3 rounded-lg overflow-x-auto my-2 border w-full max-w-full text-sm"><code style="font-family: 'Courier New', Consolas, Monaco, monospace; font-size: 13px; white-space: pre-wrap; word-break: break-word; color: #1f2937; display: block;" class="font-mono text-sm whitespace-pre-wrap break-words text-gray-800 dark:text-gray-200">${code.trim()}</code></pre>`);
+    return placeholder;
+  });
+
+  // Handle inline code
+  const inlineCodePlaceholders: string[] = [];
+  processedContent = processedContent.replace(/`([^`]+)`/g, (match, code) => {
+    const placeholder = `__INLINECODE_${inlineCodePlaceholders.length}__`;
+    inlineCodePlaceholders.push(`<code style="background-color: #f3f4f6; color: #1f2937; padding: 4px 8px; border-radius: 4px; font-family: 'Courier New', Consolas, Monaco, monospace; font-size: 14px; word-break: break-word; border: 1px solid #d1d5db;" class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-sm font-mono break-words text-gray-800 dark:text-gray-200">${code}</code>`);
+    return placeholder;
+  });
+
+  // Apply bold and italic formatting to the entire content first
+  processedContent = processedContent
+    .replace(/\*\*([^\*]+)\*\*/g, '<strong class="font-semibold text-gray-900 dark:text-gray-100">$1</strong>')
+    .replace(/\*([^\*]+)\*/g, '<em class="italic">$1</em>');
+
+  // Split into lines for processing
+  const lines = processedContent.split('\n');
+  const formattedLines: string[] = [];
+  let inList = false;
+  let listType = '';
+
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i].trim();
+    
+    if (!line) {
+      if (inList) {
+        formattedLines.push(`</${listType}>`);
+        inList = false;
+        listType = '';
+      }
+      formattedLines.push('<br>');
+      continue;
+    }
+
+    // Headers
+    if (line.startsWith('###')) {
+      if (inList) {
+        formattedLines.push(`</${listType}>`);
+        inList = false;
+        listType = '';
+      }
+      line = line.replace(/^###\s*(.+)$/, '<h3 class="text-lg font-semibold mt-2 mb-1 text-blue-600 dark:text-blue-400">$1</h3>');
+    } else if (line.startsWith('##')) {
+      if (inList) {
+        formattedLines.push(`</${listType}>`);
+        inList = false;
+        listType = '';
+      }
+      line = line.replace(/^##\s*(.+)$/, '<h2 class="text-xl font-bold mt-4 mb-2 text-blue-700 dark:text-blue-300">$1</h2>');
+    } else if (line.startsWith('#')) {
+      if (inList) {
+        formattedLines.push(`</${listType}>`);
+        inList = false;
+        listType = '';
+      }
+      line = line.replace(/^#\s*(.+)$/, '<h1 class="text-2xl font-bold mt-4 mb-2 text-blue-800 dark:text-blue-200">$1</h1>');
+    }
+    // Bullet points
+    else if (line.match(/^[\*\-\+•]\s+/)) {
+      if (!inList || listType !== 'ul') {
+        if (inList) formattedLines.push(`</${listType}>`);
+        formattedLines.push('<ul class="list-none space-y-1 my-2">');
+        inList = true;
+        listType = 'ul';
+      }
+      line = line.replace(/^[\*\-\+•]\s+(.+)$/, '<li class="flex items-start mb-1"><span class="text-blue-500 mr-2 mt-0.5">•</span><span>$1</span></li>');
+    }
+    // Numbered lists
+    else if (line.match(/^\d+\.\s+/)) {
+      if (!inList || listType !== 'ol') {
+        if (inList) formattedLines.push(`</${listType}>`);
+        formattedLines.push('<ol class="list-decimal list-inside space-y-1 my-2 ml-4">');
+        inList = true;
+        listType = 'ol';
+      }
+      line = line.replace(/^\d+\.\s+(.+)$/, '<li class="mb-1">$1</li>');
+    }
+    // Regular paragraphs
+    else {
+      if (inList) {
+        formattedLines.push(`</${listType}>`);
+        inList = false;
+        listType = '';
+      }
+      
+      line = `<p class="mb-1">${line}</p>`;
+    }
+
+    formattedLines.push(line);
+  }
+
+  if (inList) {
+    formattedLines.push(`</${listType}>`);
+  }
+
+  let result = formattedLines.join('\n');
+
+  // Restore code blocks
+  codeBlockPlaceholders.forEach((code, index) => {
+    result = result.replace(`__CODEBLOCK_${index}__`, code);
+  });
+
+  // Restore inline code
+  inlineCodePlaceholders.forEach((code, index) => {
+    result = result.replace(`__INLINECODE_${index}__`, code);
+  });
+
+  return result;
+};
+
 export default function ChatPage() {
   const { user } = useUser();
   // Feature selection state (must be inside the component)
-  const [feature, setFeature] = useState("basic");
+  const [feature, setFeature] = useState("gpt-4.1");
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -123,13 +242,25 @@ I was developed by Manikanta Darapureddy.
 
     try {
       const apiUrl =
-        feature === "pro"
+        feature === "gpt-4o-mini"
           ? "https://chatbot-ss-api-1.vercel.app/api/chat"
+          : feature === "gemini-2.0-pro"
+          ? "https://chatbot-ss-api-3.vercel.app/api/chat"
           : "https://chatbot-ss-api-2.vercel.app/api/chat";
+
+      // Build conversation history for the API
+      const history = messages.map((msg) => ({
+        role: msg.role,
+        content: msg.content,
+      }));
+
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: input }),
+        body: JSON.stringify({
+          message: input,
+          history: history,
+        }),
       });
 
       const data = await response.json();
@@ -177,7 +308,7 @@ I was developed by Manikanta Darapureddy.
                 if (value) setFeature(value);
               }}
             >
-              <SelectTrigger className="w-[120px]">
+              <SelectTrigger className="w-[160px]">
                 <SelectValue placeholder="Select model" />
               </SelectTrigger>
               <SelectContent>
@@ -205,7 +336,7 @@ I was developed by Manikanta Darapureddy.
                 <div
                   key={message.id}
                   className={cn(
-                    "flex animate-fade-in items-start space-x-3 max-w-[80%]",
+                    "flex animate-fade-in items-start space-x-3 max-w-[95%] sm:max-w-[80%]",
                     message.role === "user"
                       ? "ml-auto justify-end"
                       : "mr-auto justify-start"
@@ -225,15 +356,17 @@ I was developed by Manikanta Darapureddy.
                   >
                     <div
                       className={cn(
-                        "rounded-lg p-3",
+                        "rounded-lg p-3 max-w-full overflow-hidden",
                         message.role === "user"
                           ? "bg-foreground text-background min-w-16"
                           : "bg-muted"
                       )}
                     >
-                      <p className="text-sm sm:text-[15px] whitespace-pre-line text-left sm:text-justify">
-                        {message.content}
-                      </p>
+                      <div className="text-sm sm:text-[15px] text-left sm:text-justify overflow-hidden break-words">
+                        <div dangerouslySetInnerHTML={{ 
+                          __html: formatMessageContent(message.content)
+                        }} />
+                      </div>
                     </div>
                     <p className="text-xs opacity-70">
                       {message.timestamp.toLocaleTimeString([], {
@@ -257,7 +390,7 @@ I was developed by Manikanta Darapureddy.
                 </div>
               ))}
               {isLoading && (
-                <div className="mr-auto flex max-w-[80%] animate-fade-in items-start space-x-3">
+                <div className="mr-auto flex max-w-[95%] sm:max-w-[80%] animate-fade-in items-start space-x-3">
                   <Avatar className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
                     <Bot className="h-5 w-5" />
                   </Avatar>
