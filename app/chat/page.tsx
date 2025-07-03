@@ -7,6 +7,7 @@ const FEATURE_OPTIONS = [
   { label: "GPT-4.1", value: "gpt-4.1" },
   { label: "GPT-4o-mini", value: "gpt-4o-mini" },
   { label: "Gemini-2.0-Pro", value: "gemini-2.0-pro" },
+  { label: "DeepSeek V3", value: "deepseek-r1" },
 ];
 import { Send, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -246,6 +247,8 @@ I was developed by Manikanta Darapureddy.
           ? "https://chatbot-ss-api-1.vercel.app/api/chat"
           : feature === "gemini-2.0-pro"
           ? "https://chatbot-ss-api-3.vercel.app/api/chat"
+          : feature === "deepseek-r1"
+          ? "https://chatbot-ss-api-4.vercel.app/api/chat"
           : "https://chatbot-ss-api-2.vercel.app/api/chat";
 
       // Build conversation history for the API
@@ -278,7 +281,7 @@ I was developed by Manikanta Darapureddy.
         ...prev,
         {
           id: (Date.now() + 2).toString(),
-          content: "Something went wrong. Please try again.",
+          content: "Sorry, something went wrong. Please try again or select a different model.",
           role: "assistant",
           timestamp: new Date(),
         },
@@ -305,7 +308,18 @@ I was developed by Manikanta Darapureddy.
             <Select
               value={feature}
               onValueChange={(value) => {
-                if (value) setFeature(value);
+                if (value) {
+                  setFeature(value);
+                  // Clear conversation history when model changes
+                  setMessages([
+                    {
+                      id: "1",
+                      content: "Hello! How can I help you today?",
+                      role: "assistant",
+                      timestamp: new Date(),
+                    },
+                  ]);
+                }
               }}
             >
               <SelectTrigger className="w-[160px]">
