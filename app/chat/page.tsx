@@ -6,7 +6,7 @@ import React, { useState, useRef, useEffect } from "react";
 const FEATURE_OPTIONS = [
   { label: "GPT-4.1", value: "gpt-4.1" },
   { label: "GPT-4o-mini", value: "gpt-4o-mini" },
-  { label: "Gemini-2.0-Pro", value: "gemini-2.0-pro" },
+  { label: "Gemini-2.0 Pro", value: "gemini-2.0-pro" },
   { label: "DeepSeek V3", value: "deepseek-r1" },
 ];
 import { Send, Bot } from "lucide-react";

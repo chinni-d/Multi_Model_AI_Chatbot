@@ -132,7 +132,7 @@ export default function Home() {
         animate={cardsInView ? "visible" : "hidden"}
         variants={cardsContainer}
       >
-        <div className="container px-4 md:px-6 ">
+        <div className="container px-4 md:px-6 text-muted-foreground">
           <div
             className="mx-auto grid max-w-5xl items-start gap-6 lg:grid-cols-3"
           >

@@ -51,7 +51,7 @@ export default function AboutPage() {
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.3 }}
         >
-          <Card className="bg-transparent border border-border shadow-none">
+          <Card className="bg-transparent border border-border shadow-none text-muted-foreground">
             <CardHeader>
               <CardTitle>What is AI Chatbot?</CardTitle>
               <CardDescription>
@@ -85,7 +85,7 @@ export default function AboutPage() {
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.3 }}
         >
-          <Card className="bg-transparent border border-border shadow-none">
+          <Card className="bg-transparent border border-border shadow-none text-muted-foreground">
             <CardHeader>
               <CardTitle>Features & Capabilities</CardTitle>
               <CardDescription>
@@ -118,18 +118,18 @@ export default function AboutPage() {
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.3 }}
         >
-          <Card className="bg-transparent border border-border shadow-none">
+          <Card className="bg-transparent border border-border shadow-none text-muted-foreground">
             <CardHeader>
               <CardTitle>Our Technology</CardTitle>
               <CardDescription>The science behind AI Chatbot</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p>
-               Our AI Chatbot is a multi-modal system powered by advanced models like GPT-4.1 and DeepSeek R1, integrated through the OpenRouter API. It understands context and generates human-like responses in real time, delivering natural and engaging conversations.
-              </p>
-              <p>
-              The chatbot supports flexible interactions across various input types and is optimized for speed, accuracy, and reliability. Designed with user needs in mind, it ensures a seamless and responsive experience. Continuous updates are made to enhance performance and maintain a safe, user-friendly environment.
-              </p>
+                <p>
+                Our AI Chatbot is a multi-modal system powered by advanced language models, integrated through a robust API. It understands context and generates human-like responses in real time, delivering natural and engaging conversations.
+                </p>
+                <p>
+                The chatbot supports flexible interactions across various input types and is optimized for speed, accuracy, and reliability. Designed with user needs in mind, it ensures a seamless and responsive experience. Continuous updates are made to enhance performance and maintain a safe, user-friendly environment.
+                </p>
             </CardContent>
           </Card>
         </motion.div>
@@ -143,7 +143,7 @@ export default function AboutPage() {
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.3 }}
         >
-          <Card className="bg-transparent border border-border shadow-none">
+          <Card className="bg-transparent border border-border shadow-none text-muted-foreground">
             <CardHeader>
               <CardTitle>Tech Stack</CardTitle>
               <CardDescription>
@@ -184,7 +184,13 @@ export default function AboutPage() {
                       <Bot size={16} /> GPT-4.1
                     </Badge>
                     <Badge variant="secondary" className="gap-1">
-                      <Bot size={16} /> DeepSeek R1
+                      <Bot size={16} /> GPT-4o-mini
+                    </Badge>
+                    <Badge variant="secondary" className="gap-1">
+                      <Bot size={16} /> DeepSeek AI
+                    </Badge>
+                     <Badge variant="secondary" className="gap-1">
+                      <Bot size={16} /> Google's Gemini AI
                     </Badge>
                   </div>
                 </div>
@@ -210,7 +216,7 @@ export default function AboutPage() {
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.3 }}
         >
-          <Card className="bg-transparent border border-border shadow-none">
+          <Card className="bg-transparent border border-border shadow-none text-muted-foreground">
             <CardHeader>
               <CardTitle>Meet the Developer</CardTitle>
               <CardDescription>The creator behind the chatbot</CardDescription>
@@ -235,10 +241,7 @@ export default function AboutPage() {
                     cutting-edge tech with seamless design.
                   </p>
                   <div className="flex flex-wrap justify-center md:justify-start gap-4">
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.2 }}
-                    >
+                  
                       <Button variant="default" asChild className="gap-2">
                         <a
                           href="https://www.dmanikanta.me"
@@ -248,11 +251,8 @@ export default function AboutPage() {
                           Portfolio <ExternalLink size={16} />
                         </a>
                       </Button>
-                    </motion.div>
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.2 }}
-                    >
+                 
+                  
                       <Button variant="outline" asChild className="gap-2">
                         <a
                           href="https://github.com/chinni-d"
@@ -262,7 +262,7 @@ export default function AboutPage() {
                           GitHub <ExternalLink size={16} />
                         </a>
                       </Button>
-                    </motion.div>
+                 
                   </div>
                 </div>
               </div>
