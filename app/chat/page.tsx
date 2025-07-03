@@ -124,8 +124,8 @@ I was developed by Manikanta Darapureddy.
     try {
       const apiUrl =
         feature === "pro"
-          ? "https://chatbot-ss-api-2.vercel.app/api/chat"
-          : "https://chatbot-ss-api-1.vercel.app/api/chat";
+          ? "https://chatbot-ss-api-1.vercel.app/api/chat"
+          : "https://chatbot-ss-api-2.vercel.app/api/chat";
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
