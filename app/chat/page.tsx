@@ -167,11 +167,11 @@ const formatMessageContent = (content: string) => {
     else if (line.match(/^\d+\.\s+/)) {
       if (!inList || listType !== 'ol') {
         if (inList) formattedLines.push(`</${listType}>`);
-        formattedLines.push('<ol class="list-decimal list-inside space-y-1 my-2 ml-4">');
+        formattedLines.push('<ol class="space-y-1 my-2 ml-4" style="list-style: none;">');
         inList = true;
         listType = 'ol';
       }
-      line = line.replace(/^\d+\.\s+(.+)$/, '<li class="mb-1">$1</li>');
+      line = line.replace(/^(\d+)\.\s+(.+)$/, '<li class="mb-1">$1. $2</li>');
     }
     // Regular paragraphs
     else {
