@@ -60,6 +60,8 @@ const formatMessageContent = (content: string) => {
   const formattedLines: string[] = [];
   let inList = false;
   let listType = '';
+  let inTable = false;
+  let tableHeaders: string[] = [];
 
   for (let i = 0; i < lines.length; i++) {
     let line = lines[i].trim();
@@ -97,6 +99,55 @@ const formatMessageContent = (content: string) => {
       }
       line = line.replace(/^#\s*(.+)$/, '<h1 class="text-2xl font-bold mt-4 mb-2 text-blue-800 dark:text-blue-200">$1</h1>');
     }
+    // Table detection
+    else if (line.includes('|') && (line.match(/\|/g) || []).length >= 2) {
+      // Check if this is a table header
+      const nextLine = i + 1 < lines.length ? lines[i + 1].trim() : '';
+      const isTableHeader = nextLine.match(/^\|?[\s\-\|:]+\|?$/);
+      
+      if (!inTable && isTableHeader) {
+        // Start of table
+        if (inList) {
+          formattedLines.push(`</${listType}>`);
+          inList = false;
+          listType = '';
+        }
+        inTable = true;
+        tableHeaders = line.split('|').map(cell => cell.trim()).filter(cell => cell);
+        formattedLines.push('<div class="overflow-x-auto my-4">');
+        formattedLines.push('<table class="min-w-full border-collapse border border-gray-300 dark:border-gray-600">');
+        formattedLines.push('<thead class="bg-gray-50 dark:bg-gray-700">');
+        formattedLines.push('<tr>');
+        tableHeaders.forEach(header => {
+          formattedLines.push(`<th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left font-medium text-gray-900 dark:text-gray-100">${header}</th>`);
+        });
+        formattedLines.push('</tr>');
+        formattedLines.push('</thead>');
+        formattedLines.push('<tbody>');
+        // Skip the separator line
+        i++;
+        continue;
+      } else if (inTable && line.includes('|')) {
+        // Table row
+        const cells = line.split('|').map(cell => cell.trim()).filter(cell => cell);
+        if (cells.length > 0) {
+          formattedLines.push('<tr class="even:bg-gray-50 dark:even:bg-gray-800">');
+          cells.forEach(cell => {
+            formattedLines.push(`<td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-gray-900 dark:text-gray-100">${cell}</td>`);
+          });
+          formattedLines.push('</tr>');
+        }
+        continue;
+      } else if (inTable && !line.includes('|')) {
+        // End of table
+        formattedLines.push('</tbody>');
+        formattedLines.push('</table>');
+        formattedLines.push('</div>');
+        inTable = false;
+        tableHeaders = [];
+        // Process this line normally
+      }
+    }
     // Bullet points
     else if (line.match(/^[\*\-\+•]\s+/)) {
       if (!inList || listType !== 'ul') {
@@ -133,6 +184,12 @@ const formatMessageContent = (content: string) => {
 
   if (inList) {
     formattedLines.push(`</${listType}>`);
+  }
+
+  if (inTable) {
+    formattedLines.push('</tbody>');
+    formattedLines.push('</table>');
+    formattedLines.push('</div>');
   }
 
   let result = formattedLines.join('\n');
