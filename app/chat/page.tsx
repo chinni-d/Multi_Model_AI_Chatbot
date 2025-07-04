@@ -295,8 +295,9 @@ I was developed by Manikanta Darapureddy.
     <div className="container mx-auto flex min-h-[calc(100vh-8rem)] max-w-5xl flex-col px-4 py-6">
       <div className="mb-4 flex flex-col items-center justify-between gap-4 sm:flex-row">
         <div className="flex-1 text-center sm:text-left">
-          <h1 className="text-2xl font-bold">Chat with AI</h1>
+          
           <SignedIn>
+            <h1 className="text-2xl font-bold">Chat with AI</h1>
             <p className="text-sm text-muted-foreground">
               Select a model to start chatting.
             </p>
@@ -450,7 +451,7 @@ I was developed by Manikanta Darapureddy.
 
       {/* Show only when logged out */}
       <SignedOut>
-        <div className="flex justify-center items-center h-full">
+        <div className="flex flex-1 items-center justify-center min-h-[300px]">
           <SignIn routing="hash" />
         </div>
       </SignedOut>
