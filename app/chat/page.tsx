@@ -103,7 +103,7 @@ const formatMessageContent = (content: string) => {
     else if (line.includes('|') && (line.match(/\|/g) || []).length >= 2) {
       // Check if this is a table header
       const nextLine = i + 1 < lines.length ? lines[i + 1].trim() : '';
-      const isTableHeader = nextLine.match(/^\|?[\s\-\|:]+\|?$/);
+      const isTableHeader = nextLine.match(/^\|?[\s\-:]+(\|[\s\-:]+)*\|?$/);
       
       if (!inTable && isTableHeader) {
         // Start of table
@@ -147,6 +147,11 @@ const formatMessageContent = (content: string) => {
         tableHeaders = [];
         // Process this line normally
       }
+    }
+    // Handle standalone separator lines (---)
+    else if (line.match(/^-{3,}$/)) {
+      formattedLines.push('<hr class="my-4 border-t border-gray-300 dark:border-gray-600" />');
+      continue;
     }
     // Bullet points
     else if (line.match(/^[\*\-\+•]\s+/)) {
