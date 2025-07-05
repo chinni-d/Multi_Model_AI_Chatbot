@@ -9,7 +9,7 @@ const FEATURE_OPTIONS = [
   { label: "Gemini-2.0 Pro", value: "gemini-2.0-pro" },
   { label: "DeepSeek V3", value: "deepseek-r1" },
 ];
-import { Send, Bot } from "lucide-react";
+import { Send, Bot, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -32,19 +32,71 @@ type Message = {
   timestamp: Date;
 };
 
+// Copy button component
+const CopyButton = ({ code }: { code: string }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleCopy}
+      className="absolute top-2 right-2 p-1.5 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors z-10"
+      title={copied ? "Copied!" : "Copy code"}
+    >
+      {copied ? (
+        <Check className="h-4 w-4 text-green-600 dark:text-green-400" />
+      ) : (
+        <Copy className="h-4 w-4 text-gray-600 dark:text-gray-300" />
+      )}
+    </button>
+  );
+};
+
+// Message content component with copy functionality
+const MessageContent = ({ content }: { content: string }) => {
+  return (
+    <div dangerouslySetInnerHTML={{ __html: formatMessageContent(content) }} />
+  );
+};
+
 // Function to format message content with proper styling
 const formatMessageContent = (content: string) => {
   // First, handle code blocks to prevent them from being processed
   const codeBlockPlaceholders: string[] = [];
-  let processedContent = content.replace(/```([\s\S]*?)```/g, (match, code) => {
+  let processedContent = content.replace(/```([\s\S]*?)```/g, (match: string, code: string) => {
     const placeholder = `__CODEBLOCK_${codeBlockPlaceholders.length}__`;
-    codeBlockPlaceholders.push(`<pre style="background-color: #f3f4f6; color: #1f2937; padding: 12px; border-radius: 8px; overflow-x: auto; margin: 8px 0 4px 0; border: 1px solid #d1d5db; width: 100%; max-width: 100%; font-size: 13px; line-height: 1.4;" class="bg-gray-100 dark:bg-gray-800 p-3 rounded-lg overflow-x-auto my-2 border w-full max-w-full text-sm"><code style="font-family: 'Courier New', Consolas, Monaco, monospace; font-size: 13px; white-space: pre-wrap; word-break: break-word; color: #1f2937; display: block;" class="font-mono text-sm whitespace-pre-wrap break-words text-gray-800 dark:text-gray-200">${code.trim()}</code></pre>`);
+    
+    // Split the code to separate language from actual code
+    const lines = code.split('\n');
+    const language = lines[0].trim(); // First line is usually the language
+    const actualCode = lines.slice(1).join('\n').trim(); // Rest is the actual code
+    
+    // If the first line looks like a language identifier, use actualCode, otherwise use the full code
+    const isLanguageIdentifier = language.length < 20 && /^[a-zA-Z0-9+#-]*$/.test(language);
+    const codeToUse = isLanguageIdentifier && actualCode ? actualCode : code.trim();
+    
+    // Simple escaping for HTML attributes - only escape quotes and backslashes
+    const escapedCode = codeToUse
+      .replace(/\\/g, '\\\\')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+    
+    codeBlockPlaceholders.push(`<div style="position: relative; border-radius: 8px; margin: 8px 0 4px 0; border: 1px solid #d1d5db; width: 100%; max-width: 100%;" class="bg-white dark:bg-white rounded-lg my-2 border dark:border-gray-300 w-full max-w-full relative group"><button data-code="${escapedCode}" onclick="window.copyCodeBlock(this)" class="absolute top-2 right-2 p-1.5 rounded-md transition-colors z-10 copy-btn" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; min-width: 32px; min-height: 32px; background-color: transparent;" title="Copy code"><svg class="h-4 w-4" style="width: 16px; height: 16px; flex-shrink: 0; color: #000000;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></button><pre style="padding: 12px; overflow-x: auto; font-size: 13px; line-height: 1.4; margin: 0;" class="p-3 overflow-x-auto text-sm m-0"><code style="font-family: 'Courier New', Consolas, Monaco, monospace; font-size: 13px; white-space: pre-wrap; word-break: break-word; display: block;" class="font-mono text-sm whitespace-pre-wrap break-words text-black dark:text-black">${codeToUse}</code></pre></div>`);
     return placeholder;
   });
 
   // Handle inline code
   const inlineCodePlaceholders: string[] = [];
-  processedContent = processedContent.replace(/`([^`]+)`/g, (match, code) => {
+  processedContent = processedContent.replace(/`([^`]+)`/g, (match: string, code: string) => {
     const placeholder = `__INLINECODE_${inlineCodePlaceholders.length}__`;
     inlineCodePlaceholders.push(`<code style="background-color: #f3f4f6; color: #1f2937; padding: 4px 8px; border-radius: 4px; font-family: 'Courier New', Consolas, Monaco, monospace; font-size: 14px; word-break: break-word; border: 1px solid #d1d5db;" class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-sm font-mono break-words text-gray-800 dark:text-gray-200">${code}</code>`);
     return placeholder;
@@ -113,7 +165,7 @@ const formatMessageContent = (content: string) => {
           listType = '';
         }
         inTable = true;
-        tableHeaders = line.split('|').map(cell => cell.trim()).filter(cell => cell);
+        tableHeaders = line.split('|').map((cell: string) => cell.trim()).filter((cell: string) => cell);
         formattedLines.push('<div class="overflow-x-auto my-4">');
         formattedLines.push('<table class="min-w-full border-collapse border border-gray-300 dark:border-gray-600">');
         formattedLines.push('<thead class="bg-gray-50 dark:bg-gray-700">');
@@ -129,10 +181,10 @@ const formatMessageContent = (content: string) => {
         continue;
       } else if (inTable && line.includes('|')) {
         // Table row
-        const cells = line.split('|').map(cell => cell.trim()).filter(cell => cell);
+        const cells = line.split('|').map((cell: string) => cell.trim()).filter((cell: string) => cell);
         if (cells.length > 0) {
           formattedLines.push('<tr class="even:bg-gray-50 dark:even:bg-gray-800">');
-          cells.forEach(cell => {
+          cells.forEach((cell: string) => {
             formattedLines.push(`<td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-gray-900 dark:text-gray-100">${cell}</td>`);
           });
           formattedLines.push('</tr>');
@@ -228,6 +280,68 @@ export default function ChatPage() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  // Initialize the global copy function early
+  useEffect(() => {
+    // Add global copy function to window with fallback for mobile/older browsers
+    (window as any).copyCodeBlock = async (button: HTMLElement) => {
+      try {
+        const code = button.getAttribute('data-code');
+        if (!code) return;
+        
+        // Unescape the code (simpler unescaping since we use simpler escaping)
+        const unescapedCode = code
+          .replace(/&quot;/g, '"')
+          .replace(/&#39;/g, "'")
+          .replace(/\\\\/g, '\\');
+        
+        // Try modern clipboard API first
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(unescapedCode);
+        } else {
+          // Fallback method for older browsers/mobile
+          const textArea = document.createElement('textarea');
+          textArea.value = unescapedCode;
+          textArea.style.position = 'fixed';
+          textArea.style.left = '-999999px';
+          textArea.style.top = '-999999px';
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          
+          try {
+            document.execCommand('copy');
+          } catch (err) {
+            console.error('Fallback copy failed:', err);
+            // If all else fails, show an alert with the code
+            alert('Copy failed. Here is the code:\n\n' + unescapedCode);
+            return;
+          } finally {
+            document.body.removeChild(textArea);
+          }
+        }
+        
+        // Show success feedback
+        const originalIcon = button.innerHTML;
+        button.innerHTML = `<svg class="h-4 w-4" style="width: 16px; height: 16px; flex-shrink: 0; color: #000000;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+        button.title = "Copied!";
+        setTimeout(() => {
+          button.innerHTML = originalIcon;
+          button.title = "Copy code";
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy text: ', err);
+        // Show error feedback
+        const originalIcon = button.innerHTML;
+        button.innerHTML = `<svg class="h-4 w-4" style="width: 16px; height: 16px; flex-shrink: 0; color: #000000;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`;
+        button.title = "Copy failed";
+        setTimeout(() => {
+          button.innerHTML = originalIcon;
+          button.title = "Copy code";
+        }, 2000);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -440,9 +554,7 @@ I was developed by Manikanta Darapureddy.
                       )}
                     >
                       <div className="text-sm sm:text-[15px] text-left sm:text-justify overflow-hidden break-words">
-                        <div dangerouslySetInnerHTML={{ 
-                          __html: formatMessageContent(message.content)
-                        }} />
+                        <MessageContent content={message.content} />
                       </div>
                     </div>
                     <p className="text-xs opacity-70">
