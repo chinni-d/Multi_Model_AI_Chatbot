@@ -280,6 +280,7 @@ export default function ChatPage() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Initialize the global copy function early
   useEffect(() => {
@@ -347,13 +348,23 @@ export default function ChatPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Reset textarea height when input is cleared
+  useEffect(() => {
+    if (!input && textareaRef.current) {
+      textareaRef.current.style.height = '40px';
+    }
+  }, [input]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
 
+    const trimmedInput = input.trim();
+    if (!trimmedInput) return;
+
     const userMessage: Message = {
       id: Date.now().toString(),
-      content: input,
+      content: trimmedInput,
       role: "user",
       timestamp: new Date(),
     };
@@ -362,7 +373,12 @@ export default function ChatPage() {
     setInput("");
     setIsLoading(true);
 
-    const lowerInput = input.toLowerCase();
+    // Reset textarea height to original single line using ref
+    if (textareaRef.current) {
+      textareaRef.current.style.height = '40px';
+    }
+
+    const lowerInput = trimmedInput.toLowerCase();
 
     const identityKeywords = [
       "who",
@@ -437,7 +453,7 @@ I was developed by Manikanta Darapureddy.
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          message: input,
+          message: trimmedInput,
           history: history,
         }),
       });
@@ -602,18 +618,43 @@ I was developed by Manikanta Darapureddy.
             </div>
           </div>
           <Card className="mt-4 w-full">
-            <form onSubmit={handleSubmit} className="flex items-center p-2">
-              <Input
-                placeholder="Type your message..."
+            <form onSubmit={handleSubmit} className="flex items-end p-2 gap-2">
+              <textarea
+                ref={textareaRef}
+                placeholder="Ask anything..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                className="flex-1"
+                onKeyDown={(e) => {
+                  // Check if it's a mobile device
+                  const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth < 768;
+                  
+                  // Only prevent Enter and send message on desktop, allow new lines on mobile
+                  if (e.key === 'Enter' && !e.shiftKey && !isMobile) {
+                    e.preventDefault();
+                    handleSubmit(e);
+                  }
+                }}
+                className="flex-1 px-3 py-2 text-sm rounded-md border border-input bg-background resize-none overflow-hidden focus:outline-none focus:ring-2 focus:ring-ring  disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={isLoading}
+                rows={1}
+                style={{
+                  height: '40px',
+                  maxHeight: '120px',
+                  fontSize: '16px' // Prevents zoom on iOS Safari
+                }}
+                onInput={(e) => {
+                  const target = e.target as HTMLTextAreaElement;
+                  target.style.height = '40px';
+                  const scrollHeight = target.scrollHeight;
+                  if (scrollHeight > 40) {
+                    target.style.height = Math.min(scrollHeight, 120) + 'px';
+                  }
+                }}
               />
               <Button
                 type="submit"
                 size="icon"
-                className="ml-2"
+                className="shrink-0"
                 disabled={isLoading || !input.trim()}
               >
                 <Send className="h-4 w-4" />
