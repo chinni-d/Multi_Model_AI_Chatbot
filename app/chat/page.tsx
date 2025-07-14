@@ -90,7 +90,7 @@ const formatMessageContent = (content: string) => {
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;');
     
-    codeBlockPlaceholders.push(`<div style="position: relative; border-radius: 8px; margin: 8px 0 4px 0; border: 1px solid #d1d5db; width: 100%; max-width: 100%;" class="bg-white dark:bg-white rounded-lg my-2 border dark:border-gray-300 w-full max-w-full relative group"><button data-code="${escapedCode}" onclick="window.copyCodeBlock(this)" class="absolute top-2 right-2 p-1.5 rounded-md transition-colors z-10 copy-btn" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; min-width: 32px; min-height: 32px; background-color: transparent;" title="Copy code"><svg class="h-4 w-4" style="width: 16px; height: 16px; flex-shrink: 0; color: #000000;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></button><pre style="padding: 12px; overflow-x: auto; font-size: 13px; line-height: 1.4; margin: 0;" class="p-3 overflow-x-auto text-sm m-0"><code style="font-family: 'Courier New', Consolas, Monaco, monospace; font-size: 13px; white-space: pre-wrap; word-break: break-word; display: block;" class="font-mono text-sm whitespace-pre-wrap break-words text-black dark:text-black">${codeToUse}</code></pre></div>`);
+    codeBlockPlaceholders.push(`<div style="position: relative; border-radius: 8px; margin: 8px 0 4px 0; border: 1px solid #d1d5db; width: 100%; max-width: 100%;" class="bg-white dark:bg-white rounded-lg my-2 border dark:border-gray-300 w-full max-w-full relative group"><button data-code="${escapedCode}" onclick="window.copyCodeBlock(this)" class="absolute top-2 right-2 p-1.5 rounded-md transition-colors z-10 copy-btn" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; min-width: 32px; min-height: 32px; background-color: transparent;" title="Copy code"><svg class="h-4 w-4" style="width: 16px; height: 16px; flex-shrink: 0; color: #6b7280;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></button><pre style="padding: 12px; overflow-x: auto; font-size: 13px; line-height: 1.4; margin: 0;" class="p-3 overflow-x-auto text-sm m-0"><code style="font-family: 'Courier New', Consolas, Monaco, monospace; font-size: 13px; white-space: pre-wrap; word-break: break-word; display: block;" class="font-mono text-sm whitespace-pre-wrap break-words text-black dark:text-black">${codeToUse}</code></pre></div>`);
     return placeholder;
   });
 
@@ -324,7 +324,7 @@ export default function ChatPage() {
         
         // Show success feedback
         const originalIcon = button.innerHTML;
-        button.innerHTML = `<svg class="h-4 w-4" style="width: 16px; height: 16px; flex-shrink: 0; color: #000000;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+        button.innerHTML = `<svg class="h-4 w-4" style="width: 16px; height: 16px; flex-shrink: 0; color: #10b981;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
         button.title = "Copied!";
         setTimeout(() => {
           button.innerHTML = originalIcon;
@@ -334,7 +334,7 @@ export default function ChatPage() {
         console.error('Failed to copy text: ', err);
         // Show error feedback
         const originalIcon = button.innerHTML;
-        button.innerHTML = `<svg class="h-4 w-4" style="width: 16px; height: 16px; flex-shrink: 0; color: #000000;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`;
+        button.innerHTML = `<svg class="h-4 w-4" style="width: 16px; height: 16px; flex-shrink: 0; color: #ef4444;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`;
         button.title = "Copy failed";
         setTimeout(() => {
           button.innerHTML = originalIcon;
