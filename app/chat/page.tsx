@@ -70,6 +70,11 @@ const MessageContent = ({ content }: { content: string }) => {
 
 // Function to format message content with proper styling
 const formatMessageContent = (content: string) => {
+  // Handle undefined, null, or empty content
+  if (!content || typeof content !== 'string') {
+    return '<p class="text-gray-500">No content available</p>';
+  }
+
   // First, handle code blocks to prevent them from being processed
   const codeBlockPlaceholders: string[] = [];
   let processedContent = content.replace(/```([\s\S]*?)```/g, (match: string, code: string) => {
@@ -435,13 +440,15 @@ I was developed by Manikanta Darapureddy.
 
     try {
       const apiUrl =
-        feature === "gpt-4o-mini"
+        feature === "gpt-4.1"
+          ? "https://chatbot-ss-api-2.vercel.app/api/chat"
+          : feature === "gpt-4o-mini"
           ? "https://chatbot-ss-api-1.vercel.app/api/chat"
           : feature === "gemini-2.0-pro"
           ? "https://chatbot-ss-api-3.vercel.app/api/chat"
           : feature === "deepseek-r1"
           ? "https://chatbot-ss-api-4.vercel.app/api/chat"
-          : "https://chatbot-ss-api-2.vercel.app/api/chat";
+          : "https://chatbot-ss-api-1.vercel.app/api/chat";
 
       // Build conversation history for the API
       const history = messages.map((msg) => ({
@@ -458,10 +465,20 @@ I was developed by Manikanta Darapureddy.
         }),
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
+      
+      // Check if response has the expected data
+      if (!data || !data.response) {
+        throw new Error("Invalid response from API");
+      }
+
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: data.response,
+        content: data.response || "Sorry, I couldn't generate a response.",
         role: "assistant",
         timestamp: new Date(),
       };
@@ -469,11 +486,18 @@ I was developed by Manikanta Darapureddy.
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
       console.error("API error:", error);
+      const modelName = FEATURE_OPTIONS.find(opt => opt.value === feature)?.label || feature;
+      let errorMessage = "Unknown error occurred";
+      
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
       setMessages((prev) => [
         ...prev,
         {
           id: (Date.now() + 2).toString(),
-          content: "Sorry, something went wrong. Please try again or select a different model.",
+          content: `Sorry, there was an issue with ${modelName}: ${errorMessage}. Please try again or select a different model.`,
           role: "assistant",
           timestamp: new Date(),
         },
