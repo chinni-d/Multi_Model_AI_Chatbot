@@ -640,7 +640,7 @@ I was developed by Manikanta Darapureddy.
             <form onSubmit={handleSubmit} className="flex items-end p-2 gap-2">
               <textarea
                 ref={textareaRef}
-                placeholder="Ask anything..."
+                placeholder="🧠 Ask anything..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => {
