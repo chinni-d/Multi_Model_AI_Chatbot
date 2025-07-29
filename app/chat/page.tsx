@@ -274,14 +274,7 @@ export default function ChatPage() {
   // Feature selection state (must be inside the component)
   const [feature, setFeature] = useState("gpt-4.1");
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      content: "Hello! How can I help you today?",
-      role: "assistant",
-      timestamp: new Date(),
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -528,14 +521,7 @@ I was developed by Manikanta Darapureddy.
                 if (value) {
                   setFeature(value);
                   // Clear conversation history when model changes
-                  setMessages([
-                    {
-                      id: "1",
-                      content: "Hello! How can I help you today?",
-                      role: "assistant",
-                      timestamp: new Date(),
-                    },
-                  ]);
+                  setMessages([]);
                 }
               }}
             >
@@ -562,7 +548,15 @@ I was developed by Manikanta Darapureddy.
             className="rounded-lg p-4 custom-scrollbar-hide flex-1"
             style={{ backgroundColor: "transparent" }}
           >
-            <div className="space-y-4">
+            {messages.length === 0 ? (
+              <div className="flex flex-1 items-center justify-center h-full min-h-[400px]">
+                <div className="text-center">
+                  <h2 className="text-2xl font-semibold mb-2 text-foreground">Welcome to AI Chatbot</h2>
+                  <p className="text-muted-foreground text-lg">Start a conversation!</p>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -640,6 +634,7 @@ I was developed by Manikanta Darapureddy.
               )}
               <div ref={messagesEndRef} />
             </div>
+            )}
           </div>
           <Card className="mt-4 w-full">
             <form onSubmit={handleSubmit} className="flex items-end p-2 gap-2">
