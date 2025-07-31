@@ -20,6 +20,8 @@ import {
   Code,
   Orbit,
   Palette,
+  Mail,
+  Github,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { SparklesText } from "@/components/sparkles-text";
@@ -230,7 +232,7 @@ export default function AboutPage() {
                 />
                 <div className="flex-1 space-y-4 text-center md:text-left">
                   <p className="text-muted-foreground">
-                    Hi! I'm Manikanta Darapureddy, the developer behind this AI
+                    Hi! I'm <span className="font-semibold text-primary">Manikanta Darapureddy</span>, the developer behind this AI
                     Chatbot interface. I'm passionate about creating intelligent
                     applications that are useful, user-friendly, and impactful.
                   </p>
@@ -259,7 +261,16 @@ export default function AboutPage() {
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          GitHub <ExternalLink size={16} />
+                          GitHub <Github size={16} />
+                        </a>
+                      </Button>
+
+                      <Button variant="outline" asChild className="gap-2">
+                        <a
+                          href="mailto:darapureddymanikanta8@gmail.com"
+                          rel="noopener noreferrer"
+                        >
+                         <Mail size={16} />
                         </a>
                       </Button>
                  
