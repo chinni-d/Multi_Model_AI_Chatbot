@@ -173,8 +173,8 @@ export default function Home() {
                 transition={{ type: "spring", stiffness: 300 }}
                 className="flex items-start gap-4 rounded-lg border bg-transparent p-6 shadow-sm"
               >
-                <div className={`w-12 h-12 rounded-lg ${bgColor} flex items-center justify-center flex-shrink-0`}>
-                  <Icon className={`w-6 h-6 ${color}`} />
+                <div className={`w-10 h-10 rounded-lg ${bgColor} flex items-center justify-center flex-shrink-0`}>
+                  <Icon className={`w-4 h-4 ${color}`} />
                 </div>
                 <div className="space-y-2">
                   <h3 className="text-xl font-bold">{title}</h3>
