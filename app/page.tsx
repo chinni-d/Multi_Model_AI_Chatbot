@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Zap, Clock, Brain, MessageSquare, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MorphingText } from "@/components/morphing-text";
 import { motion, useInView } from "framer-motion";
@@ -111,13 +111,17 @@ export default function Home() {
               transition={{ duration: isMobile ? 0.16 : 0.7, delay: 0.6 }}
             >
               <Link href="/chat">
-                <Button className="group">
+                <Button className="group gap-2">
+                  <MessageSquare className="h-4 w-4" />
                   Start Chat
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Button>
               </Link>
               <Link href="/about">
-                <Button variant="outline">Learn More</Button>
+                <Button variant="outline" className="gap-2">
+                  <Sparkles className="h-4 w-4" />
+                  Learn More
+                </Button>
               </Link>
             </motion.div>
           </motion.div>
@@ -140,16 +144,25 @@ export default function Home() {
               {
                 title: "Instant Responses",
                 desc: "Get immediate answers to your questions with our chatbot.",
+                icon: Zap,
+                color: "text-yellow-500",
+                bgColor: "bg-yellow-500/10",
               },
               {
                 title: "24/7 Availability",
                 desc: "Our chatbot is always available to assist you, day or night.",
+                icon: Clock,
+                color: "text-blue-500",
+                bgColor: "bg-blue-500/10",
               },
               {
                 title: "Smart Learning",
                 desc: "Our AI continuously improves to provide better responses over time.",
+                icon: Brain,
+                color: "text-purple-500",
+                bgColor: "bg-purple-500/10",
               },
-            ].map(({ title, desc }, i) => (
+            ].map(({ title, desc, icon: Icon, color, bgColor }, i) => (
               <motion.div
                 key={title}
                 custom={i}
@@ -158,8 +171,11 @@ export default function Home() {
                 variants={cardVariant}
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 300 }}
-                className="flex flex-col items-start justify-start space-y-4 rounded-lg border bg-transparent p-6 shadow-sm"
+                className="flex items-start gap-4 rounded-lg border bg-transparent p-6 shadow-sm"
               >
+                <div className={`w-12 h-12 rounded-lg ${bgColor} flex items-center justify-center flex-shrink-0`}>
+                  <Icon className={`w-6 h-6 ${color}`} />
+                </div>
                 <div className="space-y-2">
                   <h3 className="text-xl font-bold">{title}</h3>
                   <p className="text-muted-foreground">{desc}</p>

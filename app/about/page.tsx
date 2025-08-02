@@ -22,6 +22,18 @@ import {
   Palette,
   Mail,
   Github,
+  Database,
+  Cpu,
+  Globe,
+  MessageSquare,
+  Lightbulb,
+  Zap,
+  Clock,
+  Shield,
+  Star,
+  Users,
+  Target,
+  Brain,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { SparklesText } from "@/components/sparkles-text";
@@ -55,7 +67,10 @@ export default function AboutPage() {
         >
           <Card className="bg-transparent border border-border shadow-none text-muted-foreground">
             <CardHeader>
-              <CardTitle>What is AI Chatbot?</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Bot className="w-5 h-5 text-primary" />
+                What is AI Chatbot?
+              </CardTitle>
               <CardDescription>
                 An overview of our intelligent assistant
               </CardDescription>
@@ -89,23 +104,44 @@ export default function AboutPage() {
         >
           <Card className="bg-transparent border border-border shadow-none text-muted-foreground">
             <CardHeader>
-              <CardTitle>Features & Capabilities</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Star className="w-5 h-5 text-primary" />
+                Features & Capabilities
+              </CardTitle>
               <CardDescription>
                 What our AI assistant can do for you
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-x-8">
-                <ul className="list-inside list-disc space-y-2">
-                  <li>Answer questions on a wide range of topics</li>
-                  <li>Provide explanations and clarifications</li>
-                  <li>Offer suggestions and recommendations</li>
-                </ul>
-                <ul className="list-inside list-disc space-y-2">
-                  <li>Engage in natural, flowing conversations</li>
-                  <li>Available anytime, with instant responses</li>
-                  <li>Maintains context throughout conversations</li>
-                </ul>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <Lightbulb className="w-4 h-4 text-blue-500" />
+                    <span>Answer questions on a wide range of topics</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Target className="w-4 h-4 text-green-500" />
+                    <span>Provide explanations and clarifications</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Brain className="w-4 h-4 text-purple-500" />
+                    <span>Offer suggestions and recommendations</span>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <MessageSquare className="w-4 h-4 text-orange-500" />
+                    <span>Engage in natural, flowing conversations</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Clock className="w-4 h-4 text-teal-500" />
+                    <span>Available anytime, with instant responses</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Zap className="w-4 h-4 text-yellow-500" />
+                    <span>Maintains context throughout conversations</span>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -122,7 +158,10 @@ export default function AboutPage() {
         >
           <Card className="bg-transparent border border-border shadow-none text-muted-foreground">
             <CardHeader>
-              <CardTitle>Our Technology</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Brain className="w-5 h-5 text-primary" />
+                Our Technology
+              </CardTitle>
               <CardDescription>The science behind AI Chatbot</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -147,7 +186,10 @@ export default function AboutPage() {
         >
           <Card className="bg-transparent border border-border shadow-none text-muted-foreground">
             <CardHeader>
-              <CardTitle>Tech Stack</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Cpu className="w-5 h-5 text-primary" />
+                Tech Stack
+              </CardTitle>
               <CardDescription>
                 Technologies used in this project
               </CardDescription>
@@ -155,52 +197,65 @@ export default function AboutPage() {
             <CardContent>
               <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                 <div className="space-y-3">
-                  <h3 className="text-lg font-semibold">Frontend</h3>
-                  <div className="flex flex-wrap gap-2">
-                    <Badge variant="secondary" className="gap-1">
-                      <Code size={16} /> Next.js
-                    </Badge>
-                    <Badge variant="secondary" className="gap-1">
-                      <Orbit size={16} /> React
-                    </Badge>
-                    <Badge variant="secondary" className="gap-1">
-                      <Code size={16} /> TypeScript
-                    </Badge>
-                    <Badge variant="secondary" className="gap-1">
-                      <Palette size={16} /> Tailwind CSS
-                    </Badge>
-                    <Badge variant="secondary" className="gap-1">
-                      <Component size={16} /> Shadcn UI
-                    </Badge>
-    
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center">
+                      <Globe className="w-4 h-4 text-blue-500" />
+                    </div>
+                    <h3 className="text-lg font-semibold">Frontend</h3>
                   </div>
-                </div>
-                <div className="space-y-3 md:border-l md:pl-6">
-                  <h3 className="text-lg font-semibold">Backend & AI</h3>
                   <div className="flex flex-wrap gap-2">
                     <Badge variant="secondary" className="gap-1">
-                      <Code size={16} /> Python via Uvicorn
-                    </Badge>
-                
-                    <Badge variant="secondary" className="gap-1">
-                      <Bot size={16} /> GPT-4.1
+                      <Code size={14} /> Next.js
                     </Badge>
                     <Badge variant="secondary" className="gap-1">
-                      <Bot size={16} /> GPT-4o-mini
+                      <Orbit size={14} /> React
                     </Badge>
                     <Badge variant="secondary" className="gap-1">
-                      <Bot size={16} /> DeepSeek AI
+                      <Code size={14} /> TypeScript
                     </Badge>
-                     <Badge variant="secondary" className="gap-1">
-                      <Bot size={16} /> Google's Gemini AI
+                    <Badge variant="secondary" className="gap-1">
+                      <Palette size={14} /> Tailwind CSS
+                    </Badge>
+                    <Badge variant="secondary" className="gap-1">
+                      <Component size={14} /> Shadcn UI
                     </Badge>
                   </div>
                 </div>
                 <div className="space-y-3 md:border-l md:pl-6">
-                  <h3 className="text-lg font-semibold">Authentication</h3>
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-green-500/10 rounded-lg flex items-center justify-center">
+                      <Server className="w-4 h-4 text-green-500" />
+                    </div>
+                    <h3 className="text-lg font-semibold">Backend & AI</h3>
+                  </div>
                   <div className="flex flex-wrap gap-2">
                     <Badge variant="secondary" className="gap-1">
-                      <Lock size={16} /> Clerk
+                      <Database size={14} /> Python/Uvicorn
+                    </Badge>
+                    <Badge variant="secondary" className="gap-1">
+                      <Bot size={14} /> GPT-4.1
+                    </Badge>
+                    <Badge variant="secondary" className="gap-1">
+                      <Bot size={14} /> GPT-4o-mini
+                    </Badge>
+                    <Badge variant="secondary" className="gap-1">
+                      <Bot size={14} /> DeepSeek AI
+                    </Badge>
+                    <Badge variant="secondary" className="gap-1">
+                      <Bot size={14} /> Gemini AI
+                    </Badge>
+                  </div>
+                </div>
+                <div className="space-y-3 md:border-l md:pl-6">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                      <Lock className="w-4 h-4 text-purple-500" />
+                    </div>
+                    <h3 className="text-lg font-semibold">Authentication</h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="secondary" className="gap-1">
+                      <Lock size={14} /> Clerk
                     </Badge>
                   </div>
                 </div>
@@ -220,7 +275,10 @@ export default function AboutPage() {
         >
           <Card className="bg-transparent border border-border shadow-none text-muted-foreground">
             <CardHeader>
-              <CardTitle>Meet the Developer</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Users className="w-5 h-5 text-primary" />
+                Meet the Developer
+              </CardTitle>
               <CardDescription>The creator behind the chatbot</CardDescription>
             </CardHeader>
             <CardContent>
@@ -250,7 +308,9 @@ export default function AboutPage() {
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          Portfolio <ExternalLink size={16} />
+                          Portfolio 
+                          <ExternalLink size={16} />
+                          
                         </a>
                       </Button>
                  
@@ -261,7 +321,8 @@ export default function AboutPage() {
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          GitHub <Github size={16} />
+                          <Github size={16} />
+                          GitHub 
                         </a>
                       </Button>
 
@@ -270,7 +331,8 @@ export default function AboutPage() {
                           href="mailto:darapureddymanikanta8@gmail.com"
                           rel="noopener noreferrer"
                         >
-                         <Mail size={16} />
+                          <Mail size={16} />
+                         
                         </a>
                       </Button>
                  
@@ -292,18 +354,21 @@ export default function AboutPage() {
         >
           <Card className="text-center bg-transparent border border-border shadow-none">
             <CardHeader>
-              <CardTitle>Have any questions?</CardTitle>
+              <CardTitle className="flex items-center justify-center gap-2">
+                <MessageSquare className="w-5 h-5 text-primary" />
+                Have any questions?
+              </CardTitle>
               <CardDescription>
                 Start a conversation with our chatbot for more help.
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <a
-                href="/chat"
-                className="inline-block rounded-md bg-primary px-6 py-2 text-base font-medium text-white shadow-md transition-transform duration-300 ease-in-out hover:scale-105"
-              >
-                Chat Now
-              </a>
+              <Button asChild className="gap-2 px-6 py-3">
+                <a href="/chat">
+                  <Zap size={16} />
+                  Chat Now
+                </a>
+              </Button>
             </CardContent>
           </Card>
         </motion.div>
