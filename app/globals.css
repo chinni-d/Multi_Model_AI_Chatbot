@@ -8,6 +8,36 @@
     display: none; /* Chrome, Safari, Opera */
   }
 }
+
+/* Custom light scrollbar for some elements */
+.light-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.light-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.light-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.2);
+  border-radius: 10px;
+}
+
+.light-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.4);
+}
+
+/* Styled scrollbar for ScrollArea component */
+.scrollbar-styled {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+}
+
+/* Smooth scrolling for the entire application */
+.scrollbar-smooth {
+  scroll-behavior: smooth;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -82,4 +112,31 @@
 
 .animate-fade-in {
   animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Custom scrollbar styles for the application */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--secondary) / 0.5);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.4);
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.6);
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--muted-foreground) / 0.4) hsl(var(--secondary) / 0.5);
 }

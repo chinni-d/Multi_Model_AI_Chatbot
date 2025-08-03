@@ -27,7 +27,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className="[scrollbar-gutter:stable]"
       >
-        <body className={cn(inter.className, "overflow-x-hidden")}>
+        <body className={cn(inter.className, "overflow-x-hidden scrollbar-smooth")}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <div className="relative min-h-screen flex flex-col">
               {/* Background Pattern */}

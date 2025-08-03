@@ -545,7 +545,7 @@ I was developed by Manikanta Darapureddy.
         <div className="flex flex-1 flex-col">
           <div
             ref={chatContainerRef}
-            className="rounded-lg p-4 custom-scrollbar-hide flex-1"
+            className="rounded-lg p-4 light-scrollbar flex-1 overflow-auto"
             style={{ backgroundColor: "transparent" }}
           >
             {messages.length === 0 ? (
