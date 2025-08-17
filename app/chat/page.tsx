@@ -556,15 +556,15 @@ I was developed by Manikanta Darapureddy.
                 </div>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-2">
               {messages.map((message) => (
                 <div
                   key={message.id}
                   className={cn(
-                    "flex animate-fade-in items-start space-x-3 max-w-[95%] sm:max-w-[80%]",
+                    "flex animate-fade-in items-start space-x-3",
                     message.role === "user"
-                      ? "ml-auto justify-end"
-                      : "mr-auto justify-start"
+                      ? "ml-auto justify-end max-w-[95%] sm:max-w-[80%]"
+                      : "mr-auto justify-start w-full"
                   )}
                 >
                   {message.role === "assistant" && (
@@ -583,8 +583,8 @@ I was developed by Manikanta Darapureddy.
                       className={cn(
                         "rounded-lg p-3 max-w-full overflow-hidden",
                         message.role === "user"
-                          ? "bg-foreground text-background min-w-16"
-                          : "bg-muted"
+                          ? " min-w-16"
+                          : ""
                       )}
                     >
                       <div className="text-sm sm:text-[15px] text-left sm:text-justify overflow-hidden break-words">
