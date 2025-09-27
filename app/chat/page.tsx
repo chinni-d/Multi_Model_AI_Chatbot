@@ -432,16 +432,28 @@ I was developed by Manikanta Darapureddy.
     }
 
     try {
-      const apiUrl =
-        feature === "gpt-4.1"
-          ? "https://chatbot-ss-api-2.vercel.app/api/chat"
-          : feature === "gpt-4o-mini"
-          ? "https://chatbot-ss-api-1.vercel.app/api/chat"
-          : feature === "gemini-2.0-pro"
-          ? "https://chatbot-ss-api-3.vercel.app/api/chat"
-          : feature === "deepseek-r1"
-          ? "https://chatbot-ss-api-4.vercel.app/api/chat"
-          : "https://chatbot-ss-api-1.vercel.app/api/chat";
+      // Get API URL from environment variables based on selected feature
+      const getApiUrl = (selectedFeature: string): string => {
+        switch (selectedFeature) {
+          case "gpt-4.1":
+            return process.env.NEXT_PUBLIC_GPT_4_1_API_URL || "";
+          case "gpt-4o-mini":
+            return process.env.NEXT_PUBLIC_GPT_4O_MINI_API_URL || "";
+          case "gemini-2.0-pro":
+            return process.env.NEXT_PUBLIC_GEMINI_2_PRO_API_URL || "";
+          case "deepseek-r1":
+            return process.env.NEXT_PUBLIC_DEEPSEEK_R1_API_URL || "";
+          default:
+            return process.env.NEXT_PUBLIC_DEFAULT_API_URL || "";
+        }
+      };
+
+      const apiUrl = getApiUrl(feature);
+      
+      // Validate that API URL is available
+      if (!apiUrl) {
+        throw new Error(`API URL not configured for model: ${feature}`);
+      }
 
       // Build conversation history for the API
       const history = messages.map((msg) => ({
