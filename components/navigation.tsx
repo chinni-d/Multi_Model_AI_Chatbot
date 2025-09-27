@@ -89,13 +89,13 @@ const Navigation = () => {
               <span className="font-bold">AI Chatbot</span>
             </Link>
           </div>
-          <nav className="flex items-center justify-center gap-6">
+          <nav className="flex items-center justify-center gap-8">
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 href={item.path}
                 className={cn(
-                  "relative text-sm font-medium transition-colors hover:text-primary",
+                  "relative text-sm font-bold transition-colors hover:text-primary px-2 py-1 h-16 flex items-center",
                   pathname === item.path
                     ? "text-primary"
                     : "text-muted-foreground",
@@ -104,7 +104,7 @@ const Navigation = () => {
                 {item.name}
                 {pathname === item.path && (
                   <motion.span
-                    className="absolute -bottom-1.5 left-0 w-full h-0.5 bg-primary"
+                    className="absolute bottom-0 left-0 w-full h-0.5 bg-primary"
                     layoutId="underline"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
@@ -143,7 +143,7 @@ const Navigation = () => {
           <div className="flex items-center justify-between p-4 border-b">
             <Link href="/" className="flex items-center space-x-2">
               <Image src="/logo.png" alt="AI Chatbot logo" width={34} height={34} className="dark:brightness-0 dark:invert" />
-              <span className="font-bold">AI Chatbot</span>
+              <span className="font-bold">Chatbot</span>
             </Link>
             <Button
               size="icon"
@@ -182,7 +182,7 @@ const Navigation = () => {
           </Button>
           <Link href="/" className="flex items-center space-x-2">
             <Image src="/logo.png" alt="AI Chatbot logo" width={34} height={34} className="dark:brightness-0 dark:invert" />
-            <span className="text-lg font-bold">AI Chatbot</span>
+            <span className="text-lg font-bold">Chatbot</span>
           </Link>
           <div className="flex items-center gap-2">
             <ThemeToggle />
