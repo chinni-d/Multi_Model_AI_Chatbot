@@ -205,19 +205,19 @@ export default function AboutPage() {
                     <h3 className="text-lg font-semibold">Frontend</h3>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <Badge variant="secondary" className="gap-1">
+                    <Badge variant="secondary" className="gap-1 bg-black/10 text-black dark:bg-white/10 dark:text-white border-black/20 dark:border-white/20">
                       <Code size={14} /> Next.js
                     </Badge>
-                    <Badge variant="secondary" className="gap-1">
+                    <Badge variant="secondary" className="gap-1 bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 border-cyan-500/20">
                       <Orbit size={14} /> React
                     </Badge>
-                    <Badge variant="secondary" className="gap-1">
+                    <Badge variant="secondary" className="gap-1 bg-blue-600/10 text-blue-700 dark:text-blue-400 border-blue-600/20">
                       <Code size={14} /> TypeScript
                     </Badge>
-                    <Badge variant="secondary" className="gap-1">
+                    <Badge variant="secondary" className="gap-1 bg-teal-500/10 text-teal-700 dark:text-teal-400 border-teal-500/20">
                       <Palette size={14} /> Tailwind CSS
                     </Badge>
-                    <Badge variant="secondary" className="gap-1">
+                    <Badge variant="secondary" className="gap-1 bg-slate-800/10 text-slate-800 dark:bg-slate-200/10 dark:text-slate-200 border-slate-800/20 dark:border-slate-200/20">
                       <Component size={14} /> Shadcn UI
                     </Badge>
                   </div>
@@ -230,19 +230,19 @@ export default function AboutPage() {
                     <h3 className="text-lg font-semibold">Backend & AI</h3>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <Badge variant="secondary" className="gap-1">
+                    <Badge variant="secondary" className="gap-1 bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20">
                       <Database size={14} /> Python/Uvicorn
                     </Badge>
-                    <Badge variant="secondary" className="gap-1">
+                    <Badge variant="secondary" className="gap-1 bg-green-600/10 text-green-700 dark:text-green-400 border-green-600/20">
                       <Bot size={14} /> GPT-4.1
                     </Badge>
-                    <Badge variant="secondary" className="gap-1">
+                    <Badge variant="secondary" className="gap-1 bg-green-500/10 text-green-600 dark:text-green-300 border-green-500/20">
                       <Bot size={14} /> GPT-4o-mini
                     </Badge>
-                    <Badge variant="secondary" className="gap-1">
+                    <Badge variant="secondary" className="gap-1 bg-indigo-600/10 text-indigo-700 dark:text-indigo-400 border-indigo-600/20">
                       <Bot size={14} /> DeepSeek AI
                     </Badge>
-                    <Badge variant="secondary" className="gap-1">
+                    <Badge variant="secondary" className="gap-1 bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20">
                       <Bot size={14} /> Gemini AI
                     </Badge>
                   </div>
@@ -255,7 +255,7 @@ export default function AboutPage() {
                     <h3 className="text-lg font-semibold">Authentication</h3>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <Badge variant="secondary" className="gap-1">
+                    <Badge variant="secondary" className="gap-1 bg-purple-600/10 text-purple-700 dark:text-purple-400 border-purple-600/20">
                       <Lock size={14} /> Clerk
                     </Badge>
                   </div>
@@ -303,7 +303,7 @@ export default function AboutPage() {
                   </p>
                   <div className="flex flex-wrap justify-center md:justify-start gap-4">
                   
-                      <Button variant="default" asChild className="gap-2">
+                      <Button variant="outline" asChild className="gap-2 bg-purple-600/10 hover:bg-purple-600/20 text-purple-600 dark:text-purple-400 border-purple-600/20">
                         <a
                           href="https://www.dmanikanta.me"
                           target="_blank"
@@ -316,7 +316,7 @@ export default function AboutPage() {
                       </Button>
                  
                   
-                      <Button variant="outline" asChild className="gap-2">
+                      <Button variant="outline" asChild className="gap-2 bg-gray-900/10 hover:bg-gray-900/20 text-gray-900 dark:bg-white/10 dark:hover:bg-white/20 dark:text-white border-gray-900/20 dark:border-white/20">
                         <a
                           href="https://github.com/chinni-d"
                           target="_blank"
@@ -327,24 +327,24 @@ export default function AboutPage() {
                         </a>
                       </Button>
 
-                      <Button variant="outline" asChild className="gap-2">
+                      <Button variant="outline" asChild className="gap-2 bg-blue-600/10 hover:bg-blue-600/20 text-blue-600 dark:text-blue-400 border-blue-600/20">
                         <a
                           href="https://linkedin.com/in/manikanta-darapureddy-6a1125314/"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
                           <Linkedin size={16} />
-                       
+                     
                         </a>
                       </Button>
 
-                      <Button variant="outline" asChild className="gap-2">
+                      <Button variant="outline" asChild className="gap-2 bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 border-red-500/20">
                         <a
                           href="mailto:darapureddymanikanta8@gmail.com"
                           rel="noopener noreferrer"
                         >
                           <Mail size={16} />
-                      
+                     
                         </a>
                       </Button>
                  
