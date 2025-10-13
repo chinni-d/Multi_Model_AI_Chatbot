@@ -22,6 +22,7 @@ import {
   Palette,
   Mail,
   Github,
+  Linkedin,
   Database,
   Cpu,
   Globe,
@@ -322,7 +323,18 @@ export default function AboutPage() {
                           rel="noopener noreferrer"
                         >
                           <Github size={16} />
-                          GitHub 
+                      
+                        </a>
+                      </Button>
+
+                      <Button variant="outline" asChild className="gap-2">
+                        <a
+                          href="https://linkedin.com/in/manikanta-darapureddy-6a1125314/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Linkedin size={16} />
+                       
                         </a>
                       </Button>
 
@@ -332,7 +344,7 @@ export default function AboutPage() {
                           rel="noopener noreferrer"
                         >
                           <Mail size={16} />
-                         
+                      
                         </a>
                       </Button>
                  
