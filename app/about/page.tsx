@@ -35,6 +35,7 @@ import {
   Users,
   Target,
   Brain,
+  CheckCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { SparklesText } from "@/components/sparkles-text";
@@ -117,29 +118,29 @@ export default function AboutPage() {
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <Lightbulb className="w-4 h-4 text-blue-500" />
+                    <CheckCircle className="w-4 h-4 text-green-500" />
                     <span>Answer questions on a wide range of topics</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Target className="w-4 h-4 text-green-500" />
+                    <CheckCircle className="w-4 h-4 text-green-500" />
                     <span>Provide explanations and clarifications</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Brain className="w-4 h-4 text-purple-500" />
+                    <CheckCircle className="w-4 h-4 text-green-500" />
                     <span>Offer suggestions and recommendations</span>
                   </div>
                 </div>
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <MessageSquare className="w-4 h-4 text-orange-500" />
+                    <CheckCircle className="w-4 h-4 text-green-500" />
                     <span>Engage in natural, flowing conversations</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Clock className="w-4 h-4 text-teal-500" />
+                    <CheckCircle className="w-4 h-4 text-green-500" />
                     <span>Available anytime, with instant responses</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Zap className="w-4 h-4 text-yellow-500" />
+                    <CheckCircle className="w-4 h-4 text-green-500" />
                     <span>Maintains context throughout conversations</span>
                   </div>
                 </div>
@@ -148,7 +149,7 @@ export default function AboutPage() {
           </Card>
         </motion.div>
 
-        {/* Our Technology */}
+        {/* Our Technology 
         <motion.div
           variants={revealVariant}
           initial="hidden"
@@ -181,7 +182,8 @@ export default function AboutPage() {
               </p>
             </CardContent>
           </Card>
-        </motion.div>
+        </motion.div>*
+        /}
 
         {/* Tech Stack */}
         <motion.div
@@ -327,7 +329,7 @@ export default function AboutPage() {
                 <img
                   src="/me.png"
                   alt="Developer"
-                  className="w-32 h-32 rounded-full object-cover shadow-md"
+                  className="w-32 h-32 rounded-full object-cover shadow-md cursor-pointer transition-transform duration-300 hover:scale-110 hover:shadow-xl"
                 />
                 <div className="flex-1 space-y-4 text-center md:text-left">
                   <p className="text-muted-foreground">
