@@ -34,7 +34,7 @@ import { UserActions } from "@/components/admin/user-actions";
 import { Toaster } from "@/components/ui/toaster";
 
 export default function AdminPanel() {
-  const { user, isAdmin, loading, users, stats, error, refreshData } =
+  const { user, isAdmin, loading, users, stats, error, refreshData, isLoaded } =
     useAdminData();
   const [filter, setFilter] = useState("all");
   const [refreshing, setRefreshing] = useState(false);
@@ -56,6 +56,52 @@ export default function AdminPanel() {
     await refreshData();
     setRefreshing(false);
   };
+
+  if (!isLoaded || loading) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <Skeleton className="h-8 w-48 bg-muted/30" />
+            <Skeleton className="h-4 w-96 bg-muted/20" />
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {[...Array(3)].map((_, i) => (
+              <Card key={i} className="bg-background/30 backdrop-blur-sm border border-border/30">
+                <CardContent className="p-6">
+                  <div className="flex items-center space-x-4">
+                    <Skeleton className="h-10 w-10 rounded-lg bg-muted/40" />
+                    <div className="flex-1 space-y-2">
+                      <Skeleton className="h-4 w-20 bg-muted/40" />
+                      <Skeleton className="h-8 w-16 bg-muted/50" />
+                      <Skeleton className="h-3 w-24 bg-muted/30" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          <Card className="bg-background/30 backdrop-blur-sm border border-border/30">
+            <CardHeader>
+              <div className="space-y-2">
+                <Skeleton className="h-6 w-32 bg-muted/40" />
+                <Skeleton className="h-4 w-48 bg-muted/30" />
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  {[...Array(6)].map((_, i) => (
+                    <Skeleton key={i} className="h-4 w-full bg-muted/20" />
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   if (!user) {
     return (
@@ -133,77 +179,6 @@ export default function AdminPanel() {
   const formatTime = (dateString: string) => {
     return new Date(dateString).toLocaleString();
   };
-
-  if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <Skeleton className="h-8 w-48 bg-muted/30" />
-            <Skeleton className="h-4 w-96 bg-muted/20" />
-          </div>
-          <div className="grid gap-4 md:grid-cols-3">
-            {[...Array(3)].map((_, i) => (
-              <Card
-                key={i}
-                className="bg-background/30 backdrop-blur-sm border border-border/30"
-              >
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <Skeleton className="h-4 w-20 bg-muted/40" />
-                  <Skeleton className="h-4 w-4 bg-muted/40" />
-                </CardHeader>
-                <CardContent>
-                  <Skeleton className="h-8 w-16 bg-muted/50 mb-2" />
-                  <Skeleton className="h-3 w-24 bg-muted/30" />
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          <Card className="bg-background/30 backdrop-blur-sm border border-border/30">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div className="space-y-2">
-                  <Skeleton className="h-6 w-32 bg-muted/40" />
-                  <Skeleton className="h-4 w-48 bg-muted/30" />
-                </div>
-                <Skeleton className="h-8 w-16 bg-muted/40" />
-              </div>
-              <div className="flex space-x-2 pt-4">
-                {[...Array(4)].map((_, i) => (
-                  <Skeleton key={i} className="h-8 w-20 bg-muted/30" />
-                ))}
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  {[...Array(6)].map((_, i) => (
-                    <Skeleton key={i} className="h-4 w-full bg-muted/20" />
-                  ))}
-                </div>
-                <div className="space-y-3">
-                  {[...Array(5)].map((_, i) => (
-                    <div key={i} className="flex items-center space-x-4">
-                      <Skeleton className="h-8 w-8 rounded-full bg-muted/40" />
-                      <div className="space-y-2 flex-1">
-                        <Skeleton className="h-4 w-32 bg-muted/40" />
-                        <Skeleton className="h-3 w-48 bg-muted/30" />
-                      </div>
-                      <Skeleton className="h-6 w-16 bg-muted/30" />
-                      <Skeleton className="h-6 w-16 bg-muted/30" />
-                      <Skeleton className="h-6 w-24 bg-muted/30" />
-                      <Skeleton className="h-6 w-20 bg-muted/30" />
-                      <Skeleton className="h-8 w-8 bg-muted/30" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
-  }
 
   if (!stats) return null;
 

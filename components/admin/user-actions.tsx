@@ -19,7 +19,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { MoreHorizontal, UserMinus, Shield, ShieldOff, Loader2 } from "lucide-react";
+import {
+  MoreHorizontal,
+  UserMinus,
+  Shield,
+  ShieldOff,
+  Loader2,
+} from "lucide-react";
 import { UserData } from "@/hooks/use-admin";
 import { toast } from "@/hooks/use-toast";
 

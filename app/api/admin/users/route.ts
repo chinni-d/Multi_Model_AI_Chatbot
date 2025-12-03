@@ -32,7 +32,7 @@ export async function GET() {
         limit,
         offset,
       });
-      
+
       allUsers = [...allUsers, ...clerkUsersPage.data];
       hasMore = clerkUsersPage.data.length === limit;
       offset += limit;

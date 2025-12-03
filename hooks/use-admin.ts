@@ -20,7 +20,7 @@ export interface AdminStats {
 }
 
 export function useAdminData() {
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState<UserData[]>([]);
   const [stats, setStats] = useState<AdminStats | null>(null);
@@ -33,6 +33,10 @@ export function useAdminData() {
 
   useEffect(() => {
     const fetchAdminData = async () => {
+      if (!isLoaded) {
+        return; // Wait for Clerk to load
+      }
+      
       if (!user || !isAdmin) {
         setLoading(false);
         return;
@@ -84,7 +88,7 @@ export function useAdminData() {
     };
 
     fetchAdminData();
-  }, [user, isAdmin]);
+  }, [user, isAdmin, isLoaded]);
 
   const refreshData = async () => {
     if (!user || !isAdmin) return;
@@ -141,5 +145,6 @@ export function useAdminData() {
     stats,
     error,
     refreshData,
+    isLoaded,
   };
 }
