@@ -4,18 +4,18 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import {
-  Menu,
-  X,
-  Home,
-  Info,
-  MessageCircle,
-} from "lucide-react";
+import { Menu, X, Home, Info, MessageCircle, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+  useUser,
+} from "@clerk/nextjs";
 import { motion } from "framer-motion";
 
 const navItems = [
@@ -29,6 +29,17 @@ const Navigation = () => {
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const isMobile = useMobile();
+  const { user } = useUser();
+
+  // Check if user is admin
+  const isAdmin =
+    user?.emailAddresses?.[0]?.emailAddress?.includes("admin") ||
+    user?.publicMetadata?.role === "admin";
+
+  // Add admin link if user is admin
+  const navigationItems = isAdmin
+    ? [...navItems, { name: "Admin", path: "/admin", icon: Shield }]
+    : navItems;
 
   useEffect(() => {
     setMounted(true);
@@ -85,12 +96,18 @@ const Navigation = () => {
         <div className="container mx-auto grid h-full max-w-7xl grid-cols-3 items-center px-6">
           <div className="flex items-center justify-start">
             <Link href="/" className="flex items-center space-x-2">
-              <Image src="/logo.png" alt="AI Chatbot logo" width={42} height={42} className="dark:brightness-0 dark:invert" />
+              <Image
+                src="/logo.png"
+                alt="AI Chatbot logo"
+                width={42}
+                height={42}
+                className="dark:brightness-0 dark:invert"
+              />
               <span className="font-bold">AI Chatbot</span>
             </Link>
           </div>
           <nav className="flex items-center justify-center gap-8">
-            {navItems.map((item) => (
+            {navigationItems.map((item) => (
               <Link
                 key={item.path}
                 href={item.path}
@@ -98,7 +115,7 @@ const Navigation = () => {
                   "relative text-sm font-bold transition-colors hover:text-primary px-2 py-1 h-16 flex items-center",
                   pathname === item.path
                     ? "text-primary"
-                    : "text-muted-foreground",
+                    : "text-muted-foreground"
                 )}
               >
                 {item.name}
@@ -116,7 +133,9 @@ const Navigation = () => {
             <ThemeToggle />
             <SignedOut>
               <SignInButton mode="modal">
-                <Button variant="outline" size="sm">Sign In</Button>
+                <Button variant="outline" size="sm">
+                  Sign In
+                </Button>
               </SignInButton>
             </SignedOut>
             <SignedIn>
@@ -142,7 +161,13 @@ const Navigation = () => {
         >
           <div className="flex items-center justify-between p-4 border-b">
             <Link href="/" className="flex items-center space-x-2">
-              <Image src="/logo.png" alt="AI Chatbot logo" width={34} height={34} className="dark:brightness-0 dark:invert" />
+              <Image
+                src="/logo.png"
+                alt="AI Chatbot logo"
+                width={34}
+                height={34}
+                className="dark:brightness-0 dark:invert"
+              />
               <span className="font-bold">Chatbot</span>
             </Link>
             <Button
@@ -154,7 +179,7 @@ const Navigation = () => {
             </Button>
           </div>
           <nav className="flex flex-col gap-2 p-4">
-            {navItems.map((item) => (
+            {navigationItems.map((item) => (
               <Link
                 key={item.path}
                 href={item.path}
@@ -181,14 +206,22 @@ const Navigation = () => {
             <Menu className="h-6 w-6" />
           </Button>
           <Link href="/" className="flex items-center space-x-2">
-            <Image src="/logo.png" alt="AI Chatbot logo" width={34} height={34} className="dark:brightness-0 dark:invert" />
+            <Image
+              src="/logo.png"
+              alt="AI Chatbot logo"
+              width={34}
+              height={34}
+              className="dark:brightness-0 dark:invert"
+            />
             <span className="text-lg font-bold">Chatbot</span>
           </Link>
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <SignedOut>
               <SignInButton mode="modal">
-                <Button variant="outline" size="sm">Sign In</Button>
+                <Button variant="outline" size="sm">
+                  Sign In
+                </Button>
               </SignInButton>
             </SignedOut>
             <SignedIn>
