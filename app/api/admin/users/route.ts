@@ -21,11 +21,25 @@ export async function GET() {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    // Fetch all users
-    const clerkUsers = await client.users.getUserList();
+    // Fetch all users with pagination
+    let allUsers: any[] = [];
+    let hasMore = true;
+    let offset = 0;
+    const limit = 100; // Fetch in batches of 100
+
+    while (hasMore) {
+      const clerkUsersPage = await client.users.getUserList({
+        limit,
+        offset,
+      });
+      
+      allUsers = [...allUsers, ...clerkUsersPage.data];
+      hasMore = clerkUsersPage.data.length === limit;
+      offset += limit;
+    }
 
     // Transform Clerk users to our UserData format
-    const users = clerkUsers.data.map((clerkUser: any) => ({
+    const users = allUsers.map((clerkUser: any) => ({
       id: clerkUser.id,
       name:
         clerkUser.fullName ||
