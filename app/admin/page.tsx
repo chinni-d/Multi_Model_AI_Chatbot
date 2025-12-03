@@ -331,7 +331,7 @@ export default function AdminPanel() {
                 <CardDescription>
                   View and manage all users in your system
                 </CardDescription>
-                <div className="flex space-x-2">
+                <div className="flex flex-wrap gap-2">
                   <Button
                     variant={filter === "all" ? "default" : "outline"}
                     size="sm"
