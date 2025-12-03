@@ -205,7 +205,7 @@ export default function AboutPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center">
@@ -246,7 +246,29 @@ export default function AboutPage() {
                     </Badge>
                   </div>
                 </div>
-                <div className="space-y-3 md:border-l md:pl-6">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-orange-500/10 rounded-lg flex items-center justify-center">
+                      <Database className="w-4 h-4 text-orange-500" />
+                    </div>
+                    <h3 className="text-lg font-semibold">Database</h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge
+                      variant="secondary"
+                      className="gap-1 bg-green-600/10 text-green-700 dark:text-green-400 border-green-600/20"
+                    >
+                      <Database size={14} /> MongoDB
+                    </Badge>
+                    <Badge
+                      variant="secondary"
+                      className="gap-1 bg-indigo-600/10 text-indigo-700 dark:text-indigo-400 border-indigo-600/20"
+                    >
+                      <Database size={14} /> Prisma ORM
+                    </Badge>
+                  </div>
+                </div>
+                <div className="space-y-3">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 bg-green-500/10 rounded-lg flex items-center justify-center">
                       <Server className="w-4 h-4 text-green-500" />
@@ -258,7 +280,7 @@ export default function AboutPage() {
                       variant="secondary"
                       className="gap-1 bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20"
                     >
-                      <Database size={14} /> Python/Uvicorn
+                      <Server size={14} /> API Routes
                     </Badge>
                     <Badge
                       variant="secondary"
@@ -286,7 +308,7 @@ export default function AboutPage() {
                     </Badge>
                   </div>
                 </div>
-                <div className="space-y-3 md:border-l md:pl-6">
+                <div className="space-y-3">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 bg-purple-500/10 rounded-lg flex items-center justify-center">
                       <Lock className="w-4 h-4 text-purple-500" />
