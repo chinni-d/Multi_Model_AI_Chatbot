@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { useMessageTracking } from "@/hooks/use-message-tracking";
 
 // Feature options (keep at top level)
 const FEATURE_OPTIONS = [
@@ -271,6 +272,7 @@ const formatMessageContent = (content: string) => {
 
 export default function ChatPage() {
   const { user } = useUser();
+  const { trackMessage } = useMessageTracking();
   // Feature selection state (must be inside the component)
   const [feature, setFeature] = useState("gpt-4.1");
   const [input, setInput] = useState("");
@@ -371,6 +373,13 @@ export default function ChatPage() {
     setInput("");
     setIsLoading(true);
 
+    // Track user request
+    try {
+      await trackMessage('request');
+    } catch (error) {
+      console.error('Failed to track request:', error);
+    }
+
     // Reset textarea height to original single line using ref
     if (textareaRef.current) {
       textareaRef.current.style.height = '40px';
@@ -428,6 +437,14 @@ I was developed by Manikanta Darapureddy.
       };
       setMessages((prev) => [...prev, assistantMessage]);
       setIsLoading(false);
+      
+      // Track assistant response
+      try {
+        await trackMessage('response');
+      } catch (error) {
+        console.error('Failed to track response:', error);
+      }
+      
       return;
     }
 
@@ -489,6 +506,13 @@ I was developed by Manikanta Darapureddy.
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
+      
+      // Track assistant response
+      try {
+        await trackMessage('response');
+      } catch (error) {
+        console.error('Failed to track response:', error);
+      }
     } catch (error) {
       console.error("API error:", error);
       const modelName = FEATURE_OPTIONS.find(opt => opt.value === feature)?.label || feature;

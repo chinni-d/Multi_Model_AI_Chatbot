@@ -25,6 +25,7 @@ import {
   Shield,
   ShieldOff,
   Loader2,
+  RotateCcw,
 } from "lucide-react";
 import { UserData } from "@/hooks/use-admin";
 import { toast } from "@/hooks/use-toast";
@@ -38,6 +39,7 @@ export function UserActions({ user, onUserUpdate }: UserActionsProps) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showPromoteDialog, setShowPromoteDialog] = useState(false);
   const [showDemoteDialog, setShowDemoteDialog] = useState(false);
+  const [showResetCountsDialog, setShowResetCountsDialog] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
   const handlePromoteUser = async () => {
@@ -93,6 +95,35 @@ export function UserActions({ user, onUserUpdate }: UserActionsProps) {
         variant: "destructive",
       });
       console.error("Error demoting user:", error);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleResetCounts = async () => {
+    setIsUpdating(true);
+    try {
+      const response = await fetch(`/api/admin/users/${user.id}/reset-counts`, {
+        method: "POST",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to reset counts");
+      }
+
+      onUserUpdate?.(user.id, { requestCount: 0, responseCount: 0 });
+      setShowResetCountsDialog(false);
+      toast({
+        title: "Counts reset",
+        description: `Message counts for ${user.name} have been reset to 0.`,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to reset message counts.",
+        variant: "destructive",
+      });
+      console.error("Error resetting counts:", error);
     } finally {
       setIsUpdating(false);
     }
@@ -169,6 +200,17 @@ export function UserActions({ user, onUserUpdate }: UserActionsProps) {
               Demote to User
             </DropdownMenuItem>
           )}
+
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem
+            onClick={() => setShowResetCountsDialog(true)}
+            disabled={isUpdating}
+            className="hover:bg-background/80"
+          >
+            <RotateCcw className="mr-2 h-4 w-4" />
+            Reset Message Counts
+          </DropdownMenuItem>
 
           <DropdownMenuSeparator />
 
@@ -281,6 +323,41 @@ export function UserActions({ user, onUserUpdate }: UserActionsProps) {
                 <>
                   <ShieldOff className="mr-2 h-4 w-4" />
                   Demote
+                </>
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Reset Counts confirmation dialog */}
+      <AlertDialog open={showResetCountsDialog} onOpenChange={setShowResetCountsDialog}>
+        <AlertDialogContent className="bg-background/95 backdrop-blur-sm border border-border/50">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Reset Message Counts</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to reset the message counts for {user.name}? 
+              This will set both request count and response count to 0. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="bg-background/50 backdrop-blur-sm border-border/50 hover:bg-background/70">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleResetCounts}
+              disabled={isUpdating}
+              className="bg-primary text-primary-foreground hover:bg-primary/90 min-w-[100px]"
+            >
+              {isUpdating ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Resetting...
+                </>
+              ) : (
+                <>
+                  <RotateCcw className="mr-2 h-4 w-4" />
+                  Reset Counts
                 </>
               )}
             </AlertDialogAction>

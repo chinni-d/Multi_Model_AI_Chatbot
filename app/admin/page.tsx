@@ -381,6 +381,8 @@ export default function AdminPanel() {
                       <TableHead>User</TableHead>
                       <TableHead>Role</TableHead>
                       <TableHead>Status</TableHead>
+                      <TableHead>Requests</TableHead>
+                      <TableHead>Responses</TableHead>
                       <TableHead>Last Seen</TableHead>
                       <TableHead>Join Date</TableHead>
                       <TableHead className="w-[50px]">Actions</TableHead>
@@ -406,6 +408,12 @@ export default function AdminPanel() {
                             <Skeleton className="h-5 w-16 bg-muted/40" />
                           </TableCell>
                           <TableCell>
+                            <Skeleton className="h-4 w-12 bg-muted/30" />
+                          </TableCell>
+                          <TableCell>
+                            <Skeleton className="h-4 w-12 bg-muted/30" />
+                          </TableCell>
+                          <TableCell>
                             <Skeleton className="h-4 w-24 bg-muted/30" />
                           </TableCell>
                           <TableCell>
@@ -418,7 +426,7 @@ export default function AdminPanel() {
                       ))
                     ) : filteredUsers.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={6} className="h-24 text-center">
+                        <TableCell colSpan={8} className="h-24 text-center">
                           <div className="flex flex-col items-center justify-center space-y-2">
                             <Users className="h-8 w-8 text-muted-foreground" />
                             <p className="text-muted-foreground">
@@ -466,6 +474,16 @@ export default function AdminPanel() {
                             >
                               {user.isActive ? "Active" : "Inactive"}
                             </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <div className="font-medium">
+                              {user.requestCount || 0}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="font-medium">
+                              {user.responseCount || 0}
+                            </div>
                           </TableCell>
                           <TableCell>{formatTime(user.lastSeen)}</TableCell>
                           <TableCell>{formatDate(user.joinDate)}</TableCell>

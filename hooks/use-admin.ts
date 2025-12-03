@@ -10,6 +10,10 @@ export interface UserData {
   isActive: boolean;
   lastSeen: string;
   joinDate: string;
+  requestCount?: number;
+  responseCount?: number;
+  statsCreatedAt?: string | null;
+  statsUpdatedAt?: string | null;
 }
 
 export interface AdminStats {

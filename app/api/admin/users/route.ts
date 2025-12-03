@@ -1,5 +1,14 @@
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
+import { getAllUsersStats } from "@/lib/db";
+
+interface UserStats {
+  clerkId: string;
+  requestCount: number;
+  responseCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export async function GET() {
   try {
@@ -38,29 +47,43 @@ export async function GET() {
       offset += limit;
     }
 
+    // Get message counts for all users
+    const userStats = await getAllUsersStats();
+    const userStatsMap = new Map<string, UserStats>(
+      userStats.map((stat: UserStats) => [stat.clerkId, stat])
+    );
+
     // Transform Clerk users to our UserData format
-    const users = allUsers.map((clerkUser: any) => ({
-      id: clerkUser.id,
-      name:
-        clerkUser.fullName ||
-        `${clerkUser.firstName || ""} ${clerkUser.lastName || ""}`.trim() ||
-        "Unknown User",
-      email: clerkUser.emailAddresses[0]?.emailAddress || "No email",
-      avatar: clerkUser.imageUrl || "",
-      role:
-        (clerkUser.publicMetadata?.role as "admin" | "user") ||
-        (clerkUser.emailAddresses[0]?.emailAddress?.includes("admin")
-          ? "admin"
-          : "user"),
-      isActive:
-        !clerkUser.banned &&
-        (clerkUser.lastActiveAt
-          ? new Date(clerkUser.lastActiveAt).getTime() >
-            Date.now() - 7 * 24 * 60 * 60 * 1000
-          : true),
-      lastSeen: clerkUser.lastActiveAt || clerkUser.createdAt,
-      joinDate: clerkUser.createdAt,
-    }));
+    const users = allUsers.map((clerkUser: any) => {
+      const stats = userStatsMap.get(clerkUser.id);
+
+      return {
+        id: clerkUser.id,
+        name:
+          clerkUser.fullName ||
+          `${clerkUser.firstName || ""} ${clerkUser.lastName || ""}`.trim() ||
+          "Unknown User",
+        email: clerkUser.emailAddresses[0]?.emailAddress || "No email",
+        avatar: clerkUser.imageUrl || "",
+        role:
+          (clerkUser.publicMetadata?.role as "admin" | "user") ||
+          (clerkUser.emailAddresses[0]?.emailAddress?.includes("admin")
+            ? "admin"
+            : "user"),
+        isActive:
+          !clerkUser.banned &&
+          (clerkUser.lastActiveAt
+            ? new Date(clerkUser.lastActiveAt).getTime() >
+              Date.now() - 7 * 24 * 60 * 60 * 1000
+            : true),
+        lastSeen: clerkUser.lastActiveAt || clerkUser.createdAt,
+        joinDate: clerkUser.createdAt,
+        requestCount: stats?.requestCount ?? 0,
+        responseCount: stats?.responseCount ?? 0,
+        statsCreatedAt: stats?.createdAt ?? null,
+        statsUpdatedAt: stats?.updatedAt ?? null,
+      };
+    });
 
     return NextResponse.json({ users });
   } catch (error) {
