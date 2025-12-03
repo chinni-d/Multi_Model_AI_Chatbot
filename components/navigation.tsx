@@ -38,7 +38,11 @@ const Navigation = () => {
 
   // Add admin link if user is admin
   const navigationItems = isAdmin
-    ? [...navItems, { name: "Admin", path: "/admin", icon: Shield }]
+    ? [
+        ...navItems.slice(0, 2),
+        { name: "Admin", path: "/admin", icon: Shield },
+        ...navItems.slice(2),
+      ]
     : navItems;
 
   useEffect(() => {
@@ -106,19 +110,28 @@ const Navigation = () => {
               <span className="font-bold">AI Chatbot</span>
             </Link>
           </div>
-          <nav className="flex items-center justify-center gap-8">
+          <nav className="flex items-center justify-center gap-5">
             {navigationItems.map((item) => (
               <Link
                 key={item.path}
                 href={item.path}
                 className={cn(
-                  "relative text-sm font-bold transition-colors hover:text-primary px-2 py-1 h-16 flex items-center",
+                  "relative h-16 flex items-center px-1 group",
                   pathname === item.path
                     ? "text-primary"
-                    : "text-muted-foreground"
+                    : "text-muted-foreground hover:text-primary"
                 )}
               >
-                {item.name}
+                <span className="relative px-3 py-1.5 rounded-md text-sm font-bold transition-colors group-hover:bg-muted/50">
+                  {pathname === item.path && (
+                    <motion.span
+                      className="absolute inset-0 bg-muted rounded-md -z-10"
+                      layoutId="navbar-box"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                  {item.name}
+                </span>
                 {pathname === item.path && (
                   <motion.span
                     className="absolute bottom-0 left-0 w-full h-0.5 bg-primary"
