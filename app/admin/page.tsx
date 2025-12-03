@@ -57,7 +57,7 @@ export default function AdminPanel() {
     setRefreshing(false);
   };
 
-  if (!isLoaded || loading) {
+  if (!isLoaded) {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="space-y-6">
@@ -180,7 +180,7 @@ export default function AdminPanel() {
     return new Date(dateString).toLocaleString();
   };
 
-  if (!stats) return null;
+  // if (!stats) return null; // Removed to allow rendering while loading
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -203,11 +203,12 @@ export default function AdminPanel() {
               }`}
             >
               <RefreshCw
-                className={`h-4 w-4 mr-2 transition-transform duration-200 ${
+                className={`h-4 w-4 mr-2 transition-transform ${
                   refreshing ? "animate-spin" : ""
                 }`}
+                style={{ animationDuration: refreshing ? "2s" : undefined }}
               />
-              {refreshing ? "Refreshing..." : "Refresh"}
+              Refresh
             </Button>
           </div>
         </div>
@@ -225,23 +226,23 @@ export default function AdminPanel() {
                     Total Users
                   </p>
                   <div className="text-2xl font-bold">
-                    {refreshing ? (
+                    {loading || refreshing ? (
                       <Skeleton className="h-8 w-16 bg-muted/50" />
                     ) : (
-                      stats.totalUsers
+                      stats?.totalUsers ?? 0
                     )}
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    {refreshing ? (
+                  <div className="text-xs text-muted-foreground">
+                    {loading || refreshing ? (
                       <>
                         +
                         <Skeleton className="inline h-3 w-6 bg-muted/30 mx-1" />{" "}
                         new today
                       </>
                     ) : (
-                      `+${stats.newUsersToday} new today`
+                      `+${stats?.newUsersToday ?? 0} new today`
                     )}
-                  </p>
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -258,24 +259,24 @@ export default function AdminPanel() {
                     Active Users
                   </p>
                   <div className="text-2xl font-bold">
-                    {refreshing ? (
+                    {loading || refreshing ? (
                       <Skeleton className="h-8 w-16 bg-muted/50" />
                     ) : (
-                      stats.activeUsers
+                      stats?.activeUsers ?? 0
                     )}
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    {refreshing ? (
+                  <div className="text-xs text-muted-foreground">
+                    {loading || refreshing ? (
                       <>
                         <Skeleton className="inline h-3 w-8 bg-muted/30 mr-1" />
                         % of total
                       </>
                     ) : (
                       `${Math.round(
-                        (stats.activeUsers / stats.totalUsers) * 100
+                        ((stats?.activeUsers ?? 0) / (stats?.totalUsers || 1)) * 100
                       )}% of total`
                     )}
-                  </p>
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -292,24 +293,24 @@ export default function AdminPanel() {
                     Admin Users
                   </p>
                   <div className="text-2xl font-bold">
-                    {refreshing ? (
+                    {loading || refreshing ? (
                       <Skeleton className="h-8 w-16 bg-muted/50" />
                     ) : (
-                      stats.adminUsers
+                      stats?.adminUsers ?? 0
                     )}
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    {refreshing ? (
+                  <div className="text-xs text-muted-foreground">
+                    {loading || refreshing ? (
                       <>
                         <Skeleton className="inline h-3 w-8 bg-muted/30 mr-1" />
                         % of total
                       </>
                     ) : (
                       `${Math.round(
-                        (stats.adminUsers / stats.totalUsers) * 100
+                        ((stats?.adminUsers ?? 0) / (stats?.totalUsers || 1)) * 100
                       )}% of total`
                     )}
-                  </p>
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -336,7 +337,7 @@ export default function AdminPanel() {
                     size="sm"
                     onClick={() => setFilter("all")}
                   >
-                    All ({refreshing ? "..." : localUsers.length})
+                    All ({loading || refreshing ? "..." : localUsers.length})
                   </Button>
                   <Button
                     variant={filter === "admin" ? "default" : "outline"}
@@ -344,7 +345,7 @@ export default function AdminPanel() {
                     onClick={() => setFilter("admin")}
                   >
                     Admins (
-                    {refreshing
+                    {loading || refreshing
                       ? "..."
                       : localUsers.filter((u) => u.role === "admin").length}
                     )
@@ -355,7 +356,7 @@ export default function AdminPanel() {
                     onClick={() => setFilter("users")}
                   >
                     Users (
-                    {refreshing
+                    {loading || refreshing
                       ? "..."
                       : localUsers.filter((u) => u.role === "user").length}
                     )
@@ -366,7 +367,7 @@ export default function AdminPanel() {
                     onClick={() => setFilter("active")}
                   >
                     Active (
-                    {refreshing
+                    {loading || refreshing
                       ? "..."
                       : localUsers.filter((u) => u.isActive).length}
                     )
@@ -386,7 +387,36 @@ export default function AdminPanel() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filteredUsers.length === 0 ? (
+                    {loading || refreshing ? (
+                      [...Array(5)].map((_, i) => (
+                        <TableRow key={i}>
+                          <TableCell>
+                            <div className="flex items-center space-x-2">
+                              <Skeleton className="h-8 w-8 rounded-full bg-muted/40" />
+                              <div className="space-y-1">
+                                <Skeleton className="h-4 w-24 bg-muted/40" />
+                                <Skeleton className="h-3 w-32 bg-muted/30" />
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Skeleton className="h-5 w-16 bg-muted/40" />
+                          </TableCell>
+                          <TableCell>
+                            <Skeleton className="h-5 w-16 bg-muted/40" />
+                          </TableCell>
+                          <TableCell>
+                            <Skeleton className="h-4 w-24 bg-muted/30" />
+                          </TableCell>
+                          <TableCell>
+                            <Skeleton className="h-4 w-20 bg-muted/30" />
+                          </TableCell>
+                          <TableCell>
+                            <Skeleton className="h-8 w-8 bg-muted/40" />
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : filteredUsers.length === 0 ? (
                       <TableRow>
                         <TableCell colSpan={6} className="h-24 text-center">
                           <div className="flex flex-col items-center justify-center space-y-2">
@@ -401,12 +431,7 @@ export default function AdminPanel() {
                       </TableRow>
                     ) : (
                       filteredUsers.map((user) => (
-                        <TableRow
-                          key={user.id}
-                          className={
-                            refreshing ? "opacity-60 transition-opacity" : ""
-                          }
-                        >
+                        <TableRow key={user.id}>
                           <TableCell className="font-medium">
                             <div className="flex items-center space-x-2">
                               <Avatar className="h-8 w-8">
@@ -473,10 +498,10 @@ export default function AdminPanel() {
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium">Total Users</span>
                       <span className="text-sm text-muted-foreground">
-                        {refreshing ? (
+                        {loading || refreshing ? (
                           <Skeleton className="h-4 w-8 bg-muted/40" />
                         ) : (
-                          stats.totalUsers
+                          stats?.totalUsers ?? 0
                         )}
                       </span>
                     </div>
@@ -485,21 +510,22 @@ export default function AdminPanel() {
                         New Users Today
                       </span>
                       <span className="text-sm text-muted-foreground">
-                        {refreshing ? (
+                        {loading || refreshing ? (
                           <Skeleton className="h-4 w-8 bg-muted/40" />
                         ) : (
-                          stats.newUsersToday
+                          stats?.newUsersToday ?? 0
                         )}
                       </span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium">Active Rate</span>
                       <span className="text-sm text-muted-foreground">
-                        {refreshing ? (
+                        {loading || refreshing ? (
                           <Skeleton className="h-4 w-12 bg-muted/40" />
                         ) : (
                           `${Math.round(
-                            (stats.activeUsers / stats.totalUsers) * 100
+                            ((stats?.activeUsers ?? 0) / (stats?.totalUsers || 1)) *
+                              100
                           )}%`
                         )}
                       </span>

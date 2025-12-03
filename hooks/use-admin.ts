@@ -93,7 +93,6 @@ export function useAdminData() {
   const refreshData = async () => {
     if (!user || !isAdmin) return;
 
-    setLoading(true);
     setError(null);
 
     try {
@@ -132,8 +131,6 @@ export function useAdminData() {
     } catch (err) {
       console.error("Error refreshing admin data:", err);
       setError(err instanceof Error ? err.message : "Failed to refresh data");
-    } finally {
-      setLoading(false);
     }
   };
 
