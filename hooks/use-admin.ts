@@ -21,6 +21,8 @@ export interface AdminStats {
   activeUsers: number;
   adminUsers: number;
   newUsersToday: number;
+  totalRequests: number;
+  totalResponses: number;
 }
 
 export function useAdminData() {
@@ -71,12 +73,17 @@ export function useAdminData() {
         const newUsersToday = transformedUsers.filter(
           (u) => new Date(u.joinDate) >= todayStart
         );
+        
+        const totalRequests = transformedUsers.reduce((sum, user) => sum + (user.requestCount || 0), 0);
+        const totalResponses = transformedUsers.reduce((sum, user) => sum + (user.responseCount || 0), 0);
 
         const calculatedStats: AdminStats = {
           totalUsers: transformedUsers.length,
           activeUsers: activeUsers.length,
           adminUsers: adminUsers.length,
           newUsersToday: newUsersToday.length,
+          totalRequests,
+          totalResponses,
         };
 
         setUsers(transformedUsers);
@@ -122,12 +129,17 @@ export function useAdminData() {
       const newUsersToday = transformedUsers.filter(
         (u) => new Date(u.joinDate) >= todayStart
       );
+      
+      const totalRequests = transformedUsers.reduce((sum, user) => sum + (user.requestCount || 0), 0);
+      const totalResponses = transformedUsers.reduce((sum, user) => sum + (user.responseCount || 0), 0);
 
       const calculatedStats: AdminStats = {
         totalUsers: transformedUsers.length,
         activeUsers: activeUsers.length,
         adminUsers: adminUsers.length,
         newUsersToday: newUsersToday.length,
+        totalRequests,
+        totalResponses,
       };
 
       setUsers(transformedUsers);

@@ -214,8 +214,8 @@ export default function AdminPanel() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid gap-4 md:grid-cols-3">
-          <Card className="bg-background/50 backdrop-blur-sm border border-border/50">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <Card className="bg-transparent backdrop-blur-sm border border-border/50">
             <CardContent className="p-6">
               <div className="flex items-center space-x-4">
                 <div className="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
@@ -248,7 +248,7 @@ export default function AdminPanel() {
             </CardContent>
           </Card>
 
-          <Card className="bg-background/50 backdrop-blur-sm border border-border/50">
+          <Card className="bg-transparent backdrop-blur-sm border border-border/50">
             <CardContent className="p-6">
               <div className="flex items-center space-x-4">
                 <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
@@ -282,7 +282,7 @@ export default function AdminPanel() {
             </CardContent>
           </Card>
 
-          <Card className="bg-background/50 backdrop-blur-sm border border-border/50">
+          <Card className="bg-transparent backdrop-blur-sm border border-border/50">
             <CardContent className="p-6">
               <div className="flex items-center space-x-4">
                 <div className="p-2 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
@@ -315,6 +315,56 @@ export default function AdminPanel() {
               </div>
             </CardContent>
           </Card>
+
+          <Card className="bg-transparent backdrop-blur-sm border border-border/50">
+            <CardContent className="p-6">
+              <div className="flex items-center space-x-4">
+                <div className="p-2 bg-orange-100 dark:bg-orange-900/20 rounded-lg">
+                  <MessageSquare className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                </div>
+                <div className="flex-1 space-y-1">
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Total Requests
+                  </p>
+                  <div className="text-2xl font-bold">
+                    {loading || refreshing ? (
+                      <Skeleton className="h-8 w-16 bg-muted/50" />
+                    ) : (
+                      stats?.totalRequests ?? 0
+                    )}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    All time requests
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-transparent backdrop-blur-sm border border-border/50">
+            <CardContent className="p-6">
+              <div className="flex items-center space-x-4">
+                <div className="p-2 bg-teal-100 dark:bg-teal-900/20 rounded-lg">
+                  <RefreshCw className="h-6 w-6 text-teal-600 dark:text-teal-400" />
+                </div>
+                <div className="flex-1 space-y-1">
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Total Responses
+                  </p>
+                  <div className="text-2xl font-bold">
+                    {loading || refreshing ? (
+                      <Skeleton className="h-8 w-16 bg-muted/50" />
+                    ) : (
+                      stats?.totalResponses ?? 0
+                    )}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    All time responses
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Main Content */}
@@ -325,7 +375,7 @@ export default function AdminPanel() {
           </TabsList>
 
           <TabsContent value="users" className="space-y-4">
-            <Card className="bg-background/50 backdrop-blur-sm border border-border/50">
+            <Card className="bg-transparent backdrop-blur-sm border border-border/50">
               <CardHeader>
                 <CardTitle>User Management</CardTitle>
                 <CardDescription>
@@ -504,7 +554,7 @@ export default function AdminPanel() {
 
           <TabsContent value="analytics" className="space-y-4">
             <div className="grid gap-4">
-              <Card className="bg-background/50 backdrop-blur-sm border border-border/50">
+              <Card className="bg-transparent backdrop-blur-sm border border-border/50">
                 <CardHeader>
                   <CardTitle>User Growth</CardTitle>
                   <CardDescription>
