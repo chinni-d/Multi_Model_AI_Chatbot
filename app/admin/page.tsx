@@ -176,6 +176,7 @@ export default function AdminPanel() {
   const filteredUsers = localUsers.filter((user) => {
     if (filter === "all") return true;
     if (filter === "admin") return user.role === "admin";
+    if (filter === "super_admin") return user.role === "super_admin";
     if (filter === "users") return user.role === "user";
     if (filter === "active") return user.isActive;
     return true;
@@ -429,6 +430,17 @@ export default function AdminPanel() {
                     {loading || refreshing
                       ? "..."
                       : localUsers.filter((u) => u.isActive).length}
+                    )
+                  </Button>
+                  <Button
+                    variant={filter === "super_admin" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setFilter("super_admin")}
+                  >
+                    Super Admins (
+                    {loading || refreshing
+                      ? "..."
+                      : localUsers.filter((u) => u.role === "super_admin").length}
                     )
                   </Button>
                 </div>
