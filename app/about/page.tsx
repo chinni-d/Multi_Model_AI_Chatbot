@@ -42,7 +42,7 @@ import { SparklesText } from "@/components/sparkles-text";
 
 const revealVariant = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
 export default function AboutPage() {
