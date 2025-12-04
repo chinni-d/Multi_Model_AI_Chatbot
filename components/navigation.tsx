@@ -34,7 +34,8 @@ const Navigation = () => {
   // Check if user is admin
   const isAdmin =
     user?.emailAddresses?.[0]?.emailAddress?.includes("admin") ||
-    user?.publicMetadata?.role === "admin";
+    user?.publicMetadata?.role === "admin" ||
+    user?.publicMetadata?.role === "super_admin";
 
   // Add admin link if user is admin
   const navigationItems = isAdmin
