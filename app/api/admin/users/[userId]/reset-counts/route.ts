@@ -18,7 +18,8 @@ export async function POST(
     const currentUser = await client.users.getUser(currentUserId)
     const isAdmin = 
       currentUser.emailAddresses[0]?.emailAddress?.includes('admin') ||
-      currentUser.publicMetadata?.role === 'admin'
+      currentUser.publicMetadata?.role === 'admin' ||
+      currentUser.publicMetadata?.role === 'super_admin'
 
     if (!isAdmin) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })

@@ -34,8 +34,17 @@ import { UserActions } from "@/components/admin/user-actions";
 import { Toaster } from "@/components/ui/toaster";
 
 export default function AdminPanel() {
-  const { user, isAdmin, loading, users, stats, error, refreshData, isLoaded } =
-    useAdminData();
+  const {
+    user,
+    isAdmin,
+    isSuperAdmin,
+    loading,
+    users,
+    stats,
+    error,
+    refreshData,
+    isLoaded,
+  } = useAdminData();
   const [filter, setFilter] = useState("all");
   const [refreshing, setRefreshing] = useState(false);
   const [localUsers, setLocalUsers] = useState<UserData[]>([]);
@@ -435,7 +444,9 @@ export default function AdminPanel() {
                       <TableHead>Responses</TableHead>
                       <TableHead>Last Seen</TableHead>
                       <TableHead>Join Date</TableHead>
-                      <TableHead className="w-[50px]">Actions</TableHead>
+                      {isSuperAdmin && (
+                        <TableHead className="w-[50px]">Actions</TableHead>
+                      )}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -469,14 +480,19 @@ export default function AdminPanel() {
                           <TableCell>
                             <Skeleton className="h-4 w-20 bg-muted/30" />
                           </TableCell>
-                          <TableCell>
-                            <Skeleton className="h-8 w-8 bg-muted/40" />
-                          </TableCell>
+                          {isSuperAdmin && (
+                            <TableCell>
+                              <Skeleton className="h-8 w-8 bg-muted/40" />
+                            </TableCell>
+                          )}
                         </TableRow>
                       ))
                     ) : filteredUsers.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={8} className="h-24 text-center">
+                        <TableCell
+                          colSpan={isSuperAdmin ? 8 : 7}
+                          className="h-24 text-center"
+                        >
                           <div className="flex flex-col items-center justify-center space-y-2">
                             <Users className="h-8 w-8 text-muted-foreground" />
                             <p className="text-muted-foreground">
@@ -537,12 +553,14 @@ export default function AdminPanel() {
                           </TableCell>
                           <TableCell>{formatTime(user.lastSeen)}</TableCell>
                           <TableCell>{formatDate(user.joinDate)}</TableCell>
-                          <TableCell>
-                            <UserActions
-                              user={user}
-                              onUserUpdate={handleUserUpdate}
-                            />
-                          </TableCell>
+                          {isSuperAdmin && (
+                            <TableCell>
+                              <UserActions
+                                user={user}
+                                onUserUpdate={handleUserUpdate}
+                              />
+                            </TableCell>
+                          )}
                         </TableRow>
                       ))
                     )}

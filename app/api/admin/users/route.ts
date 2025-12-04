@@ -24,7 +24,8 @@ export async function GET() {
     const currentUser = await client.users.getUser(userId);
     const isAdmin =
       currentUser.emailAddresses[0]?.emailAddress?.includes("admin") ||
-      currentUser.publicMetadata?.role === "admin";
+      currentUser.publicMetadata?.role === "admin" ||
+      currentUser.publicMetadata?.role === "super_admin";
 
     if (!isAdmin) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -66,7 +67,7 @@ export async function GET() {
         email: clerkUser.emailAddresses[0]?.emailAddress || "No email",
         avatar: clerkUser.imageUrl || "",
         role:
-          (clerkUser.publicMetadata?.role as "admin" | "user") ||
+          (clerkUser.publicMetadata?.role as "admin" | "super_admin" | "user") ||
           (clerkUser.emailAddresses[0]?.emailAddress?.includes("admin")
             ? "admin"
             : "user"),

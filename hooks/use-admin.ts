@@ -6,7 +6,7 @@ export interface UserData {
   name: string;
   email: string;
   avatar: string;
-  role: "admin" | "user";
+  role: "admin" | "super_admin" | "user";
   isActive: boolean;
   lastSeen: string;
   joinDate: string;
@@ -32,10 +32,13 @@ export function useAdminData() {
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Check if user is admin
+  // Check if user is admin or super_admin
+  const userRole = user?.publicMetadata?.role as string | undefined;
+  const isSuperAdmin = userRole === "super_admin";
   const isAdmin =
     user?.emailAddresses?.[0]?.emailAddress?.includes("admin") ||
-    user?.publicMetadata?.role === "admin";
+    userRole === "admin" ||
+    isSuperAdmin;
 
   useEffect(() => {
     const fetchAdminData = async () => {
@@ -153,6 +156,7 @@ export function useAdminData() {
   return {
     user,
     isAdmin,
+    isSuperAdmin,
     loading,
     users,
     stats,
