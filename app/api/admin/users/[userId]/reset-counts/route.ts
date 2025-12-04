@@ -2,13 +2,10 @@ import { auth, clerkClient } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { resetUserCounts } from '@/lib/db'
 
-interface RouteParams {
-  params: {
-    userId: string
-  }
-}
-
-export async function POST(request: NextRequest, { params }: RouteParams) {
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ userId: string }> }
+) {
   try {
     const { userId: currentUserId } = await auth()
     
@@ -27,9 +24,24 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
-    const { userId: targetUserId } = params
+    const { userId: targetUserId } = await params
     
+    // Get user details for email
+    const userToReset = await client.users.getUser(targetUserId);
+    const userEmail = userToReset.emailAddresses[0]?.emailAddress;
+    const userName = userToReset.firstName 
+      ? `${userToReset.firstName} ${userToReset.lastName || ''}`.trim() 
+      : 'User';
+
     const updatedUser = await resetUserCounts(targetUserId)
+
+    if (userEmail) {
+      console.log('Sending reset counts email to:', userEmail, 'Name:', userName);
+      const { sendResetCountsEmail } = await import("@/lib/mail");
+      await sendResetCountsEmail(userEmail, userName);
+    } else {
+      console.warn('No email found for user:', targetUserId);
+    }
 
     return NextResponse.json({
       success: true,

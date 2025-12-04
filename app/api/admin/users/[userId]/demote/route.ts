@@ -24,10 +24,25 @@ export async function POST(
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
+    // Get user details for email
+    const userToDemote = await client.users.getUser(userId);
+    const userEmail = userToDemote.emailAddresses[0]?.emailAddress;
+    const userName = userToDemote.firstName 
+      ? `${userToDemote.firstName} ${userToDemote.lastName || ''}`.trim() 
+      : 'User';
+
     // Demote user to regular user
     await client.users.updateUserMetadata(userId, {
       publicMetadata: { role: "user" },
     });
+
+    if (userEmail) {
+      console.log('Sending demote email to:', userEmail, 'Name:', userName);
+      const { sendDemoteEmail } = await import("@/lib/mail");
+      await sendDemoteEmail(userEmail, userName);
+    } else {
+      console.warn('No email found for user:', userId);
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -24,10 +24,25 @@ export async function POST(
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
+    // Get user details for email
+    const userToPromote = await client.users.getUser(userId);
+    const userEmail = userToPromote.emailAddresses[0]?.emailAddress;
+    const userName = userToPromote.firstName 
+      ? `${userToPromote.firstName} ${userToPromote.lastName || ''}`.trim() 
+      : 'User';
+
     // Promote user to admin
     await client.users.updateUserMetadata(userId, {
       publicMetadata: { role: "admin" },
     });
+
+    if (userEmail) {
+      console.log('Sending promote email to:', userEmail, 'Name:', userName);
+      const { sendPromoteEmail } = await import("@/lib/mail");
+      await sendPromoteEmail(userEmail, userName);
+    } else {
+      console.warn('No email found for user:', userId);
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {
