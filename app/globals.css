@@ -140,3 +140,17 @@
   scrollbar-width: thin;
   scrollbar-color: hsl(var(--muted-foreground) / 0.4) hsl(var(--secondary) / 0.5);
 }
+
+/* Hide scrollbar for mobile devices */
+@media (max-width: 768px) {
+  * {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  *::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+    width: 0;
+    height: 0;
+  }
+}
