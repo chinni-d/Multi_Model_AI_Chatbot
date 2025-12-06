@@ -27,6 +27,10 @@ import {
   MessageSquare,
   Shield,
   RefreshCw,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
+  ChevronDown,
 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAdminData, UserData } from "@/hooks/use-admin";
@@ -48,16 +52,40 @@ export default function AdminPanel() {
   const [filter, setFilter] = useState("all");
   const [refreshing, setRefreshing] = useState(false);
   const [localUsers, setLocalUsers] = useState<UserData[]>([]);
+  
+  // Pagination & Sorting state
+  const [visibleCount, setVisibleCount] = useState(5);
+  const [sortConfig, setSortConfig] = useState<{
+    key: keyof UserData;
+    direction: "asc" | "desc";
+  } | null>(null);
 
   // Update local users when data changes
   useEffect(() => {
     setLocalUsers(users);
   }, [users]);
 
+  // Reset visible count when filter changes
+  useEffect(() => {
+    setVisibleCount(5);
+  }, [filter]);
+
   const handleUserUpdate = (userId: string, updates: Partial<UserData>) => {
     setLocalUsers((prev) =>
       prev.map((user) => (user.id === userId ? { ...user, ...updates } : user))
     );
+  };
+
+  const handleSort = (key: keyof UserData) => {
+    let direction: "asc" | "desc" = "asc";
+    if (
+      sortConfig &&
+      sortConfig.key === key &&
+      sortConfig.direction === "asc"
+    ) {
+      direction = "desc";
+    }
+    setSortConfig({ key, direction });
   };
 
   const handleRefresh = async () => {
@@ -181,6 +209,35 @@ export default function AdminPanel() {
     if (filter === "active") return user.isActive;
     return true;
   });
+
+  const sortedUsers = [...filteredUsers].sort((a, b) => {
+    if (!sortConfig) return 0;
+    
+    const { key, direction } = sortConfig;
+    
+    let aValue = a[key];
+    let bValue = b[key];
+    
+    // Handle undefined/null values
+    if (aValue === undefined || aValue === null) return 1;
+    if (bValue === undefined || bValue === null) return -1;
+    
+    // Special handling for string comparisons to be case-insensitive
+    if (typeof aValue === 'string' && typeof bValue === 'string') {
+      aValue = aValue.toLowerCase();
+      bValue = bValue.toLowerCase();
+    }
+    
+    if (aValue < bValue) {
+      return direction === "asc" ? -1 : 1;
+    }
+    if (aValue > bValue) {
+      return direction === "asc" ? 1 : -1;
+    }
+    return 0;
+  });
+
+  const displayedUsers = sortedUsers.slice(0, visibleCount);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
@@ -449,13 +506,97 @@ export default function AdminPanel() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>User</TableHead>
-                      <TableHead>Role</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Requests</TableHead>
-                      <TableHead>Responses</TableHead>
-                      <TableHead>Last Seen</TableHead>
-                      <TableHead>Join Date</TableHead>
+                      <TableHead 
+                        className="cursor-pointer hover:bg-muted/50 transition-colors"
+                        onClick={() => handleSort("name")}
+                      >
+                        <div className="flex items-center space-x-1">
+                          <span>User</span>
+                          {sortConfig?.key === "name" ? (
+                            sortConfig.direction === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
+                          ) : (
+                            <ArrowUpDown className="h-3 w-3 opacity-50" />
+                          )}
+                        </div>
+                      </TableHead>
+                      <TableHead 
+                        className="cursor-pointer hover:bg-muted/50 transition-colors"
+                        onClick={() => handleSort("role")}
+                      >
+                        <div className="flex items-center space-x-1">
+                          <span>Role</span>
+                          {sortConfig?.key === "role" ? (
+                            sortConfig.direction === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
+                          ) : (
+                            <ArrowUpDown className="h-3 w-3 opacity-50" />
+                          )}
+                        </div>
+                      </TableHead>
+                      <TableHead 
+                        className="cursor-pointer hover:bg-muted/50 transition-colors"
+                        onClick={() => handleSort("isActive")}
+                      >
+                         <div className="flex items-center space-x-1">
+                          <span>Status</span>
+                          {sortConfig?.key === "isActive" ? (
+                            sortConfig.direction === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
+                          ) : (
+                            <ArrowUpDown className="h-3 w-3 opacity-50" />
+                          )}
+                        </div>
+                      </TableHead>
+                      <TableHead 
+                        className="cursor-pointer hover:bg-muted/50 transition-colors"
+                        onClick={() => handleSort("requestCount")}
+                      >
+                         <div className="flex items-center space-x-1">
+                          <span>Requests</span>
+                          {sortConfig?.key === "requestCount" ? (
+                            sortConfig.direction === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
+                          ) : (
+                            <ArrowUpDown className="h-3 w-3 opacity-50" />
+                          )}
+                        </div>
+                      </TableHead>
+                      <TableHead 
+                        className="cursor-pointer hover:bg-muted/50 transition-colors"
+                        onClick={() => handleSort("responseCount")}
+                      >
+                         <div className="flex items-center space-x-1">
+                          <span>Responses</span>
+                          {sortConfig?.key === "responseCount" ? (
+                            sortConfig.direction === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
+                          ) : (
+                            <ArrowUpDown className="h-3 w-3 opacity-50" />
+                          )}
+                        </div>
+                      </TableHead>
+                      <TableHead 
+                        className="cursor-pointer hover:bg-muted/50 transition-colors"
+                        onClick={() => handleSort("lastSeen")}
+                      >
+                         <div className="flex items-center space-x-1">
+                          <span>Last Seen</span>
+                          {sortConfig?.key === "lastSeen" ? (
+                            sortConfig.direction === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
+                          ) : (
+                            <ArrowUpDown className="h-3 w-3 opacity-50" />
+                          )}
+                        </div>
+                      </TableHead>
+                      <TableHead 
+                        className="cursor-pointer hover:bg-muted/50 transition-colors"
+                        onClick={() => handleSort("joinDate")}
+                      >
+                         <div className="flex items-center space-x-1">
+                          <span>Join Date</span>
+                          {sortConfig?.key === "joinDate" ? (
+                            sortConfig.direction === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />
+                          ) : (
+                            <ArrowUpDown className="h-3 w-3 opacity-50" />
+                          )}
+                        </div>
+                      </TableHead>
                       {isSuperAdmin && (
                         <TableHead className="w-[50px]">Actions</TableHead>
                       )}
@@ -516,7 +657,7 @@ export default function AdminPanel() {
                         </TableCell>
                       </TableRow>
                     ) : (
-                      filteredUsers.map((user) => (
+                      displayedUsers.map((user) => (
                         <TableRow key={user.id}>
                           <TableCell className="font-medium">
                             <div className="flex items-center space-x-2">
@@ -578,6 +719,19 @@ export default function AdminPanel() {
                     )}
                   </TableBody>
                 </Table>
+
+                {sortedUsers.length > visibleCount && (
+                  <div className="mt-4 flex justify-center">
+                    <Button
+                      variant="outline"
+                      onClick={() => setVisibleCount((prev) => prev + 5)}
+                      className="bg-background/50 backdrop-blur-sm border-border/50"
+                    >
+                      <ChevronDown className="mr-2 h-4 w-4" />
+                      Show More ({sortedUsers.length - visibleCount} remaining)
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
