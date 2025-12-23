@@ -169,47 +169,93 @@ const Navigation = () => {
         )}
         <aside
           className={cn(
-            "fixed top-0 left-0 z-40 h-full w-1/2 max-w-xs flex flex-col bg-background border-r transition-transform duration-300 ease-in-out",
+            "fixed top-0 left-0 z-40 h-full w-[60%] flex flex-col bg-background shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
             isOpen ? "translate-x-0" : "-translate-x-full"
           )}
         >
-          <div className="flex items-center justify-between p-4 border-b">
-            <Link href="/" className="flex items-center space-x-2">
-              <Image
-                src="/logo.png"
-                alt="AI Chatbot logo"
-                width={34}
-                height={34}
-                className="dark:brightness-0 dark:invert"
-              />
-              <span className="font-bold">Chatbot</span>
-            </Link>
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={() => setIsOpen(false)}
-            >
-              <X className="h-6 w-6" />
-            </Button>
-          </div>
-          <nav className="flex flex-col gap-2 p-4">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.path}
-                href={item.path}
-                className={cn(
-                  "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-primary",
-                  pathname === item.path
-                    ? "bg-muted text-primary"
-                    : "text-muted-foreground"
-                )}
-              >
-                <item.icon className="h-5 w-5" />
-                {item.name}
+          <div className="flex flex-col gap-4 p-4 pb-2">
+            <div className="flex items-center justify-between">
+              <Link href="/" className="flex items-center space-x-2" onClick={() => setIsOpen(false)}>
+                <div className="relative h-8 w-8 overflow-hidden rounded-lg bg-primary/10 p-1">
+                  <Image
+                    src="/logo.png"
+                    alt="Logo"
+                    fill
+                    className="object-contain dark:brightness-0 dark:invert"
+                  />
+                </div>
+                <span className="font-bold text-lg tracking-tight">Chatbot</span>
               </Link>
-            ))}
-          </nav>
+              <Button
+                size="icon"
+                variant="ghost"
+                className="h-8 w-8 rounded-full hover:bg-muted"
+                onClick={() => setIsOpen(false)}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+          
+          <div className="flex-1 overflow-y-auto px-3 py-2">
+             <div className="mb-1 px-1 text-[10px] font-bold text-muted-foreground uppercase opacity-70">
+              Menu
+            </div>
+            <div className="mb-2 h-px bg-border/50" />
+            <nav className="flex flex-col gap-1">
+              {navigationItems.map((item) => {
+                const isActive = pathname === item.path;
+                return (
+                  <Link
+                    key={item.path}
+                    href={item.path}
+                    onClick={() => setIsOpen(false)}
+                    className={cn(
+                      "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                      isActive
+                        ? "bg-primary/10 text-primary"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    )}
+                  >
+                    <item.icon className={cn(
+                      "h-[18px] w-[18px]",
+                      isActive ? "text-primary" : "text-muted-foreground"
+                    )} />
+                    {item.name}
+                  </Link>
+                );
+              })}
+            </nav>
+            <div className="mt-2 h-px bg-border/50" />
+            
+            <div className="flex flex-col gap-1 mt-2">
+               <div className="flex items-center justify-between px-3 py-2">
+                  <span className="text-sm font-medium text-muted-foreground">Theme</span>
+                  <ThemeToggle />
+               </div>
+               
+               <div className="px-3 py-1">
+                 <SignedOut>
+                  <SignInButton mode="modal">
+                    <Button variant="outline" size="sm" className="h-8 text-xs px-4">
+                      Sign In
+                    </Button>
+                  </SignInButton>
+                 </SignedOut>
+
+                 <SignedIn>
+                    <div className="flex items-center gap-3">
+                      <UserButton />
+                      <span className="text-sm font-medium">
+                        {user?.fullName || user?.username || "User"}
+                      </span>
+                    </div>
+                 </SignedIn>
+               </div>
+            </div>
+          </div>
         </aside>
+
         <header className="fixed top-0 left-0 right-0 z-20 flex h-16 items-center justify-between border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <Button
             variant="ghost"
