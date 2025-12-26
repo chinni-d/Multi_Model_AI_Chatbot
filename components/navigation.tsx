@@ -102,11 +102,11 @@ const Navigation = () => {
           <div className="flex items-center justify-start">
             <Link href="/" className="flex items-center space-x-2">
               <Image
-                src="/logo.png"
+                src="/favicon.ico"
                 alt="AI Chatbot logo"
-                width={42}
-                height={42}
-                className="dark:brightness-0 dark:invert"
+                width={36}
+                height={36}
+                className="invert dark:invert-0"
               />
               <span className="font-bold">AI Chatbot</span>
             </Link>
@@ -178,10 +178,10 @@ const Navigation = () => {
               <Link href="/" className="flex items-center space-x-2" onClick={() => setIsOpen(false)}>
                 <div className="relative h-8 w-8 overflow-hidden rounded-lg bg-primary/10 p-1">
                   <Image
-                    src="/logo.png"
+                    src="/favicon.ico"
                     alt="Logo"
                     fill
-                    className="object-contain dark:brightness-0 dark:invert"
+                    className="object-contain invert dark:invert-0"
                   />
                 </div>
                 <span className="font-bold text-lg tracking-tight">Chatbot</span>
@@ -267,11 +267,11 @@ const Navigation = () => {
           </Button>
           <Link href="/" className="flex items-center space-x-2">
             <Image
-              src="/logo.png"
+              src="/favicon.ico"
               alt="AI Chatbot logo"
               width={34}
               height={34}
-              className="dark:brightness-0 dark:invert"
+              className="invert dark:invert-0"
             />
             <span className="text-lg font-bold">Chatbot</span>
           </Link>
