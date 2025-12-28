@@ -114,33 +114,27 @@
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Custom scrollbar styles for the application */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
+  /* Custom Scrollbar for Desktop */
+  @media (min-width: 769px) {
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 6px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      @apply bg-muted-foreground/20 rounded-full;
+      border: 1px solid transparent;
+    }
 
-::-webkit-scrollbar-track {
-  background: hsl(var(--secondary) / 0.5);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted-foreground) / 0.4);
-  border-radius: 10px;
-  transition: background 0.2s ease;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground) / 0.6);
-}
-
-/* For Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: hsl(var(--muted-foreground) / 0.4) hsl(var(--secondary) / 0.5);
-}
-
+    ::-webkit-scrollbar-thumb:hover {
+      @apply bg-muted-foreground/40;
+    }
+  }
+  
 /* Hide scrollbar for mobile devices */
 @media (max-width: 768px) {
   * {
