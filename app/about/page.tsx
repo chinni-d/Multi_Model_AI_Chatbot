@@ -149,42 +149,6 @@ export default function AboutPage() {
           </Card>
         </motion.div>
 
-        {/* Our Technology 
-        <motion.div
-          variants={revealVariant}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          whileHover={{ scale: 1.01 }}
-          transition={{ duration: 0.3 }}
-        >
-          <Card className="bg-transparent border border-border shadow-none text-muted-foreground">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Brain className="w-5 h-5 text-primary" />
-                Our Technology
-              </CardTitle>
-              <CardDescription>The science behind AI Chatbot</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <p>
-                Our AI Chatbot is a multi-modal system powered by advanced
-                language models, integrated through a robust API. It understands
-                context and generates human-like responses in real time,
-                delivering natural and engaging conversations.
-              </p>
-              <p>
-                The chatbot supports flexible interactions across various input
-                types and is optimized for speed, accuracy, and reliability.
-                Designed with user needs in mind, it ensures a seamless and
-                responsive experience. Continuous updates are made to enhance
-                performance and maintain a safe, user-friendly environment.
-              </p>
-            </CardContent>
-          </Card>
-        </motion.div>*
-        /}
-
         {/* Tech Stack */}
         <motion.div
           variants={revealVariant}
@@ -342,9 +306,9 @@ export default function AboutPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Users className="w-5 h-5 text-primary" />
-                Meet the Developer
+                Meet the Developers
               </CardTitle>
-              <CardDescription>The creator behind the chatbot</CardDescription>
+              <CardDescription>The creators behind the chatbot</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col md:flex-row items-center gap-6">
@@ -423,6 +387,62 @@ export default function AboutPage() {
                         rel="noopener noreferrer"
                       >
                         <Mail size={16} />
+                      </a>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Developer Profile: Mahesh */}
+        <motion.div
+          variants={revealVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          whileHover={{ scale: 1.01 }}
+          transition={{ duration: 0.3 }}
+        >
+          <Card className="bg-transparent border border-border shadow-none text-muted-foreground">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Users className="w-5 h-5 text-primary" />
+                Meet Mahesh Darapureddy
+              </CardTitle>
+              <CardDescription>The creator behind the chatbot</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col md:flex-row items-center gap-6">
+                <img
+                  src="/mahesh.jpeg"
+                  alt="Mahesh Darapureddy"
+                  className="w-32 h-32 rounded-full object-cover shadow-md cursor-pointer transition-transform duration-300 hover:scale-110 hover:shadow-xl"
+                />
+                <div className="flex-1 space-y-4 text-center md:text-left">
+                  <p className="text-muted-foreground">
+                    Hi! I'm <span className="font-semibold text-primary">Mahesh Darapureddy</span>, and I contribute to building and
+                    improving this AI Chatbot interface.
+                  </p>
+                  <p className="text-muted-foreground">
+                    With experience in web development and modern UI patterns, I
+                    focus on creating practical, polished, and user-friendly
+                    experiences.
+                  </p>
+                  <div className="flex flex-wrap justify-center md:justify-start gap-4">
+                    <Button
+                      variant="outline"
+                      asChild
+                      className="gap-2 bg-purple-600/10 hover:bg-purple-600/20 text-purple-600 dark:text-purple-400 border-purple-600/20"
+                    >
+                      <a
+                        href="https://www.maheshdarapureddy.in"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Portfolio
+                        <ExternalLink size={16} />
                       </a>
                     </Button>
                   </div>
