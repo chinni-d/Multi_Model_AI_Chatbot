@@ -1,10 +1,15 @@
-import { Resend } from 'resend';
+import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const FROM_EMAIL = 'AI Chatbot <no-reply@chat.dmanikanta.me>'; // Update this with your verified domain
+const FROM_EMAIL = "AI Chatbot <no-reply@chat.manikantadarapureddy.in>"; // Update this with your verified domain
 
-const getHtmlTemplate = (title: string, content: string, buttonText?: string, buttonUrl?: string) => `
+const getHtmlTemplate = (
+  title: string,
+  content: string,
+  buttonText?: string,
+  buttonUrl?: string,
+) => `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,11 +65,15 @@ const getHtmlTemplate = (title: string, content: string, buttonText?: string, bu
         <div class="body-text">
           ${content}
         </div>
-        ${buttonText && buttonUrl ? `
+        ${
+          buttonText && buttonUrl
+            ? `
           <div class="button-container">
             <a href="${buttonUrl}" class="button" target="_blank">${buttonText}</a>
           </div>
-        ` : ''}
+        `
+            : ""
+        }
         <div class="body-text" style="margin-bottom: 0; font-size: 14px; color: #6b7280;">
           <p>Best regards,<br>The AI Chatbot Team</p>
         </div>
@@ -79,92 +88,92 @@ const getHtmlTemplate = (title: string, content: string, buttonText?: string, bu
 `;
 
 export async function sendPromoteEmail(email: string, name: string) {
-  console.log('Attempting to send promote email to:', email);
+  console.log("Attempting to send promote email to:", email);
   if (!process.env.RESEND_API_KEY) {
-    console.error('RESEND_API_KEY is missing');
+    console.error("RESEND_API_KEY is missing");
     return;
   }
-  
+
   try {
     const data = await resend.emails.send({
       from: FROM_EMAIL,
       to: email,
-      subject: 'You have been promoted to Admin',
+      subject: "You have been promoted to Admin",
       html: getHtmlTemplate(
-        'Welcome to the Admin Team',
+        "Welcome to the Admin Team",
         `<p>Hello <strong>${name}</strong>,</p>
          <p>Congratulations! You have been promoted to an <strong>Administrator</strong> role in the AI Chatbot system.</p>
          <p>You now have full access to the Admin Panel to manage users and view statistics.</p>`,
-        'Go to Admin Panel',
-        'https://chat.dmanikanta.me/admin'
-      )
+        "Go to Admin Panel",
+        "https://chat.dmanikanta.me/admin",
+      ),
     });
-    console.log('Promote email sent successfully:', data);
+    console.log("Promote email sent successfully:", data);
   } catch (error) {
-    console.error('Failed to send promote email:', error);
+    console.error("Failed to send promote email:", error);
   }
 }
 
 export async function sendDemoteEmail(email: string, name: string) {
-  console.log('Attempting to send demote email to:', email);
+  console.log("Attempting to send demote email to:", email);
   try {
     const data = await resend.emails.send({
       from: FROM_EMAIL,
       to: email,
-      subject: 'Admin privileges revoked',
+      subject: "Admin privileges revoked",
       html: getHtmlTemplate(
-        'Role Update',
+        "Role Update",
         `<p>Hello <strong>${name}</strong>,</p>
          <p>Your Administrator privileges in the AI Chatbot system have been revoked.</p>
          <p>You are now a regular user and can continue using the chat features.</p>`,
-        'Go to Chat',
-        'https://chat.dmanikanta.me/'
-      )
+        "Go to Chat",
+        "https://chat.dmanikanta.me/",
+      ),
     });
-    console.log('Demote email sent successfully:', data);
+    console.log("Demote email sent successfully:", data);
   } catch (error) {
-    console.error('Failed to send demote email:', error);
+    console.error("Failed to send demote email:", error);
   }
 }
 
 export async function sendDeleteEmail(email: string, name: string) {
-  console.log('Attempting to send delete email to:', email);
+  console.log("Attempting to send delete email to:", email);
   try {
     const data = await resend.emails.send({
       from: FROM_EMAIL,
       to: email,
-      subject: 'Account Deleted',
+      subject: "Account Deleted",
       html: getHtmlTemplate(
-        'Account Deleted',
+        "Account Deleted",
         `<p>Hello <strong>${name}</strong>,</p>
          <p>Your account in the AI Chatbot system has been deleted by an administrator.</p>
-         <p>If you believe this is an error, please contact our support team.</p>`
-      )
+         <p>If you believe this is an error, please contact our support team.</p>`,
+      ),
     });
-    console.log('Delete email sent successfully:', data);
+    console.log("Delete email sent successfully:", data);
   } catch (error) {
-    console.error('Failed to send delete email:', error);
+    console.error("Failed to send delete email:", error);
   }
 }
 
 export async function sendResetCountsEmail(email: string, name: string) {
-  console.log('Attempting to send reset counts email to:', email);
+  console.log("Attempting to send reset counts email to:", email);
   try {
     const data = await resend.emails.send({
       from: FROM_EMAIL,
       to: email,
-      subject: 'Usage Counts Reset',
+      subject: "Usage Counts Reset",
       html: getHtmlTemplate(
-        'Usage Limits Reset',
+        "Usage Limits Reset",
         `<p>Hello <strong>${name}</strong>,</p>
          <p>Good news! Your request and response counts in the AI Chatbot system have been reset by an administrator.</p>
          <p>You can now continue using the service without restrictions.</p>`,
-        'Start Chatting',
-        'https://chat.dmanikanta.me/'
-      )
+        "Start Chatting",
+        "https://chat.dmanikanta.me/",
+      ),
     });
-    console.log('Reset counts email sent successfully:', data);
+    console.log("Reset counts email sent successfully:", data);
   } catch (error) {
-    console.error('Failed to send reset counts email:', error);
+    console.error("Failed to send reset counts email:", error);
   }
 }
